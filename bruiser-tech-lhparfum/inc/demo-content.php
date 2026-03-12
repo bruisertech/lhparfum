@@ -1,108 +1,128 @@
 <?php
 /**
- * Demo Content Generator for BRUISER TECH LHPARFUM
+ * Demo Content Configuration for One Click Demo Import (OCDI)
+ *
+ * @package BRUISER_TECH_LHPARFUM
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
+    die( 'Exit if accessed directly' );
 }
 
-function lhparfum_generate_demo_products() {
-    // Only run if triggered manually (e.g., via a query param like ?generate_demo=true) and user is admin
-    if ( ! isset( $_GET['generate_demo'] ) || ! current_user_can( 'administrator' ) ) {
-        return;
-    }
-
-    if ( ! class_exists( 'WooCommerce' ) ) {
-        echo 'WooCommerce is not active.';
-        exit;
-    }
-
-    $demo_products = array(
+function lhparfum_ocdi_import_files() {
+    return array(
         array(
-            'title'       => 'Aromatic Ginger',
-            'content'     => 'Top notes convey the initial impression of fresh ginger, marine saltiness, and sparkling citrus. Next, enter clary sage and rosemary bringing an herbaceous, aromatic tone into play.',
-            'price'       => '39.00',
-            'image_url'   => 'https://dossier.eu/cdn/shop/files/Aromatic_Ginger-Aromatic_Fougere-Fresh_Aromatic.png?v=1742568481&width=533',
+            'import_file_name'             => 'LHPARFUM Demo',
+            'import_preview_image_url'     => get_template_directory_uri() . '/screenshot.jpg',
+            'import_notice'                => __( 'Después de iniciar la importación, se configurará la página de inicio y se crearán los productos de ejemplo automáticamente.', 'bruiser-tech-lhparfum' ),
+            'preview_url'                  => 'https://instagram.com/bruiser.tech',
         ),
-        array(
-            'title'       => 'Woody Sandalwood',
-            'content'     => 'A vibrant woody fragrance combining the warmth of sandalwood with fresh and vibrant notes.',
-            'price'       => '39.00',
-            'image_url'   => 'https://dossier.eu/cdn/shop/files/Woody-Sandalwood.png?v=1741886904&width=533',
-        ),
-        array(
-            'title'       => 'Ambery Saffron',
-            'content'     => 'A luxurious blend of amber and saffron, perfect for a sophisticated evening.',
-            'price'       => '39.00',
-            'image_url'   => 'https://dossier.eu/cdn/shop/files/Ambery-Saffron-Warm-Warm-Woody-Ambery_int.png?v=1741886317&width=533',
-        ),
-        array(
-            'title'       => 'Musky Oakmoss',
-            'content'     => 'A fresh and earthy scent grounded in the classic appeal of oakmoss and musk.',
-            'price'       => '39.00',
-            'image_url'   => 'https://dossier.eu/cdn/shop/files/Musky_Oakmoss_Freshness-Fresh_Green_and_Citrus_Tea.png?v=1741886703&width=533',
-        )
     );
+}
+add_filter( 'pt-ocdi/import_files', 'lhparfum_ocdi_import_files' );
 
-    foreach ( $demo_products as $product_data ) {
-        // Check if product already exists
-        $existing_product = get_page_by_title( $product_data['title'], OBJECT, 'product' );
-        if ( ! $existing_product ) {
-            $post_id = wp_insert_post( array(
-                'post_title'   => $product_data['title'],
-                'post_content' => $product_data['content'],
-                'post_status'  => 'publish',
-                'post_type'    => 'product',
-            ) );
+function lhparfum_ocdi_after_import_setup() {
+    // 1. Crear Página de Inicio si no existe
+    $front_page_id = get_page_by_title( 'Inicio' );
+    if ( ! $front_page_id ) {
+        $front_page_id = wp_insert_post( array(
+            'post_title'   => 'Inicio',
+            'post_content' => '',
+            'post_status'  => 'publish',
+            'post_type'    => 'page',
+        ) );
+    }
 
-            if ( ! is_wp_error( $post_id ) ) {
-                wp_set_object_terms( $post_id, 'simple', 'product_type' );
-                update_post_meta( $post_id, '_visibility', 'visible' );
-                update_post_meta( $post_id, '_stock_status', 'instock');
-                update_post_meta( $post_id, 'total_sales', '0');
-                update_post_meta( $post_id, '_downloadable', 'no');
-                update_post_meta( $post_id, '_virtual', 'no');
-                update_post_meta( $post_id, '_regular_price', $product_data['price'] );
-                update_post_meta( $post_id, '_sale_price', '' );
-                update_post_meta( $post_id, '_purchase_note', '' );
-                update_post_meta( $post_id, '_featured', 'no' );
-                update_post_meta( $post_id, '_weight', '' );
-                update_post_meta( $post_id, '_length', '' );
-                update_post_meta( $post_id, '_width', '' );
-                update_post_meta( $post_id, '_height', '' );
-                update_post_meta( $post_id, '_sku', sanitize_title( $product_data['title'] ) );
-                update_post_meta( $post_id, '_product_attributes', array() );
-                update_post_meta( $post_id, '_sale_price_dates_from', '' );
-                update_post_meta( $post_id, '_sale_price_dates_to', '' );
-                update_post_meta( $post_id, '_price', $product_data['price'] );
-                update_post_meta( $post_id, '_sold_individually', '' );
-                update_post_meta( $post_id, '_manage_stock', 'no' );
-                update_post_meta( $post_id, '_backorders', 'no' );
-                update_post_meta( $post_id, '_stock', '' );
+    // 2. Crear Página de Contacto si no existe
+    $contact_page_id = get_page_by_title( 'Contacto' );
+    if ( ! $contact_page_id ) {
+        wp_insert_post( array(
+            'post_title'   => 'Contacto',
+            'post_content' => 'Ponte en contacto con nosotros.',
+            'post_status'  => 'publish',
+            'post_type'    => 'page',
+        ) );
+    }
 
-                // Try to attach image if possible (Note: side-loading images reliably in a simple script is complex,
-                // saving the URL as meta is a fallback, but we'll try a basic sideload)
-                require_once( ABSPATH . 'wp-admin/includes/file.php' );
-                require_once( ABSPATH . 'wp-admin/includes/media.php' );
-                require_once( ABSPATH . 'wp-admin/includes/image.php' );
+    // Configurar Inicio como Front Page
+    if ( ! is_wp_error( $front_page_id ) ) {
+        update_option( 'show_on_front', 'page' );
+        update_option( 'page_on_front', $front_page_id );
+    }
 
-                $tmp = download_url( $product_data['image_url'] );
-                if ( ! is_wp_error( $tmp ) ) {
-                    $file_array = array(
-                        'name'     => basename( wp_parse_url( $product_data['image_url'], PHP_URL_PATH ) ),
-                        'tmp_name' => $tmp
-                    );
-                    $thumb_id = media_handle_sideload( $file_array, $post_id );
-                    if ( ! is_wp_error( $thumb_id ) ) {
-                        set_post_thumbnail( $post_id, $thumb_id );
+    // 3. Crear 5 Productos de Demo de WooCommerce
+    if ( class_exists( 'WooCommerce' ) ) {
+        $demo_products = array(
+            array(
+                'title'       => 'Essence de Nuit',
+                'content'     => 'Una fragancia elegante y misteriosa para las noches más especiales.',
+                'price'       => '250000',
+                'image_url'   => 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=500',
+            ),
+            array(
+                'title'       => 'Fleur Sauvage',
+                'content'     => 'Notas florales silvestres combinadas con un toque cítrico vibrante.',
+                'price'       => '210000',
+                'image_url'   => 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=500',
+            ),
+            array(
+                'title'       => 'Bois Noir',
+                'content'     => 'Una mezcla profunda y amaderada con notas de sándalo y cedro.',
+                'price'       => '320000',
+                'image_url'   => 'https://images.unsplash.com/photo-1622618991746-fe6004db3a47?auto=format&fit=crop&q=80&w=500',
+            ),
+            array(
+                'title'       => 'Oud Royal',
+                'content'     => 'El lujo embotellado. Un viaje sensorial con auténtico oud de Oriente.',
+                'price'       => '450000',
+                'image_url'   => 'https://images.unsplash.com/photo-1590736704728-f4730bb30770?auto=format&fit=crop&q=80&w=500',
+            ),
+            array(
+                'title'       => 'Citrus Paradis',
+                'content'     => 'Fresco, ligero y lleno de energía. Perfecto para el día a día.',
+                'price'       => '180000',
+                'image_url'   => 'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&q=80&w=500',
+            )
+        );
+
+        foreach ( $demo_products as $product_data ) {
+            $existing_product = get_page_by_title( $product_data['title'], OBJECT, 'product' );
+            if ( ! $existing_product ) {
+                $post_id = wp_insert_post( array(
+                    'post_title'   => $product_data['title'],
+                    'post_content' => $product_data['content'],
+                    'post_status'  => 'publish',
+                    'post_type'    => 'product',
+                ) );
+
+                if ( ! is_wp_error( $post_id ) ) {
+                    wp_set_object_terms( $post_id, 'simple', 'product_type' );
+                    update_post_meta( $post_id, '_visibility', 'visible' );
+                    update_post_meta( $post_id, '_stock_status', 'instock');
+                    update_post_meta( $post_id, 'total_sales', '0');
+                    update_post_meta( $post_id, '_regular_price', $product_data['price'] );
+                    update_post_meta( $post_id, '_price', $product_data['price'] );
+                    update_post_meta( $post_id, '_sku', sanitize_title( $product_data['title'] ) );
+
+                    // Intentar adjuntar imagen (Fallback: requiere sideload que puede fallar en entornos restringidos)
+                    require_once( ABSPATH . 'wp-admin/includes/file.php' );
+                    require_once( ABSPATH . 'wp-admin/includes/media.php' );
+                    require_once( ABSPATH . 'wp-admin/includes/image.php' );
+
+                    $tmp = download_url( $product_data['image_url'] );
+                    if ( ! is_wp_error( $tmp ) ) {
+                        $file_array = array(
+                            'name'     => basename( wp_parse_url( $product_data['image_url'], PHP_URL_PATH ) ) . '.jpg',
+                            'tmp_name' => $tmp
+                        );
+                        $thumb_id = media_handle_sideload( $file_array, $post_id );
+                        if ( ! is_wp_error( $thumb_id ) ) {
+                            set_post_thumbnail( $post_id, $thumb_id );
+                        }
                     }
                 }
             }
         }
     }
-
-    echo 'Demo products generated successfully. Please remove ?generate_demo=true from the URL.';
-    exit;
 }
-add_action( 'init', 'lhparfum_generate_demo_products' );
+add_action( 'pt-ocdi/after_import', 'lhparfum_ocdi_after_import_setup' );

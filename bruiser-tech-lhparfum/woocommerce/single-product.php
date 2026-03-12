@@ -62,8 +62,8 @@ get_header( 'shop' ); ?>
                 <div class="w-full md:w-1/2 flex flex-col justify-start">
                     <!-- Badges -->
                     <div class="flex items-center space-x-2 mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                        <span>Men</span>
-                        <span class="text-blue-600">New</span>
+                        <span>Lujo</span>
+                        <span class="text-blue-600">Nuevo</span>
                     </div>
 
                     <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight mb-2">
@@ -88,7 +88,7 @@ get_header( 'shop' ); ?>
                             // Simple add to cart button mimicking dossier
                             echo '<form action="' . esc_url( $product->add_to_cart_url() ) . '" class="w-full" method="post" enctype="multipart/form-data">';
                             echo '<button type="submit" name="add-to-cart" value="' . esc_attr( $product->get_id() ) . '" class="w-full bg-black text-white px-8 py-4 text-sm font-semibold uppercase tracking-widest hover:bg-gray-800 transition-colors shadow-md flex justify-center items-center space-x-2">';
-                            echo '<span>Add to Bag</span> <span class="text-gray-400 font-normal border-l border-gray-600 pl-2 ml-2">' . wc_price( $product->get_price() ) . '</span>';
+                            echo '<span>Añadir a la bolsa</span> <span class="text-gray-400 font-normal border-l border-gray-600 pl-2 ml-2">' . wc_price( $product->get_price() ) . '</span>';
                             echo '</button>';
                             echo '</form>';
                         }
@@ -99,15 +99,15 @@ get_header( 'shop' ); ?>
                     <ul class="space-y-3 border-t border-gray-200 pt-6 text-sm text-gray-600 font-medium">
                         <li class="flex items-center">
                             <svg class="w-5 h-5 mr-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            Vegan & Cruelty-free
+                            Vegano y libre de crueldad
                         </li>
                         <li class="flex items-center">
                             <svg class="w-5 h-5 mr-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            Clean ingredients
+                            Ingredientes limpios
                         </li>
                         <li class="flex items-center">
                             <svg class="w-5 h-5 mr-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                            Free returns within 30 days
+                            Devoluciones gratuitas en 30 días
                         </li>
                     </ul>
                 </div>

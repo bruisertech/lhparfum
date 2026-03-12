@@ -69,3 +69,13 @@ add_action( 'wp_enqueue_scripts', 'bruiser_tech_lhparfum_scripts' );
  * Load Demo Content Generator
  */
 require get_template_directory() . '/inc/demo-content.php';
+
+/**
+ * TGM Plugin Activation
+ */
+require get_template_directory() . '/inc/tgmpa-config.php';
+
+/**
+ * Customizer Additions
+ */
+require get_template_directory() . '/inc/customizer.php';

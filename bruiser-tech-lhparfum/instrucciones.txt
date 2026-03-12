@@ -1,0 +1,49 @@
+INSTRUCCIONES DE USO: TEMA "BRUISER TECH LHPARFUM"
+==================================================
+
+Hola, bienvenido a tu nuevo tema de WordPress para LH PARFUM.
+Sigue estos pasos para instalar y configurar tu perfumería de lujo en minutos.
+
+1. INSTALACIÓN DEL TEMA
+-----------------------
+- Sube la carpeta `bruiser-tech-lhparfum` a la ruta `wp-content/themes/` de tu instalación de WordPress.
+- Ve a tu panel de administración (wp-admin) -> Apariencia -> Temas.
+- Activa el tema "BRUISER TECH LHPARFUM".
+
+2. INSTALACIÓN DE PLUGINS REQUERIDOS (TGM)
+------------------------------------------
+- Al activar el tema, verás un aviso en la parte superior de tu panel que dice: "Este tema requiere los siguientes plugins: WooCommerce y One Click Demo Import".
+- Haz clic en "Begin installing plugins" (Comenzar a instalar plugins).
+- Selecciona ambos, elige "Install" (Instalar) y luego actívalos.
+- IMPORTANTE: Si es la primera vez que instalas WooCommerce, sigue su asistente rápido para configurar tu país, moneda y datos de la tienda.
+
+3. IMPORTAR CONTENIDO DE DEMOSTRACIÓN (OCDI)
+--------------------------------------------
+- Una vez activados los plugins, ve a Apariencia -> Import Demo Data (Importar Datos de Demo).
+- Verás una caja llamada "LHPARFUM Demo". Haz clic en el botón de Importar.
+- NO CIERRES LA VENTANA hasta que termine.
+- ¿Qué hace esto? El sistema creará automáticamente tu página de "Inicio" (con el diseño elegante que solicitaste), la página de "Contacto", y generará 5 perfumes de lujo de ejemplo (Essence de Nuit, Fleur Sauvage, etc.) con sus precios e imágenes. También configurará la página de Inicio para que sea la portada de tu sitio web.
+
+4. PERSONALIZACIÓN DEL TEMA (COLORES, LOGO, MODO OSCURO)
+--------------------------------------------------------
+- Ve a Apariencia -> Personalizar.
+- Identidad del Sitio: Aquí puedes subir tu Logo. Si no subes uno, el tema usará por defecto el logo "LH Parfum Marca JPEG 1.jpg" que incluimos en los archivos del tema.
+- Opciones del Tema (LHPARFUM) -> Colores y Modo Oscuro:
+  - Activar Modo Oscuro Elegante: Marca esta casilla para oscurecer el fondo del sitio y usar colores de texto claros, dándole un toque de lujo nocturno.
+  - Color de Acento: Cambia el color principal (por defecto negro).
+- Opciones del Tema (LHPARFUM) -> Pie de Página (Footer):
+  - Cambia tu número de teléfono de emergencia/contacto y el texto de copyright que aparece al final de la página.
+
+5. MENÚS DE NAVEGACIÓN
+----------------------
+- El tema tiene un menú preparado con: Inicio, Colecciones, Tienda, Sobre Nosotros y Contacto.
+- Para editar los enlaces o agregar nuevos, ve a Apariencia -> Menús.
+- Crea un menú, añade tus páginas y asígnalo a la ubicación "Primary" (Menú Principal).
+
+6. BARRA INFERIOR MÓVIL (MOBILE BOTTOM BAR)
+-------------------------------------------
+- Si visitas el sitio desde un teléfono móvil, notarás una barra fija en la parte inferior con iconos de Inicio, Tienda y Bolsa (Carrito).
+- Esta barra calcula automáticamente la cantidad de productos que tienes en el carrito de WooCommerce.
+
+¡Disfruta tu nueva tienda!
+Desarrollado por Bruiser Tech (@bruiser.tech)

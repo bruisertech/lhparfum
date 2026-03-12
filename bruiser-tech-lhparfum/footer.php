@@ -7,38 +7,38 @@
             <!-- Company Info / Emergency -->
             <div class="mb-8 md:mb-0">
                 <h3 class="text-sm font-semibold tracking-wider uppercase text-gray-400 mb-4">LHPARFUM</h3>
-                <p class="text-gray-300 text-sm mb-4">A modern WordPress theme for LHPARFUM.</p>
+                <p class="text-gray-300 text-sm mb-4">Perfumería de lujo en Colombia.</p>
                 <div class="mt-4">
-                    <p class="text-sm text-gray-400 font-semibold mb-1">Emergency Contact</p>
-                    <p class="text-gray-300 text-sm">Call us: +1 (555) 123-4567</p>
+                    <p class="text-sm text-gray-400 font-semibold mb-1">Contacto de Emergencia</p>
+                    <p class="text-gray-300 text-sm">Llámanos: +57 300 123 4567</p>
                 </div>
             </div>
 
             <!-- Links -->
             <div>
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-gray-400 mb-4">Shop</h3>
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-gray-400 mb-4">Tienda</h3>
                 <ul class="space-y-2 text-sm text-gray-300">
-                    <li><a href="#" class="hover:text-white transition-colors">All Perfumes</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Women</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Men</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Todos los Perfumes</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Mujeres</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Hombres</a></li>
                     <li><a href="#" class="hover:text-white transition-colors">Unisex</a></li>
                 </ul>
             </div>
 
             <!-- Help -->
             <div>
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-gray-400 mb-4">Help</h3>
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-gray-400 mb-4">Ayuda</h3>
                 <ul class="space-y-2 text-sm text-gray-300">
-                    <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Returns</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Contáctanos</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Devoluciones</a></li>
                     <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Track Order</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Rastrear Pedido</a></li>
                 </ul>
             </div>
 
             <!-- Social / Dev Info -->
             <div>
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-gray-400 mb-4">Connect</h3>
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-gray-400 mb-4">Conectar</h3>
                 <div class="flex space-x-4 mb-6">
                     <!-- Instagram Icon -->
                     <a href="https://instagram.com/bruiser.tech" target="_blank" class="text-gray-400 hover:text-white">
@@ -49,11 +49,11 @@
                     </a>
                 </div>
                 <div class="text-sm text-gray-400">
-                    <p class="mb-2">&copy; <?php echo date('Y'); ?> LHPARFUM. All Rights Reserved.</p>
+                    <p class="mb-2">&copy; <?php echo date('Y'); ?> LHPARFUM. Todos los derechos reservados.</p>
                     <p>
                         <?php
                         /* translators: %s: CMS name, i.e. WordPress. */
-                        printf( esc_html__( 'Developed by %s', 'bruiser-tech-lhparfum' ), '<a href="https://instagram.com/bruiser.tech" target="_blank" class="text-white hover:underline font-medium">Bruiser Tech</a>' );
+                        printf( esc_html__( 'Desarrollado por %s', 'bruiser-tech-lhparfum' ), '<a href="https://instagram.com/bruiser.tech" target="_blank" class="text-white hover:underline font-medium">Bruiser Tech</a>' );
                         ?>
                     </p>
                 </div>
@@ -68,13 +68,13 @@
     <!-- Home -->
     <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-gray-900 group">
         <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-        <span class="text-[10px] font-medium uppercase tracking-wider">Home</span>
+        <span class="text-[10px] font-medium uppercase tracking-wider">Inicio</span>
     </a>
 
     <!-- Shop -->
     <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : '#'; ?>" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-gray-900 group">
         <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-        <span class="text-[10px] font-medium uppercase tracking-wider">Shop</span>
+        <span class="text-[10px] font-medium uppercase tracking-wider">Tienda</span>
     </a>
 
     <!-- Cart -->
@@ -83,11 +83,11 @@
             <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
             <?php if ( class_exists( 'WooCommerce' ) && isset(WC()->cart) && WC()->cart ) : ?>
                 <span class="absolute -top-1 -right-2 bg-black text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
-                    <?php echo WC()->cart->get_cart_contents_count(); ?>
+                    <?php echo wp_kses_data( WC()->cart->get_cart_contents_count() ); ?>
                 </span>
             <?php endif; ?>
         </div>
-        <span class="text-[10px] font-medium uppercase tracking-wider mt-1">Bag</span>
+        <span class="text-[10px] font-medium uppercase tracking-wider mt-1">Bolsa</span>
     </a>
 </div>
 

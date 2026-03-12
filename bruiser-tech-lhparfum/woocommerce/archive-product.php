@@ -31,7 +31,7 @@ get_header( 'shop' );
     <div class="flex flex-col md:flex-row">
         <!-- Sidebar / Filters -->
         <aside class="w-full md:w-1/4 pr-8 mb-8 md:mb-0">
-            <h3 class="text-lg font-semibold mb-4 text-gray-900">Sort & Filter</h3>
+            <h3 class="text-lg font-semibold mb-4 text-gray-900">Ordenar y Filtrar</h3>
             <?php
             // We can output standard woo sidebar, or hardcode simple sort dropdown
             woocommerce_catalog_ordering();
