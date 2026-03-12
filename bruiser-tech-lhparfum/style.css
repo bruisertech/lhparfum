@@ -1,11 +1,13 @@
 /*
 Theme Name: BRUISER TECH LHPARFUM
-Description: A modern WordPress theme for LHPARFUM
-Author: Your Name
+Description: A modern WordPress theme for LHPARFUM, developed by Bruiser Tech. Fully compatible with WooCommerce and styled with Tailwind CSS.
+Author: Bruiser Tech
+Author URI: https://instagram.com/bruiser.tech
 Version: 1.0.0
+Text Domain: bruiser-tech-lhparfum
 */
 
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: sans-serif;
 }
