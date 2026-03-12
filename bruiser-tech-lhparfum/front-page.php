@@ -36,11 +36,11 @@ get_header();
     </section>
 
     <!-- Best Sellers Section -->
-    <section id="coleccion" class="py-24 bg-white">
+    <section id="coleccion" class="py-24 bg-white dark:bg-gray-900 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Más Vendidos</h2>
-                <p class="mt-4 text-lg text-gray-500">Nuestras fragancias más populares, elegidas por nuestros clientes.</p>
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">Más Vendidos</h2>
+                <p class="mt-4 text-lg text-gray-500 dark:text-gray-400">Nuestras fragancias más populares, elegidas por nuestros clientes.</p>
             </div>
 
             <?php if ( class_exists( 'WooCommerce' ) ) : ?>
@@ -72,7 +72,7 @@ get_header();
             <?php endif; ?>
 
             <div class="text-center mt-12">
-                 <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : '#'; ?>" class="inline-block px-8 py-4 border border-gray-900 text-gray-900 font-semibold uppercase tracking-widest text-sm hover:bg-gray-900 hover:text-white transition-colors">
+                 <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : '#'; ?>" class="inline-block px-8 py-4 border border-gray-900 dark:border-white text-gray-900 dark:text-white font-semibold uppercase tracking-widest text-sm hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-gray-900 transition-colors">
                     Ver Todos Los Perfumes
                 </a>
             </div>
@@ -80,35 +80,35 @@ get_header();
     </section>
 
     <!-- Value Props Section -->
-    <section class="py-24 bg-gray-50 border-t border-gray-200">
+    <section class="py-24 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
                 <div>
-                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-black text-white mx-auto mb-6">
+                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-black dark:bg-white text-white dark:text-gray-900 mx-auto mb-6 transition-colors duration-300">
                         <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Ingredientes Premium</h3>
-                    <p class="text-gray-500">Seleccionamos cuidadosamente cada esencia para garantizar una duración y aroma excepcionales.</p>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Ingredientes Premium</h3>
+                    <p class="text-gray-500 dark:text-gray-400">Seleccionamos cuidadosamente cada esencia para garantizar una duración y aroma excepcionales.</p>
                 </div>
                 <div>
-                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-black text-white mx-auto mb-6">
+                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-black dark:bg-white text-white dark:text-gray-900 mx-auto mb-6 transition-colors duration-300">
                         <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Libre de Crueldad</h3>
-                    <p class="text-gray-500">Nuestros productos son 100% veganos y nunca han sido probados en animales.</p>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Libre de Crueldad</h3>
+                    <p class="text-gray-500 dark:text-gray-400">Nuestros productos son 100% veganos y nunca han sido probados en animales.</p>
                 </div>
                 <div>
-                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-black text-white mx-auto mb-6">
+                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-black dark:bg-white text-white dark:text-gray-900 mx-auto mb-6 transition-colors duration-300">
                         <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Envío a toda Colombia</h3>
-                    <p class="text-gray-500">Llevamos tus fragancias favoritas hasta la puerta de tu casa en todo el territorio nacional.</p>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Envío a toda Colombia</h3>
+                    <p class="text-gray-500 dark:text-gray-400">Llevamos tus fragancias favoritas hasta la puerta de tu casa en todo el territorio nacional.</p>
                 </div>
             </div>
         </div>

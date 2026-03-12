@@ -79,3 +79,8 @@ require get_template_directory() . '/inc/tgmpa-config.php';
  * Customizer Additions
  */
 require get_template_directory() . '/inc/customizer.php';
+
+/**
+ * Demo Reset Tool
+ */
+require get_template_directory() . '/inc/demo-reset.php';

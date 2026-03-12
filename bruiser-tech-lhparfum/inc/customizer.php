@@ -111,27 +111,6 @@ function lhparfum_customizer_css() {
             --lhparfum-accent: <?php echo esc_attr( $accent_color ); ?>;
         }
 
-        <?php if ( $is_dark ) : ?>
-        /* Basic Dark Mode Overrides if Tailwind 'dark:' isn't fully active by user OS */
-        html { color-scheme: dark; }
-        body { background-color: #111827 !important; color: #f9fafb !important; }
-        .site-header { background-color: #1f2937 !important; border-bottom-color: #374151 !important; }
-        .site-header a, .site-header button { color: #f9fafb !important; }
-        .bg-white { background-color: #1f2937 !important; }
-        .text-gray-900 { color: #f9fafb !important; }
-        .text-gray-700 { color: #d1d5db !important; }
-        .text-gray-500 { color: #9ca3af !important; }
-        .bg-gray-50, .bg-gray-100 { background-color: #374151 !important; }
-        .border-gray-200 { border-color: #4b5563 !important; }
-
-        /* Dark mode for WooCommerce specific elements */
-        .woocommerce-products-header__title { color: #f9fafb !important; }
-        .woocommerce ul.products li.product .price { color: #d1d5db !important; }
-        .fixed.bottom-0.bg-white { background-color: #1f2937 !important; border-top-color: #374151 !important; }
-
-        /* Invert logo if we are in dark mode */
-        img.dark-mode-logo-invert { filter: invert(1) hue-rotate(180deg); }
-        <?php endif; ?>
     </style>
     <?php
 }
