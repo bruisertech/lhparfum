@@ -59,6 +59,9 @@
         ::-webkit-scrollbar-thumb:hover { background: #555; }
         .dark ::-webkit-scrollbar-thumb { background: #4b5563; }
         .dark ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+
+        /* Force restrict custom logo output from WP */
+        .site-header img.custom-logo { max-height: 48px; width: auto; object-fit: contain; }
     </style>
 
     <!-- Dark Mode Init Script -->
@@ -100,19 +103,15 @@
 
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center justify-center md:justify-start flex-1 md:flex-none">
-                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class="block">
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class="block h-12 flex items-center">
                         <?php
                         if ( has_custom_logo() ) {
-                            // Ensure the custom logo doesn't blow up the header
-                            $custom_logo_id = get_theme_mod( 'custom_logo' );
-                            $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );
-                            if ( has_custom_logo() ) {
-                                echo '<img src="' . esc_url( $logo[0] ) . '" alt="' . get_bloginfo( 'name' ) . '" class="h-12 w-auto object-contain">';
-                            }
+                            // Ensure the custom logo doesn't blow up the header by forcing height limits
+                            the_custom_logo();
                         } else {
                             // Default to the generated transparent logos
-                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-black.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-12 w-auto object-contain block dark:hidden">';
-                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-white.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-12 w-auto object-contain hidden dark:block">';
+                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-black.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-12 max-h-12 w-auto object-contain block dark:hidden">';
+                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-white.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-12 max-h-12 w-auto object-contain hidden dark:block">';
                         }
                         ?>
                     </a>

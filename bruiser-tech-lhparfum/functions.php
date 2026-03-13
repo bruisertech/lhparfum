@@ -94,3 +94,117 @@ add_filter( 'woocommerce_product_add_to_cart_text', 'bruiser_tech_lhparfum_custo
 function bruiser_tech_lhparfum_custom_cart_button_text() {
     return __( 'Adquirir fragancia', 'bruiser-tech-lhparfum' );
 }
+
+/**
+ * Register Custom Taxonomies for Perfumes
+ */
+function bruiser_tech_lhparfum_register_taxonomies() {
+    // 1. Rareza (Rareness/Type)
+    register_taxonomy( 'lh_rareza', array( 'product' ), array(
+        'hierarchical'      => true,
+        'public'            => true,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'show_in_nav_menus' => true,
+        'show_in_rest'      => true,
+        'labels'            => array(
+            'name'          => __( 'Rarezas', 'bruiser-tech-lhparfum' ),
+            'singular_name' => __( 'Rareza', 'bruiser-tech-lhparfum' ),
+        ),
+    ) );
+
+    // 2. Genero (Gender)
+    register_taxonomy( 'lh_genero', array( 'product' ), array(
+        'hierarchical'      => true,
+        'public'            => true,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'show_in_nav_menus' => true,
+        'show_in_rest'      => true,
+        'labels'            => array(
+            'name'          => __( 'Géneros', 'bruiser-tech-lhparfum' ),
+            'singular_name' => __( 'Género', 'bruiser-tech-lhparfum' ),
+        ),
+    ) );
+
+    // 3. Aroma (Scent Profile)
+    register_taxonomy( 'lh_aroma', array( 'product' ), array(
+        'hierarchical'      => true,
+        'public'            => true,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'show_in_nav_menus' => true,
+        'show_in_rest'      => true,
+        'labels'            => array(
+            'name'          => __( 'Aromas', 'bruiser-tech-lhparfum' ),
+            'singular_name' => __( 'Aroma', 'bruiser-tech-lhparfum' ),
+        ),
+    ) );
+}
+add_action( 'init', 'bruiser_tech_lhparfum_register_taxonomies', 0 );
+
+/**
+ * Custom WooCommerce Product Query logic for Filters
+ */
+function bruiser_tech_lhparfum_product_query( $q ) {
+    if ( ! is_admin() && $q->is_main_query() && is_post_type_archive( 'product' ) ) {
+
+        $tax_query = (array) $q->get( 'tax_query' );
+
+        // Rareza Filter
+        if ( isset( $_GET['filter_rareza'] ) && is_array( $_GET['filter_rareza'] ) ) {
+            $tax_query[] = array(
+                'taxonomy' => 'lh_rareza',
+                'field'    => 'slug',
+                'terms'    => array_map( 'sanitize_text_field', wp_unslash( $_GET['filter_rareza'] ) ),
+            );
+        }
+
+        // Genero Filter
+        if ( isset( $_GET['filter_genero'] ) && is_array( $_GET['filter_genero'] ) ) {
+            $tax_query[] = array(
+                'taxonomy' => 'lh_genero',
+                'field'    => 'slug',
+                'terms'    => array_map( 'sanitize_text_field', wp_unslash( $_GET['filter_genero'] ) ),
+            );
+        }
+
+        // Aroma Filter
+        if ( isset( $_GET['filter_aroma'] ) && is_array( $_GET['filter_aroma'] ) ) {
+            $tax_query[] = array(
+                'taxonomy' => 'lh_aroma',
+                'field'    => 'slug',
+                'terms'    => array_map( 'sanitize_text_field', wp_unslash( $_GET['filter_aroma'] ) ),
+            );
+        }
+
+        if ( ! empty( $tax_query ) ) {
+            $q->set( 'tax_query', $tax_query );
+        }
+
+        // Price Filter
+        $min_price = isset( $_GET['min_price'] ) && $_GET['min_price'] !== '' ? floatval( wp_unslash( $_GET['min_price'] ) ) : 0;
+        $max_price = isset( $_GET['max_price'] ) && $_GET['max_price'] !== '' ? floatval( wp_unslash( $_GET['max_price'] ) ) : 0;
+
+        if ( $max_price > 0 ) {
+            $meta_query = (array) $q->get( 'meta_query' );
+            $meta_query[] = array(
+                'key'     => '_price',
+                'value'   => array( $min_price, $max_price ),
+                'compare' => 'BETWEEN',
+                'type'    => 'NUMERIC'
+            );
+            $q->set( 'meta_query', $meta_query );
+        } elseif ( $min_price > 0 ) {
+            $meta_query = (array) $q->get( 'meta_query' );
+            $meta_query[] = array(
+                'key'     => '_price',
+                'value'   => $min_price,
+                'compare' => '>=',
+                'type'    => 'NUMERIC'
+            );
+            $q->set( 'meta_query', $meta_query );
+        }
+    }
+}
+add_action( 'woocommerce_product_query', 'bruiser_tech_lhparfum_product_query' );

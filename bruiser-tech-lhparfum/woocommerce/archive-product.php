@@ -193,24 +193,25 @@ get_header( 'shop' );
                                 <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'object-cover w-full h-full group-hover:scale-110 transition-transform duration-700 ease-in-out' ) ); ?>
                                 <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-opacity duration-300"></div>
                             </a>
-                            <div class="mt-6 flex flex-col justify-between flex-grow w-full px-2">
+                            <div class="mt-6 flex flex-col justify-between flex-grow w-full px-2 items-center text-center">
                                 <?php
                                 $genero_terms = get_the_terms( $product->get_id(), 'lh_genero' );
                                 if ( $genero_terms && ! is_wp_error( $genero_terms ) ) {
-                                    echo '<span class="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">' . esc_html( $genero_terms[0]->name ) . '</span>';
+                                    echo '<span class="text-[10px] font-semibold text-[#888888] dark:text-[#aaaaaa] uppercase tracking-[0.2em] mb-3 inline-block">' . esc_html( $genero_terms[0]->name ) . '</span>';
                                 }
                                 ?>
-                                <h2 class="text-base md:text-lg font-bold text-gray-900 dark:text-white mb-1">
-                                    <a href="<?php echo esc_url( $link ); ?>">
+                                <h2 class="text-lg md:text-xl font-black text-black dark:text-white mb-2 tracking-tight leading-tight">
+                                    <a href="<?php echo esc_url( $link ); ?>" class="hover:underline decoration-2 underline-offset-4">
                                         <?php echo get_the_title(); ?>
                                     </a>
                                 </h2>
-                                <div class="text-sm md:text-base text-gray-600 dark:text-gray-400 font-medium mb-4">
+                                <div class="text-sm md:text-base text-[#666666] dark:text-[#bbbbbb] font-light mb-6">
                                     <?php echo $product->get_price_html(); ?>
                                 </div>
 
-                                <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>" class="mt-auto px-6 py-3 border border-gray-900 dark:border-white text-gray-900 dark:text-white text-xs font-bold uppercase tracking-widest hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-gray-900 transition-colors duration-300 w-full rounded-none">
-                                    <?php echo esc_html( $product->add_to_cart_text() ); ?>
+                                <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>" class="mt-auto w-full group relative overflow-hidden bg-black dark:bg-white text-white dark:text-black px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500 shadow-md hover:shadow-xl flex justify-center items-center rounded-sm">
+                                    <div class="absolute inset-0 w-0 bg-white dark:bg-black opacity-10 transition-all duration-[600ms] ease-out group-hover:w-full"></div>
+                                    <span class="relative z-10"><?php echo esc_html( $product->add_to_cart_text() ); ?></span>
                                 </a>
                             </div>
                         </div>
