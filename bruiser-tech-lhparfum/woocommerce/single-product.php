@@ -257,9 +257,9 @@ get_header( 'shop' ); ?>
                 echo '</div>';
                 echo '</div>'; // End Header Flex
 
-                // Simple, robust scrolling track. Removed all duplication loops. Let CSS do the scrolling naturally.
-                echo '<div class="relative w-full -mx-4 px-4 overflow-hidden">';
-                echo '<div id="lh-carousel-track" class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide pb-8 gap-4">';
+                // Reimagined smooth scrolling carousel track.
+                echo '<div class="relative w-full overflow-hidden cursor-grab active:cursor-grabbing pb-8 select-none" id="lh-carousel-container">';
+                echo '<div id="lh-carousel-track" class="flex flex-nowrap gap-4 transition-transform duration-0 ease-linear">';
 
                 while ( $related_products->have_posts() ) : $related_products->the_post();
                     global $product;
@@ -284,10 +284,11 @@ get_header( 'shop' ); ?>
 
                     $formatted_taxonomies = implode(' &bull; ', $tax_string);
                     ?>
-                    <div class="inline-block flex-none w-[70vw] sm:w-64 md:w-80 snap-start">
+                    <!-- Reimagined card, fixed width to keep scroll consistent -->
+                    <div class="inline-block flex-none w-[70vw] sm:w-[280px] md:w-[320px] lh-carousel-item" draggable="false">
                         <div class="group relative flex flex-col items-center text-center transition duration-300 bg-transparent h-full">
                             <!-- Image without pills, completely clean -->
-                            <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden relative rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300 mb-3" style="aspect-ratio: 3/4; font-size: 0; line-height: 0;">
+                            <a href="<?php echo esc_url( $link ); ?>" draggable="false" class="block w-full overflow-hidden relative rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300 mb-3" style="aspect-ratio: 3/4; font-size: 0; line-height: 0;">
                                 <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out block m-0 p-0' ) ); ?>
                             </a>
 
@@ -328,71 +329,186 @@ get_header( 'shop' ); ?>
                     <?php
                 endwhile;
 
-                echo '</div></div></div>'; // End track and wrappers
+                echo '</div></div></div></div>'; // End track and wrappers
                 wp_reset_postdata();
 
-                // Simple, robust JS for arrows and simple slow auto-scroll via interval (no requestAnimationFrame conflicts)
+                // Reimagined JS: requestAnimationFrame smooth scrolling, hover slowdown, drag/swipe controls
                 ?>
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
+                        const container = document.getElementById('lh-carousel-container');
                         const track = document.getElementById('lh-carousel-track');
                         const prevBtn = document.getElementById('lh-carousel-prev');
                         const nextBtn = document.getElementById('lh-carousel-next');
 
-                        if(!track) return;
+                        if(!track || !container) return;
 
-                        let autoInterval;
+                        // Configuration
+                        let speed = 0.5; // Normal auto-scroll speed
+                        const hoverSpeed = 0.1; // Slow down on hover
+                        let currentSpeed = speed;
+                        let position = 0;
+                        let animationId = null;
+                        let jumpTimeoutId = null; // Store timeout ID for jumping
 
-                        // Very simple interval that acts like a human clicking "next" slowly
-                        const startAuto = () => {
-                            clearInterval(autoInterval);
-                            autoInterval = setInterval(() => {
-                                if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 10) {
-                                    track.scrollTo({ left: 0, behavior: 'smooth' });
-                                } else {
-                                    const firstItem = track.querySelector('.inline-block');
-                                    const scrollAmt = firstItem ? firstItem.offsetWidth + 16 : 300;
-                                    track.scrollBy({ left: scrollAmt, behavior: 'smooth' });
-                                }
-                            }, 4500);
+                        // Dragging state
+                        let isDragging = false;
+                        let startX = 0;
+                        let currentTranslate = 0;
+                        let prevTranslate = 0;
+                        let draggedDistance = 0;
+
+                        // Calculate bounds to avoid scrolling infinitely past limits
+                        let maxScroll = 0;
+
+                        const updateBounds = () => {
+                            // Calculate total width of all items + gaps minus container width
+                            const containerWidth = container.offsetWidth;
+                            const trackWidth = track.scrollWidth;
+                            maxScroll = Math.max(0, trackWidth - containerWidth);
                         };
 
-                        const stopAuto = () => { clearInterval(autoInterval); };
+                        // Initial setup
+                        updateBounds();
+                        window.addEventListener('resize', updateBounds);
 
-                        // Start
-                        startAuto();
-
-                        // Stop on any manual interaction
-                        ['mouseenter', 'touchstart', 'scroll'].forEach(evt => {
-                            track.addEventListener(evt, () => {
-                                stopAuto();
-                                // Resume after 5 seconds of no interaction
-                                clearTimeout(track.resumeTimer);
-                                track.resumeTimer = setTimeout(startAuto, 5000);
-                            }, {passive: true});
+                        // Prevent anchor clicks if we are dragging
+                        const items = track.querySelectorAll('a');
+                        items.forEach(item => {
+                            item.addEventListener('click', (e) => {
+                                if (Math.abs(draggedDistance) > 5) {
+                                    e.preventDefault();
+                                }
+                            });
                         });
 
-                        if(prevBtn && nextBtn) {
-                            const getScrollAmount = () => {
-                                const firstItem = track.querySelector('.inline-block');
-                                return firstItem ? firstItem.offsetWidth + 16 : 300; // include gap
+                        // 1. Continuous Auto-Scroll Loop
+                        const scrollLoop = () => {
+                            if (!isDragging) {
+                                position += currentSpeed;
+
+                                // Reset if reached the end (or bounce if preferred, here we just stop at ends like normal)
+                                // We'll make it reverse direction if it hits ends, to be elegant.
+                                if (position >= maxScroll) {
+                                    position = maxScroll;
+                                    currentSpeed = -Math.abs(currentSpeed); // reverse
+                                } else if (position <= 0) {
+                                    position = 0;
+                                    currentSpeed = Math.abs(currentSpeed); // forward
+                                }
+
+                                track.style.transform = `translateX(-${position}px)`;
+                                prevTranslate = -position;
+                            }
+                            animationId = requestAnimationFrame(scrollLoop);
+                        };
+
+                        // Start animation
+                        animationId = requestAnimationFrame(scrollLoop);
+
+                        // 2. Hover Interaction: Slow down gracefully
+                        container.addEventListener('mouseenter', () => {
+                            if (!isDragging) {
+                                currentSpeed = Math.sign(currentSpeed) * hoverSpeed;
+                            }
+                        });
+
+                        container.addEventListener('mouseleave', () => {
+                            if (!isDragging) {
+                                currentSpeed = Math.sign(currentSpeed) * speed;
+                            }
+                        });
+
+                        // 3. Mouse / Touch Dragging
+                        const dragStart = (e) => {
+                            isDragging = true;
+                            container.classList.add('cursor-grabbing');
+                            startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+                            draggedDistance = 0;
+                            // Ensure currentTranslate matches the actual position when drag starts
+                            currentTranslate = -position;
+                            prevTranslate = currentTranslate;
+                            cancelAnimationFrame(animationId);
+                            if (jumpTimeoutId) clearTimeout(jumpTimeoutId);
+                        };
+
+                        const dragAction = (e) => {
+                            if (!isDragging) return;
+                            const x = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+                            const walk = x - startX;
+                            draggedDistance = walk;
+                            currentTranslate = prevTranslate + walk;
+
+                            // Visual constraint (optional rubber band effect, simplified here)
+                            if (currentTranslate > 0) currentTranslate = 0;
+                            if (currentTranslate < -maxScroll) currentTranslate = -maxScroll;
+
+                            track.style.transform = `translateX(${currentTranslate}px)`;
+                        };
+
+                        const dragEnd = () => {
+                            isDragging = false;
+                            container.classList.remove('cursor-grabbing');
+
+                            prevTranslate = currentTranslate;
+                            position = -prevTranslate;
+
+                            // Resume animation
+                            animationId = requestAnimationFrame(scrollLoop);
+                        };
+
+                        // Event Listeners for Drag
+                        container.addEventListener('mousedown', dragStart);
+                        container.addEventListener('touchstart', dragStart, {passive: true});
+
+                        container.addEventListener('mousemove', dragAction);
+                        container.addEventListener('touchmove', dragAction, {passive: true});
+
+                        container.addEventListener('mouseup', dragEnd);
+                        container.addEventListener('mouseleave', () => { if(isDragging) dragEnd(); });
+                        container.addEventListener('touchend', dragEnd);
+
+                        // 4. Arrow Controls (Smooth snap to next/prev item distance)
+                        if (prevBtn && nextBtn) {
+                            const getJumpDistance = () => {
+                                const item = track.querySelector('.lh-carousel-item');
+                                return item ? item.offsetWidth + 16 : 300; // width + gap
+                            };
+
+                            const jumpTo = (distance) => {
+                                // Pause animation briefly
+                                cancelAnimationFrame(animationId);
+                                if (jumpTimeoutId) clearTimeout(jumpTimeoutId);
+
+                                position += distance;
+
+                                // Clamp
+                                if (position > maxScroll) position = maxScroll;
+                                if (position < 0) position = 0;
+
+                                // Use CSS transition for the jump
+                                track.style.transition = 'transform 0.4s ease-out';
+                                track.style.transform = `translateX(-${position}px)`;
+                                prevTranslate = -position;
+
+                                // Remove transition and resume auto scroll
+                                jumpTimeoutId = setTimeout(() => {
+                                    track.style.transition = 'none';
+                                    animationId = requestAnimationFrame(scrollLoop);
+                                }, 400);
                             };
 
                             prevBtn.addEventListener('click', (e) => {
                                 e.preventDefault();
-                                track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+                                currentSpeed = -Math.abs(speed); // Make auto-scroll go left after clicking prev
+                                jumpTo(-getJumpDistance());
                             });
 
                             nextBtn.addEventListener('click', (e) => {
                                 e.preventDefault();
-                                track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+                                currentSpeed = Math.abs(speed); // Make auto-scroll go right after clicking next
+                                jumpTo(getJumpDistance());
                             });
-
-                            // Stop auto if they hover arrows
-                            prevBtn.addEventListener('mouseenter', stopAuto);
-                            nextBtn.addEventListener('mouseenter', stopAuto);
-                            prevBtn.addEventListener('mouseleave', startAuto);
-                            nextBtn.addEventListener('mouseleave', startAuto);
                         }
                     });
                 </script>
