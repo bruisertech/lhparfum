@@ -21,9 +21,29 @@ function lhparfum_ocdi_import_files() {
 }
 add_filter( 'pt-ocdi/import_files', 'lhparfum_ocdi_import_files' );
 
+function lhparfum_get_post_by_title( $page_title, $post_type = 'page' ) {
+    $query = new WP_Query( array(
+        'post_type'              => $post_type,
+        'title'                  => $page_title,
+        'post_status'            => 'all',
+        'posts_per_page'         => 1,
+        'no_found_rows'          => true,
+        'ignore_sticky_posts'    => true,
+        'update_post_term_cache' => false,
+        'update_post_meta_cache' => false,
+    ) );
+
+    if ( ! empty( $query->posts ) ) {
+        return $query->posts[0];
+    }
+    return null;
+}
+
 function lhparfum_ocdi_after_import_setup() {
     // 1. Crear Página de Inicio si no existe
-    $front_page_id = get_page_by_title( 'Inicio' );
+    $front_page = lhparfum_get_post_by_title( 'Inicio', 'page' );
+    $front_page_id = $front_page ? $front_page->ID : 0;
+
     if ( ! $front_page_id ) {
         $front_page_id = wp_insert_post( array(
             'post_title'   => 'Inicio',
@@ -34,8 +54,8 @@ function lhparfum_ocdi_after_import_setup() {
     }
 
     // 2. Crear Página de Contacto si no existe
-    $contact_page_id = get_page_by_title( 'Contacto' );
-    if ( ! $contact_page_id ) {
+    $contact_page = lhparfum_get_post_by_title( 'Contacto', 'page' );
+    if ( ! $contact_page ) {
         wp_insert_post( array(
             'post_title'   => 'Contacto',
             'post_content' => 'Ponte en contacto con nosotros.',
@@ -45,9 +65,9 @@ function lhparfum_ocdi_after_import_setup() {
     }
 
     // Configurar Inicio como Front Page
-    if ( ! is_wp_error( $front_page_id ) ) {
+    if ( $front_page_id && ! is_wp_error( $front_page_id ) ) {
         update_option( 'show_on_front', 'page' );
-        update_option( 'page_on_front', $front_page_id );
+        update_option( 'page_on_front', (int) $front_page_id );
     }
 
     // 3. Crear 5 Productos de Demo de WooCommerce
@@ -86,7 +106,7 @@ function lhparfum_ocdi_after_import_setup() {
         );
 
         foreach ( $demo_products as $product_data ) {
-            $existing_product = get_page_by_title( $product_data['title'], OBJECT, 'product' );
+            $existing_product = lhparfum_get_post_by_title( $product_data['title'], 'product' );
             if ( ! $existing_product ) {
                 $post_id = wp_insert_post( array(
                     'post_title'   => $product_data['title'],

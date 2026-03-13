@@ -47,12 +47,30 @@ function lhparfum_reset_demo_page_callback() {
     <?php
 }
 
+function lhparfum_reset_get_post_by_title( $page_title, $post_type = 'page' ) {
+    $query = new WP_Query( array(
+        'post_type'              => $post_type,
+        'title'                  => $page_title,
+        'post_status'            => 'all',
+        'posts_per_page'         => 1,
+        'no_found_rows'          => true,
+        'ignore_sticky_posts'    => true,
+        'update_post_term_cache' => false,
+        'update_post_meta_cache' => false,
+    ) );
+
+    if ( ! empty( $query->posts ) ) {
+        return $query->posts[0];
+    }
+    return null;
+}
+
 // Lógica de borrado
 function lhparfum_execute_demo_reset() {
     // 1. Borrar Páginas
     $pages_to_delete = array( 'Inicio', 'Contacto' );
     foreach ( $pages_to_delete as $page_title ) {
-        $page = get_page_by_title( $page_title );
+        $page = lhparfum_reset_get_post_by_title( $page_title, 'page' );
         if ( $page ) {
             wp_delete_post( $page->ID, true ); // true = force delete (bypass trash)
         }
@@ -65,7 +83,7 @@ function lhparfum_execute_demo_reset() {
     // 2. Borrar Productos de WooCommerce
     $products_to_delete = array( 'Essence de Nuit', 'Fleur Sauvage', 'Bois Noir', 'Oud Royal', 'Citrus Paradis' );
     foreach ( $products_to_delete as $product_title ) {
-        $product = get_page_by_title( $product_title, OBJECT, 'product' );
+        $product = lhparfum_reset_get_post_by_title( $product_title, 'product' );
         if ( $product ) {
             // Borrar imagen adjunta
             $thumbnail_id = get_post_thumbnail_id( $product->ID );

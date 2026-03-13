@@ -10,7 +10,7 @@
                 <p class="text-gray-300 text-sm mb-4">Perfumería de lujo en Colombia.</p>
                 <div class="mt-4">
                     <p class="text-sm text-gray-400 font-semibold mb-1">Contacto de Emergencia</p>
-                    <p class="text-gray-300 text-sm">Llámanos: +57 300 123 4567</p>
+                    <p class="text-gray-300 text-sm">Llámanos: <?php echo esc_html( get_theme_mod( 'lhparfum_footer_phone', '+57 300 123 4567' ) ); ?></p>
                 </div>
             </div>
 
@@ -49,7 +49,7 @@
                     </a>
                 </div>
                 <div class="text-sm text-gray-400">
-                    <p class="mb-2">&copy; <?php echo date('Y'); ?> LHPARFUM. Todos los derechos reservados.</p>
+                    <p class="mb-2">&copy; <?php echo date('Y'); ?> <?php echo esc_html( get_theme_mod( 'lhparfum_footer_copyright', 'LHPARFUM. Todos los derechos reservados.' ) ); ?></p>
                     <p>
                         <?php
                         /* translators: %s: CMS name, i.e. WordPress. */

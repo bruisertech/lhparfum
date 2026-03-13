@@ -39,9 +39,9 @@ function bruiser_tech_lhparfum_customize_register( $wp_customize ) {
         'sanitize_callback' => 'lhparfum_sanitize_checkbox',
     ) );
     $wp_customize->add_control( 'lhparfum_dark_mode', array(
-        'label'    => __( 'Activar Modo Oscuro Elegante', 'bruiser-tech-lhparfum' ),
-        'section  ' => 'lhparfum_colors',
-        'type'     => 'checkbox',
+        'label'       => __( 'Activar Modo Oscuro Elegante', 'bruiser-tech-lhparfum' ),
+        'section'     => 'lhparfum_colors',
+        'type'        => 'checkbox',
         'description' => __( 'Si se activa, el sitio usará un esquema de colores oscuros por defecto.', 'bruiser-tech-lhparfum' ),
     ) );
 

@@ -65,13 +65,14 @@
 
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center justify-center md:justify-start flex-1 md:flex-none">
-                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class="font-bold text-2xl tracking-widest uppercase block text-gray-900">
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class="block">
                         <?php
                         if ( has_custom_logo() ) {
                             the_custom_logo();
                         } else {
-                            // Default to the provided logo if no custom logo is set in Customizer
-                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo.jpg' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-12 w-auto object-contain dark-mode-logo-invert">';
+                            // Default to the generated transparent logos
+                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-black.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-12 w-auto object-contain block dark:hidden">';
+                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-white.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-12 w-auto object-contain hidden dark:block">';
                         }
                         ?>
                     </a>
