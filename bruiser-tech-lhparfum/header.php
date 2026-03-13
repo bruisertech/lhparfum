@@ -122,7 +122,12 @@
             100% { transform: translateX(-50%); }
         }
         .animate-slide-left {
-            animation: slideLeft 30s linear infinite;
+            animation: slideLeft 50s linear infinite;
+        }
+        .animate-slide-left:hover {
+            /* We can't smoothly transition animation-duration without resetting it in pure CSS,
+               but we can use a trick or just let it continue at a slower pace if we used JS.
+               For pure CSS, removing the abrupt pause and just keeping it elegantly slow is best. */
         }
     </style>
 

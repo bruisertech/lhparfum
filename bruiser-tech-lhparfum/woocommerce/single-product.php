@@ -41,7 +41,7 @@ get_header( 'shop' ); ?>
 
                 <!-- Product Image Gallery (The Protagonist) -->
                 <div class="w-full lg:w-1/2 flex justify-center lg:justify-end">
-                    <div class="sticky top-32 group relative overflow-visible w-full max-w-2xl">
+                    <div class="sticky top-32 group relative overflow-visible w-full max-w-lg">
 
                         <!-- Rarity LED Glow Behind the Image (Massive ambience effect) -->
                         <?php
@@ -118,7 +118,7 @@ get_header( 'shop' ); ?>
                     </div>
 
                     <!-- Title -->
-                    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-2 leading-tight">
+                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white tracking-wide mb-3 leading-tight">
                         <?php the_title(); ?>
                     </h1>
 
@@ -216,21 +216,45 @@ get_header( 'shop' ); ?>
                 echo '<div class="relative w-full flex overflow-hidden group/slider">';
 
                 // Inner track that moves
-                echo '<div class="flex whitespace-nowrap animate-slide-left hover:[animation-play-state:paused]">';
+                echo '<div class="flex whitespace-nowrap animate-slide-left">';
 
                 // We duplicate the loop twice to create the seamless infinite scroll illusion
                 for ($i = 0; $i < 2; $i++) {
                     while ( $related_products->have_posts() ) : $related_products->the_post();
                         global $product;
                         $link = get_the_permalink();
+
+                        // Get Mini Rarity Pill
+                        $mini_rareza_terms = get_the_terms( $product->get_id(), 'lh_rareza' );
+                        $mini_rareza_html = '';
+                        if ( $mini_rareza_terms && ! is_wp_error( $mini_rareza_terms ) ) {
+                            $m_term = $mini_rareza_terms[0];
+                            $m_slug = $m_term->slug;
+
+                            $m_pill_classes = 'absolute top-3 right-3 text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full text-white z-10 transition-all duration-300 shadow-md';
+
+                            if ( $m_slug === 'nicho' ) {
+                                $m_pill_classes .= ' bg-gradient-to-r from-yellow-400 to-yellow-600 animate-pulse-glow-gold';
+                            } elseif ( $m_slug === 'arabe' ) {
+                                $m_pill_classes .= ' bg-gradient-to-r from-purple-500 to-purple-800 animate-pulse-glow-purple';
+                            } elseif ( $m_slug === 'disenador' ) {
+                                $m_pill_classes .= ' bg-gradient-to-r from-blue-400 to-blue-700 animate-pulse-glow-blue';
+                            } else {
+                                $m_pill_classes .= ' bg-gradient-to-r from-emerald-400 to-emerald-700 animate-pulse-glow-green';
+                            }
+
+                            $mini_rareza_html = '<span class="' . esc_attr( $m_pill_classes ) . '">' . esc_html( $m_term->name ) . '</span>';
+                        }
                         ?>
                         <div class="inline-block w-64 md:w-80 px-4 transition-transform duration-500">
                             <div class="group relative flex flex-col items-center text-center transition duration-300 bg-transparent h-full">
-                                <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden bg-[#f8f8f8] dark:bg-[#111111] relative rounded-sm shadow-sm group-hover:shadow-lg transition-shadow duration-300" style="aspect-ratio: 3/4;">
+                                <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden bg-transparent relative rounded-sm shadow-none group-hover:shadow-lg transition-shadow duration-300" style="aspect-ratio: 3/4;">
+                                    <?php echo $mini_rareza_html; ?>
                                     <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover mix-blend-multiply dark:mix-blend-normal group-hover:scale-105 transition-transform duration-700 ease-in-out' ) ); ?>
+                                    <!-- Fix for black border glitch: remove absolute inset overlay that was causing artifacting -->
                                 </a>
                                 <div class="mt-6 flex flex-col justify-between flex-grow w-full px-2 items-center text-center">
-                                    <h2 class="text-sm md:text-base font-black text-black dark:text-white mb-2 tracking-tight whitespace-normal">
+                                    <h2 class="text-sm md:text-base font-bold text-black dark:text-white mb-2 tracking-wide whitespace-normal">
                                         <a href="<?php echo esc_url( $link ); ?>" class="hover:underline decoration-2 underline-offset-4">
                                             <?php echo get_the_title(); ?>
                                         </a>
