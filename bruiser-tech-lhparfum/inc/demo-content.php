@@ -14,7 +14,7 @@ function lhparfum_ocdi_import_files() {
         array(
             'import_file_name'             => 'LHPARFUM Demo',
             'import_preview_image_url'     => get_template_directory_uri() . '/screenshot.jpg',
-            'import_notice'                => __( 'Después de iniciar la importación, se configurará la página de inicio y se crearán los productos de ejemplo automáticamente.', 'bruiser-tech-lhparfum' ),
+            'import_notice'                => __( 'Después de iniciar la importación, se configurará la página de inicio, se crearán las colecciones y se añadirán 10 productos de prueba con rarezas y categorías.', 'bruiser-tech-lhparfum' ),
             'preview_url'                  => 'https://instagram.com/bruiser.tech',
         ),
     );
@@ -194,38 +194,97 @@ function lhparfum_ocdi_after_import_setup() {
         }
     }
 
-    // 3. Crear Productos de Demo de WooCommerce
+    // 3. Setup WooCommerce Pages and 10 Products
     if ( class_exists( 'WooCommerce' ) ) {
+        WC_Install::create_pages();
+
+        // Ensure terms exist
+        $rarezas = ['Nicho', 'Diseñador', 'Árabe', 'Accesible'];
+        foreach ( $rarezas as $rareza ) {
+            if ( ! term_exists( $rareza, 'lh_rareza' ) ) wp_insert_term( $rareza, 'lh_rareza' );
+        }
+
+        $generos = ['Mujer', 'Hombre', 'Unisex'];
+        foreach ( $generos as $genero ) {
+            if ( ! term_exists( $genero, 'lh_genero' ) ) wp_insert_term( $genero, 'lh_genero' );
+        }
+
+        $aromas = ['Floral', 'Amaderado', 'Cítrico', 'Oriental', 'Fresco'];
+        foreach ( $aromas as $aroma ) {
+            if ( ! term_exists( $aroma, 'lh_aroma' ) ) wp_insert_term( $aroma, 'lh_aroma' );
+        }
+
+        // Crear 10 Productos de Demo
         $demo_products = array(
+            array(
+                'title'       => 'Oud Royal',
+                'content'     => 'El lujo embotellado. Un viaje sensorial con auténtico oud de Oriente.',
+                'price'       => '450000',
+                'image_url'   => 'https://images.unsplash.com/photo-1590736704728-f4730bb30770?auto=format&fit=crop&q=80&w=500',
+                'rareza'      => 'Árabe', 'genero' => 'Unisex', 'aroma' => 'Oriental'
+            ),
             array(
                 'title'       => 'Essence de Nuit',
                 'content'     => 'Una fragancia elegante y misteriosa para las noches más especiales.',
                 'price'       => '250000',
                 'image_url'   => 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=500',
-            ),
-            array(
-                'title'       => 'Fleur Sauvage',
-                'content'     => 'Notas florales silvestres combinadas con un toque cítrico vibrante.',
-                'price'       => '210000',
-                'image_url'   => 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=500',
+                'rareza'      => 'Diseñador', 'genero' => 'Mujer', 'aroma' => 'Floral'
             ),
             array(
                 'title'       => 'Bois Noir',
                 'content'     => 'Una mezcla profunda y amaderada con notas de sándalo y cedro.',
                 'price'       => '320000',
                 'image_url'   => 'https://images.unsplash.com/photo-1622618991746-fe6004db3a47?auto=format&fit=crop&q=80&w=500',
-            ),
-            array(
-                'title'       => 'Oud Royal',
-                'content'     => 'El lujo embotellado. Un viaje sensorial con auténtico oud de Oriente.',
-                'price'       => '450000',
-                'image_url'   => 'https://images.unsplash.com/photo-1590736704728-f4730bb30770?auto=format&fit=crop&q=80&w=500',
+                'rareza'      => 'Nicho', 'genero' => 'Hombre', 'aroma' => 'Amaderado'
             ),
             array(
                 'title'       => 'Citrus Paradis',
                 'content'     => 'Fresco, ligero y lleno de energía. Perfecto para el día a día.',
                 'price'       => '180000',
                 'image_url'   => 'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&q=80&w=500',
+                'rareza'      => 'Accesible', 'genero' => 'Unisex', 'aroma' => 'Cítrico'
+            ),
+            array(
+                'title'       => 'Amber Niche',
+                'content'     => 'El nicho definitivo, una resina dorada que atrapa la atención.',
+                'price'       => '550000',
+                'image_url'   => 'https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&q=80&w=500',
+                'rareza'      => 'Nicho', 'genero' => 'Unisex', 'aroma' => 'Oriental'
+            ),
+            array(
+                'title'       => 'Velvet Rose',
+                'content'     => 'Una rosa profunda y aterciopelada, envuelta en misterio.',
+                'price'       => '290000',
+                'image_url'   => 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=500',
+                'rareza'      => 'Diseñador', 'genero' => 'Mujer', 'aroma' => 'Floral'
+            ),
+            array(
+                'title'       => 'Habibi Musk',
+                'content'     => 'Almizcle puro con destellos dulces, directo desde Dubai.',
+                'price'       => '120000',
+                'image_url'   => 'https://images.unsplash.com/photo-1608528577891-eb0559ec1115?auto=format&fit=crop&q=80&w=500',
+                'rareza'      => 'Árabe', 'genero' => 'Unisex', 'aroma' => 'Fresco'
+            ),
+            array(
+                'title'       => 'Homme Bleu',
+                'content'     => 'Clásico, marino, para el hombre que conquista la ciudad.',
+                'price'       => '380000',
+                'image_url'   => 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=500',
+                'rareza'      => 'Diseñador', 'genero' => 'Hombre', 'aroma' => 'Fresco'
+            ),
+            array(
+                'title'       => 'Santal Eco',
+                'content'     => 'Una alternativa accesible a las maderas más finas.',
+                'price'       => '95000',
+                'image_url'   => 'https://images.unsplash.com/photo-1595425964070-5cb2b5c00e6f?auto=format&fit=crop&q=80&w=500',
+                'rareza'      => 'Accesible', 'genero' => 'Unisex', 'aroma' => 'Amaderado'
+            ),
+            array(
+                'title'       => 'Sultan Gold',
+                'content'     => 'Especias cálidas y oro líquido.',
+                'price'       => '140000',
+                'image_url'   => 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=500',
+                'rareza'      => 'Árabe', 'genero' => 'Hombre', 'aroma' => 'Oriental'
             )
         );
 
@@ -241,6 +300,10 @@ function lhparfum_ocdi_after_import_setup() {
 
                 if ( ! is_wp_error( $post_id ) ) {
                     wp_set_object_terms( $post_id, 'simple', 'product_type' );
+                    wp_set_object_terms( $post_id, $product_data['rareza'], 'lh_rareza' );
+                    wp_set_object_terms( $post_id, $product_data['genero'], 'lh_genero' );
+                    wp_set_object_terms( $post_id, $product_data['aroma'], 'lh_aroma' );
+
                     update_post_meta( $post_id, '_visibility', 'visible' );
                     update_post_meta( $post_id, '_stock_status', 'instock');
                     update_post_meta( $post_id, 'total_sales', '0');

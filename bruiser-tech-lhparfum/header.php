@@ -18,6 +18,30 @@
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-glow-gold': 'pulseGlowGold 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'pulse-glow-purple': 'pulseGlowPurple 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'pulse-glow-blue': 'pulseGlowBlue 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'pulse-glow-green': 'pulseGlowGreen 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        pulseGlowGold: {
+                            '0%, 100%': { boxShadow: '0 0 5px #fbbf24, 0 0 10px #fbbf24' },
+                            '50%': { boxShadow: '0 0 15px #f59e0b, 0 0 20px #f59e0b' },
+                        },
+                        pulseGlowPurple: {
+                            '0%, 100%': { boxShadow: '0 0 5px #a855f7, 0 0 10px #a855f7' },
+                            '50%': { boxShadow: '0 0 15px #9333ea, 0 0 20px #9333ea' },
+                        },
+                        pulseGlowBlue: {
+                            '0%, 100%': { boxShadow: '0 0 5px #60a5fa, 0 0 10px #60a5fa' },
+                            '50%': { boxShadow: '0 0 15px #3b82f6, 0 0 20px #3b82f6' },
+                        },
+                        pulseGlowGreen: {
+                            '0%, 100%': { boxShadow: '0 0 5px #4ade80, 0 0 10px #4ade80' },
+                            '50%': { boxShadow: '0 0 15px #22c55e, 0 0 20px #22c55e' },
+                        }
                     }
                 }
             }
@@ -26,6 +50,15 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         .dark img.dark-mode-logo-invert { filter: invert(1) hue-rotate(180deg); }
+
+        /* Scrollbar styling for aesthetic */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        .dark ::-webkit-scrollbar-track { background: #1f2937; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        .dark ::-webkit-scrollbar-thumb { background: #4b5563; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
     </style>
 
     <!-- Dark Mode Init Script -->

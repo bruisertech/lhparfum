@@ -35,8 +35,9 @@ function lhparfum_reset_demo_page_callback() {
         <p><?php echo esc_html__( '¿Hiciste pruebas y quieres borrar los productos y páginas creadas por el importador de la demo?', 'bruiser-tech-lhparfum' ); ?></p>
         <p><strong><?php echo esc_html__( 'Advertencia: Esto borrará de forma permanente los siguientes elementos y sus imágenes destacadas:', 'bruiser-tech-lhparfum' ); ?></strong></p>
         <ul style="list-style: disc; margin-left: 20px;">
-            <li>Páginas: Inicio, Contacto</li>
-            <li>Productos: Essence de Nuit, Fleur Sauvage, Bois Noir, Oud Royal, Citrus Paradis</li>
+            <li>Páginas: Inicio, Contacto, Colecciones, Sobre Nosotros</li>
+            <li>Productos: Los 10 perfumes de prueba generados (Oud Royal, Essence de Nuit, Bois Noir, etc).</li>
+            <li>Taxonomías (Rarezas, Géneros, Aromas) de prueba.</li>
         </ul>
         <br>
         <form method="post" action="">
@@ -68,7 +69,7 @@ function lhparfum_reset_get_post_by_title( $page_title, $post_type = 'page' ) {
 // Lógica de borrado
 function lhparfum_execute_demo_reset() {
     // 1. Borrar Páginas
-    $pages_to_delete = array( 'Inicio', 'Contacto' );
+    $pages_to_delete = array( 'Inicio', 'Contacto', 'Colecciones', 'Sobre Nosotros' );
     foreach ( $pages_to_delete as $page_title ) {
         $page = lhparfum_reset_get_post_by_title( $page_title, 'page' );
         if ( $page ) {
@@ -81,7 +82,7 @@ function lhparfum_execute_demo_reset() {
     update_option( 'page_on_front', 0 );
 
     // 2. Borrar Productos de WooCommerce
-    $products_to_delete = array( 'Essence de Nuit', 'Fleur Sauvage', 'Bois Noir', 'Oud Royal', 'Citrus Paradis' );
+    $products_to_delete = array( 'Oud Royal', 'Essence de Nuit', 'Bois Noir', 'Citrus Paradis', 'Amber Niche', 'Velvet Rose', 'Habibi Musk', 'Homme Bleu', 'Santal Eco', 'Sultan Gold' );
     foreach ( $products_to_delete as $product_title ) {
         $product = lhparfum_reset_get_post_by_title( $product_title, 'product' );
         if ( $product ) {
@@ -92,6 +93,17 @@ function lhparfum_execute_demo_reset() {
             }
             // Borrar producto
             wp_delete_post( $product->ID, true );
+        }
+    }
+
+    // 3. Borrar Taxonomías
+    $taxonomies = array( 'lh_rareza', 'lh_genero', 'lh_aroma' );
+    foreach ( $taxonomies as $taxonomy ) {
+        $terms = get_terms( array( 'taxonomy' => $taxonomy, 'hide_empty' => false ) );
+        if ( ! is_wp_error( $terms ) ) {
+            foreach ( $terms as $term ) {
+                wp_delete_term( $term->term_id, $taxonomy );
+            }
         }
     }
 }

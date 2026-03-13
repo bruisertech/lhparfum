@@ -60,9 +60,41 @@ get_header( 'shop' ); ?>
                 <!-- Product Info & Add to Cart -->
                 <div class="w-full md:w-1/2 flex flex-col justify-start pt-4">
                     <!-- Badges -->
-                    <div class="flex items-center space-x-3 mb-4 text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
-                        <span class="border-b border-gray-900 dark:border-white text-gray-900 dark:text-white pb-1">Lujo</span>
-                        <span class="text-blue-600 dark:text-blue-400">Nuevo</span>
+                    <div class="flex items-center space-x-3 mb-6 flex-wrap gap-y-2 text-[10px] md:text-xs font-bold uppercase tracking-widest">
+                        <?php
+                            // Rareza Pill
+                            $rareza_terms = get_the_terms( $product->get_id(), 'lh_rareza' );
+                            if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) {
+                                $term = $rareza_terms[0];
+                                $slug = $term->slug;
+
+                                $pill_classes = 'px-4 py-1.5 rounded-full text-white transition-all duration-300 shadow-md';
+
+                                if ( $slug === 'nicho' ) {
+                                    $pill_classes .= ' bg-yellow-500 animate-pulse-glow-gold';
+                                } elseif ( $slug === 'arabe' ) {
+                                    $pill_classes .= ' bg-purple-600 animate-pulse-glow-purple';
+                                } elseif ( $slug === 'disenador' ) {
+                                    $pill_classes .= ' bg-blue-500 animate-pulse-glow-blue';
+                                } else {
+                                    $pill_classes .= ' bg-green-500 animate-pulse-glow-green';
+                                }
+
+                                echo '<span class="' . esc_attr( $pill_classes ) . '">' . esc_html( $term->name ) . '</span>';
+                            }
+
+                            // Genero
+                            $genero_terms = get_the_terms( $product->get_id(), 'lh_genero' );
+                            if ( $genero_terms && ! is_wp_error( $genero_terms ) ) {
+                                echo '<span class="text-gray-500 dark:text-gray-400 border border-gray-300 dark:border-gray-600 px-3 py-1 rounded-full">' . esc_html( $genero_terms[0]->name ) . '</span>';
+                            }
+
+                            // Aroma
+                            $aroma_terms = get_the_terms( $product->get_id(), 'lh_aroma' );
+                            if ( $aroma_terms && ! is_wp_error( $aroma_terms ) ) {
+                                echo '<span class="text-gray-500 dark:text-gray-400 border border-gray-300 dark:border-gray-600 px-3 py-1 rounded-full">' . esc_html( $aroma_terms[0]->name ) . '</span>';
+                            }
+                        ?>
                     </div>
 
                     <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-4">
