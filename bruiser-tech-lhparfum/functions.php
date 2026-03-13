@@ -59,7 +59,13 @@ add_action( 'after_setup_theme', 'bruiser_tech_lhparfum_setup' );
  * Enqueue scripts and styles.
  */
 function bruiser_tech_lhparfum_scripts() {
-    wp_enqueue_style( 'bruiser-tech-lhparfum-style', get_stylesheet_uri(), array(), '1.0.0' );
+    wp_enqueue_style( 'bruiser-tech-lhparfum-style', get_stylesheet_uri(), array(), '1.5.0' );
+
+    // Enqueue Swiper JS and CSS selectively on single product pages for the related products carousel
+    if ( is_product() ) {
+        wp_enqueue_style( 'swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11.0.0' );
+        wp_enqueue_script( 'swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.0.0', true );
+    }
 }
 add_action( 'wp_enqueue_scripts', 'bruiser_tech_lhparfum_scripts' );
 
@@ -247,6 +253,15 @@ function bruiser_tech_lhparfum_product_query( $q ) {
                 'taxonomy' => 'lh_aroma',
                 'field'    => 'slug',
                 'terms'    => array_map( 'sanitize_text_field', wp_unslash( $_GET['filter_aroma'] ) ),
+            );
+        }
+
+        // Marca Filter
+        if ( isset( $_GET['filter_lh_marca'] ) && is_array( $_GET['filter_lh_marca'] ) ) {
+            $tax_query[] = array(
+                'taxonomy' => 'lh_marca',
+                'field'    => 'slug',
+                'terms'    => array_map( 'sanitize_text_field', wp_unslash( $_GET['filter_lh_marca'] ) ),
             );
         }
 

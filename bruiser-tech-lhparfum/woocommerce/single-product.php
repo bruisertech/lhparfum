@@ -257,9 +257,9 @@ get_header( 'shop' ); ?>
                 echo '</div>';
                 echo '</div>'; // End Header Flex
 
-                // Simple, robust scrolling track. Removed all duplication loops. Let CSS do the scrolling naturally.
-                echo '<div class="relative w-full -mx-4 px-4 overflow-hidden">';
-                echo '<div id="lh-carousel-track" class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide pb-8 gap-4">';
+                // Reimagined smooth scrolling carousel using Swiper.js for robustness
+                echo '<div class="swiper lh-related-swiper w-full relative pb-12 cursor-grab active:cursor-grabbing">';
+                echo '<div class="swiper-wrapper">';
 
                 while ( $related_products->have_posts() ) : $related_products->the_post();
                     global $product;
@@ -284,10 +284,11 @@ get_header( 'shop' ); ?>
 
                     $formatted_taxonomies = implode(' &bull; ', $tax_string);
                     ?>
-                    <div class="inline-block flex-none w-[70vw] sm:w-64 md:w-80 snap-start">
-                        <div class="group relative flex flex-col items-center text-center transition duration-300 bg-transparent h-full">
+                    <!-- Reimagined card as a Swiper Slide -->
+                    <div class="swiper-slide !w-[70vw] sm:!w-[280px] md:!w-[320px] box-border">
+                        <div class="group relative flex flex-col items-center text-center transition duration-300 bg-transparent h-full px-2">
                             <!-- Image without pills, completely clean -->
-                            <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden relative rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300 mb-3" style="aspect-ratio: 3/4; font-size: 0; line-height: 0;">
+                            <a href="<?php echo esc_url( $link ); ?>" draggable="false" class="block w-full overflow-hidden relative rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300 mb-3" style="aspect-ratio: 3/4; font-size: 0; line-height: 0;">
                                 <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out block m-0 p-0' ) ); ?>
                             </a>
 
@@ -331,71 +332,54 @@ get_header( 'shop' ); ?>
                 echo '</div></div></div>'; // End track and wrappers
                 wp_reset_postdata();
 
-                // Simple, robust JS for arrows and simple slow auto-scroll via interval (no requestAnimationFrame conflicts)
+                // Load robust, elegant setup for Swiper (dependencies enqueued in functions.php)
                 ?>
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
-                        const track = document.getElementById('lh-carousel-track');
-                        const prevBtn = document.getElementById('lh-carousel-prev');
-                        const nextBtn = document.getElementById('lh-carousel-next');
+                        const swiperElement = document.querySelector('.lh-related-swiper');
+                        if (!swiperElement) return;
 
-                        if(!track) return;
+                        // Initialize Swiper
+                        const swiper = new Swiper('.lh-related-swiper', {
+                            // Core parameters
+                            direction: 'horizontal',
+                            loop: true,
+                            speed: 800, // Smooth snapping speed
+                            slidesPerView: 'auto',
+                            spaceBetween: 16, // Matching the gap
+                            grabCursor: true,
 
-                        let autoInterval;
+                            // Autoplay that pauses on hover so users can click 'Adquirir' easily
+                            autoplay: {
+                                delay: 3000,
+                                disableOnInteraction: false,
+                                pauseOnMouseEnter: true,
+                            },
 
-                        // Very simple interval that acts like a human clicking "next" slowly
-                        const startAuto = () => {
-                            clearInterval(autoInterval);
-                            autoInterval = setInterval(() => {
-                                if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 10) {
-                                    track.scrollTo({ left: 0, behavior: 'smooth' });
-                                } else {
-                                    const firstItem = track.querySelector('.inline-block');
-                                    const scrollAmt = firstItem ? firstItem.offsetWidth + 16 : 300;
-                                    track.scrollBy({ left: scrollAmt, behavior: 'smooth' });
-                                }
-                            }, 4500);
-                        };
-
-                        const stopAuto = () => { clearInterval(autoInterval); };
-
-                        // Start
-                        startAuto();
-
-                        // Stop on any manual interaction
-                        ['mouseenter', 'touchstart', 'scroll'].forEach(evt => {
-                            track.addEventListener(evt, () => {
-                                stopAuto();
-                                // Resume after 5 seconds of no interaction
-                                clearTimeout(track.resumeTimer);
-                                track.resumeTimer = setTimeout(startAuto, 5000);
-                            }, {passive: true});
+                            // Navigation arrows
+                            navigation: {
+                                nextEl: '#lh-carousel-next',
+                                prevEl: '#lh-carousel-prev',
+                            },
                         });
 
-                        if(prevBtn && nextBtn) {
-                            const getScrollAmount = () => {
-                                const firstItem = track.querySelector('.inline-block');
-                                return firstItem ? firstItem.offsetWidth + 16 : 300; // include gap
-                            };
-
-                            prevBtn.addEventListener('click', (e) => {
-                                e.preventDefault();
-                                track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+                        // Prevent click jumping during drags for anchors
+                        const links = swiperElement.querySelectorAll('a');
+                        links.forEach(link => {
+                            link.addEventListener('click', function(e) {
+                                if (swiperElement.classList.contains('swiper-button-disabled')) return; // let swiper handle
+                                if (swiper.animating || Math.abs(swiper.translate - swiper.previousTranslate) > 5) {
+                                    e.preventDefault();
+                                }
                             });
-
-                            nextBtn.addEventListener('click', (e) => {
-                                e.preventDefault();
-                                track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
-                            });
-
-                            // Stop auto if they hover arrows
-                            prevBtn.addEventListener('mouseenter', stopAuto);
-                            nextBtn.addEventListener('mouseenter', stopAuto);
-                            prevBtn.addEventListener('mouseleave', startAuto);
-                            nextBtn.addEventListener('mouseleave', startAuto);
-                        }
+                        });
                     });
                 </script>
+                <style>
+                    /* Ensure Swiper doesn't cut off our hover effects / drop shadows */
+                    .lh-related-swiper { overflow: visible !important; clip-path: inset(-100px -100px -100px -100px); }
+                    .lh-related-swiper .swiper-slide { height: auto; display: flex; }
+                </style>
                 <?php
             }
             ?>
