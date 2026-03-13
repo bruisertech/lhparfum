@@ -143,6 +143,20 @@ function bruiser_tech_lhparfum_register_taxonomies() {
             'singular_name' => __( 'Aroma', 'bruiser-tech-lhparfum' ),
         ),
     ) );
+
+    // 4. Marca (Brand)
+    register_taxonomy( 'lh_marca', array( 'product' ), array(
+        'hierarchical'      => true,
+        'public'            => true,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'show_in_nav_menus' => true,
+        'show_in_rest'      => true,
+        'labels'            => array(
+            'name'          => __( 'Marcas', 'bruiser-tech-lhparfum' ),
+            'singular_name' => __( 'Marca', 'bruiser-tech-lhparfum' ),
+        ),
+    ) );
 }
 add_action( 'init', 'bruiser_tech_lhparfum_register_taxonomies', 0 );
 

@@ -37,12 +37,12 @@ get_header( 'shop' ); ?>
                 }
             ?>
 
-            <div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'flex flex-col-reverse lg:flex-row gap-16 lg:gap-32 items-center lg:items-start', $product ); ?>>
+            <div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'flex flex-col-reverse lg:flex-row gap-16 lg:gap-24 items-center lg:items-stretch', $product ); ?>>
 
                 <?php $rareza_terms = get_the_terms( $product->get_id(), 'lh_rareza' ); ?>
 
                 <!-- Product Info & Add to Cart (Left Side Now, Right-Aligned on Desktop, Centered on Mobile) -->
-                <div class="w-full lg:w-1/2 flex flex-col items-center text-center lg:items-end lg:text-right pt-8 lg:pt-16 max-w-xl lg:pl-12 mx-auto lg:mx-0">
+                <div class="w-full lg:w-1/2 flex flex-col items-center text-center lg:items-end lg:text-right pt-8 lg:pt-16 max-w-xl lg:pl-12 mx-auto lg:mx-0 justify-between">
 
                     <!-- Delicate Rarity Pill -->
                     <div class="mb-6 flex justify-center lg:justify-end w-full">
@@ -72,8 +72,20 @@ get_header( 'shop' ); ?>
                         ?>
                     </div>
 
+                    <!-- Marca -->
+                    <?php
+                        $marca_terms = get_the_terms( $product->get_id(), 'lh_marca' );
+                        if ( $marca_terms && ! is_wp_error( $marca_terms ) ) {
+                            $term = $marca_terms[0];
+                            $term_link = get_term_link( $term );
+                            echo '<a href="' . esc_url( $term_link ) . '" class="text-xs md:text-sm font-black uppercase tracking-[0.4em] text-[#999999] hover:text-black dark:hover:text-white transition-colors mb-2 w-full">';
+                            echo esc_html( $term->name );
+                            echo '</a>';
+                        }
+                    ?>
+
                     <!-- Title -->
-                    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-2 leading-tight w-full">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-4 leading-tight w-full">
                         <?php the_title(); ?>
                     </h1>
 
@@ -117,15 +129,25 @@ get_header( 'shop' ); ?>
                     <!-- Add to Cart Form with Core WooCommerce Integration -->
                     <?php
                         $btn_glow_class = '';
+                        $btn_color_override = '';
                         if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) {
                             $slug = $rareza_terms[0]->slug;
-                            if ( $slug === 'nicho' ) $btn_glow_class = 'glow-nicho';
-                            elseif ( $slug === 'arabe' ) $btn_glow_class = 'glow-arabe';
-                            elseif ( $slug === 'disenador' ) $btn_glow_class = 'glow-disenador';
-                            else $btn_glow_class = 'glow-accesible';
+                            if ( $slug === 'nicho' ) {
+                                $btn_glow_class = 'glow-nicho';
+                                $btn_color_override = 'btn-bg-nicho';
+                            } elseif ( $slug === 'arabe' ) {
+                                $btn_glow_class = 'glow-arabe';
+                                $btn_color_override = 'btn-bg-arabe';
+                            } elseif ( $slug === 'disenador' ) {
+                                $btn_glow_class = 'glow-disenador';
+                                $btn_color_override = 'btn-bg-disenador';
+                            } else {
+                                $btn_glow_class = 'glow-accesible';
+                                $btn_color_override = 'btn-bg-accesible';
+                            }
                         }
                     ?>
-                    <div class="mb-16 w-full flex justify-center lg:justify-end custom-add-to-cart-wrapper <?php echo esc_attr($btn_glow_class); ?>">
+                    <div class="mb-16 w-full flex justify-center lg:justify-end custom-add-to-cart-wrapper <?php echo esc_attr($btn_glow_class . ' ' . $btn_color_override); ?>">
                         <?php
                             // Force WooCommerce to output the standard add to cart logic (for variables, quantity, etc)
                             // But we will style it via CSS to match the LED aesthetic.
@@ -134,7 +156,7 @@ get_header( 'shop' ); ?>
                     </div>
 
                     <!-- Clean Perks (3 Columns, Centered) -->
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 border-t border-[#eeeeee] dark:border-[#111111] pt-12">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 border-t border-[#eeeeee] dark:border-[#111111] pt-12 w-full justify-items-center">
                         <div class="text-[9px] md:text-[10px] text-[#888888] dark:text-[#777777] font-semibold tracking-widest uppercase flex flex-col items-center text-center space-y-3">
                             <span class="w-10 h-10 rounded-full border border-[#dddddd] dark:border-[#333333] flex items-center justify-center text-black dark:text-white">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
@@ -158,9 +180,10 @@ get_header( 'shop' ); ?>
 
                 </div>
 
-                <!-- Product Image Gallery (Right Side Now, Smaller) -->
-                <div class="w-full lg:w-1/2 flex justify-center lg:justify-start">
-                    <div class="sticky top-32 group relative overflow-visible w-full max-w-md">
+                <!-- Product Image Gallery (Right Side, Stretches to match text height perfectly) -->
+                <div class="w-full lg:w-1/2 flex justify-center lg:justify-start h-auto">
+                    <!-- Added pt-8 lg:pt-16 to align the top of the image perfectly with the top of the text block (the rarity pill) -->
+                    <div class="group relative overflow-visible w-full max-w-md h-full flex flex-col pt-8 lg:pt-16">
 
                         <!-- Rarity LED Glow Behind the Image (Massive ambience effect) -->
                         <?php
@@ -176,12 +199,13 @@ get_header( 'shop' ); ?>
                             echo '<div class="absolute -inset-20 z-0 rounded-full transition-all duration-[2000ms] ' . esc_attr($glow_class) . ' pointer-events-none mix-blend-screen"></div>';
                         ?>
 
-                        <!-- Main Image (Enforced Aspect Ratio) -->
-                        <div class="relative z-10 bg-transparent p-0 transition-transform duration-[1500ms] ease-out group-hover:scale-105 overflow-hidden rounded-sm" style="aspect-ratio: 3/4;">
+                        <!-- Main Image (Stretches to fill the flex container height) -->
+                        <div class="relative z-10 bg-transparent p-0 transition-transform duration-[1500ms] ease-out group-hover:scale-[1.02] overflow-hidden rounded-sm flex-grow w-full h-full min-h-[500px]">
                             <?php
                                 $image_id  = $product->get_image_id();
                                 $image_url = wp_get_attachment_image_url( $image_id, 'full' );
                                 if ( $image_url ) {
+                                    // Use object-cover to allow the image to elegantly fill the dynamically sized container
                                     echo '<img src="' . esc_url( $image_url ) . '" alt="' . esc_attr( $product->get_name() ) . '" class="absolute inset-0 w-full h-full object-cover shadow-none drop-shadow-2xl mix-blend-multiply dark:mix-blend-normal">';
                                 } else {
                                     echo wc_placeholder_img( 'woocommerce_single' );
@@ -190,7 +214,7 @@ get_header( 'shop' ); ?>
                         </div>
 
                         <!-- Mini Thumbnails (Minimalist dots or floating small squares) -->
-                        <div class="absolute -bottom-12 left-1/2 transform -translate-x-1/2 flex space-x-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-20">
+                        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-20">
                            <?php
                            $attachment_ids = $product->get_gallery_image_ids();
                            if ( $attachment_ids ) {
@@ -266,16 +290,35 @@ get_header( 'shop' ); ?>
                                 <?php echo $mini_genero_html; ?>
                                 <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover mix-blend-multiply dark:mix-blend-normal group-hover:scale-105 transition-transform duration-700 ease-in-out' ) ); ?>
                             </a>
-                            <div class="mt-4 flex flex-col justify-between flex-grow w-full px-2 items-center text-center">
-                                <h2 class="text-sm md:text-base font-bold text-black dark:text-white mb-1 tracking-wide whitespace-normal">
+
+                            <?php
+                            // Determine dynamic color for the carousel button
+                            $carousel_btn_color = 'text-gray-900 dark:text-white border-gray-900/30 dark:border-white/30 hover:border-gray-900 dark:hover:border-white';
+                            if ( $mini_rareza_terms && ! is_wp_error( $mini_rareza_terms ) ) {
+                                $c_slug = $mini_rareza_terms[0]->slug;
+                                if ( $c_slug === 'nicho' ) $carousel_btn_color = 'text-yellow-600 dark:text-yellow-400 border-yellow-600/30 dark:border-yellow-400/30 hover:border-yellow-600 dark:hover:border-yellow-400';
+                                elseif ( $c_slug === 'arabe' ) $carousel_btn_color = 'text-purple-600 dark:text-purple-400 border-purple-600/30 dark:border-purple-400/30 hover:border-purple-600 dark:hover:border-purple-400';
+                                elseif ( $c_slug === 'disenador' ) $carousel_btn_color = 'text-blue-600 dark:text-blue-400 border-blue-600/30 dark:border-blue-400/30 hover:border-blue-600 dark:hover:border-blue-400';
+                                else $carousel_btn_color = 'text-emerald-600 dark:text-emerald-400 border-emerald-600/30 dark:border-emerald-400/30 hover:border-emerald-600 dark:hover:border-emerald-400';
+                            }
+                            ?>
+
+                            <div class="mt-2 flex flex-col justify-start w-full px-2 items-center text-center">
+                                <?php
+                                    $c_marca_terms = get_the_terms( $product->get_id(), 'lh_marca' );
+                                    if ( $c_marca_terms && ! is_wp_error( $c_marca_terms ) ) {
+                                        echo '<span class="text-[9px] font-black uppercase tracking-[0.2em] text-[#999999] mb-1">' . esc_html( $c_marca_terms[0]->name ) . '</span>';
+                                    }
+                                ?>
+                                <h2 class="text-sm md:text-base font-bold text-black dark:text-white mb-1 tracking-wide whitespace-normal leading-tight">
                                     <a href="<?php echo esc_url( $link ); ?>" class="hover:underline decoration-2 underline-offset-4">
                                         <?php echo get_the_title(); ?>
                                     </a>
                                 </h2>
-                                <div class="text-xs text-[#666666] dark:text-[#bbbbbb] font-light mb-4">
+                                <div class="text-xs text-[#666666] dark:text-[#bbbbbb] font-light mb-2">
                                     <?php echo $product->get_price_html(); ?>
                                 </div>
-                                <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>" class="text-[9px] font-bold uppercase tracking-[0.2em] text-[#6b21a8] dark:text-[#a855f7] border-b border-[#6b21a8]/30 dark:border-[#a855f7]/30 pb-0.5 hover:border-[#6b21a8] dark:hover:border-[#a855f7] transition-colors whitespace-nowrap">
+                                <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>" class="text-[9px] font-bold uppercase tracking-[0.2em] border-b pb-0.5 transition-colors whitespace-nowrap <?php echo esc_attr($carousel_btn_color); ?>">
                                     Adquirir fragancia
                                 </a>
                             </div>

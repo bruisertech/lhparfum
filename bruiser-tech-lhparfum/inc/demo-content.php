@@ -214,77 +214,84 @@ function lhparfum_ocdi_after_import_setup() {
             if ( ! term_exists( $aroma, 'lh_aroma' ) ) wp_insert_term( $aroma, 'lh_aroma' );
         }
 
+        $marcas = ['Tom Ford', 'Creed', 'Dior', 'Lattafa', 'Zara', 'Maison Francis Kurkdjian'];
+        foreach ( $marcas as $marca ) {
+            if ( ! term_exists( $marca, 'lh_marca' ) ) wp_insert_term( $marca, 'lh_marca' );
+        }
+
         // Crear 10 Productos de Demo
+        // Note: Image URLs changed to a very stable source specifically for demo importing (unsplash source) without redirects,
+        // using highly reliable architecture IDs.
         $demo_products = array(
             array(
                 'title'       => 'Oud Royal',
                 'content'     => 'El lujo embotellado. Un viaje sensorial con auténtico oud de Oriente.',
                 'price'       => '450000',
-                'image_url'   => 'https://picsum.photos/id/1050/600/800.jpg',
-                'rareza'      => 'Árabe', 'genero' => 'Unisex', 'aroma' => 'Oriental'
+                'image_url'   => 'https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=800&auto=format&fit=crop',
+                'rareza'      => 'Árabe', 'genero' => 'Unisex', 'aroma' => 'Oriental', 'marca' => 'Lattafa'
             ),
             array(
                 'title'       => 'Essence de Nuit',
                 'content'     => 'Una fragancia elegante y misteriosa para las noches más especiales.',
                 'price'       => '250000',
-                'image_url'   => 'https://picsum.photos/id/1062/600/800.jpg',
-                'rareza'      => 'Diseñador', 'genero' => 'Mujer', 'aroma' => 'Floral'
+                'image_url'   => 'https://images.unsplash.com/photo-1541643600914-78b084683601?q=80&w=800&auto=format&fit=crop',
+                'rareza'      => 'Diseñador', 'genero' => 'Mujer', 'aroma' => 'Floral', 'marca' => 'Dior'
             ),
             array(
                 'title'       => 'Bois Noir',
                 'content'     => 'Una mezcla profunda y amaderada con notas de sándalo y cedro.',
                 'price'       => '320000',
-                'image_url'   => 'https://picsum.photos/id/111/600/800.jpg',
-                'rareza'      => 'Nicho', 'genero' => 'Hombre', 'aroma' => 'Amaderado'
+                'image_url'   => 'https://images.unsplash.com/photo-1622618991746-fe6004db3a47?q=80&w=800&auto=format&fit=crop',
+                'rareza'      => 'Nicho', 'genero' => 'Hombre', 'aroma' => 'Amaderado', 'marca' => 'Tom Ford'
             ),
             array(
                 'title'       => 'Citrus Paradis',
                 'content'     => 'Fresco, ligero y lleno de energía. Perfecto para el día a día.',
                 'price'       => '180000',
-                'image_url'   => 'https://picsum.photos/id/152/600/800.jpg',
-                'rareza'      => 'Accesible', 'genero' => 'Unisex', 'aroma' => 'Cítrico'
+                'image_url'   => 'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?q=80&w=800&auto=format&fit=crop',
+                'rareza'      => 'Accesible', 'genero' => 'Unisex', 'aroma' => 'Cítrico', 'marca' => 'Zara'
             ),
             array(
                 'title'       => 'Amber Niche',
                 'content'     => 'El nicho definitivo, una resina dorada que atrapa la atención.',
                 'price'       => '550000',
-                'image_url'   => 'https://picsum.photos/id/175/600/800.jpg',
-                'rareza'      => 'Nicho', 'genero' => 'Unisex', 'aroma' => 'Oriental'
+                'image_url'   => 'https://images.unsplash.com/photo-1590736704728-f4730bb30770?q=80&w=800&auto=format&fit=crop',
+                'rareza'      => 'Nicho', 'genero' => 'Unisex', 'aroma' => 'Oriental', 'marca' => 'Maison Francis Kurkdjian'
             ),
             array(
                 'title'       => 'Velvet Rose',
                 'content'     => 'Una rosa profunda y aterciopelada, envuelta en misterio.',
                 'price'       => '290000',
-                'image_url'   => 'https://picsum.photos/id/18/600/800.jpg',
-                'rareza'      => 'Diseñador', 'genero' => 'Mujer', 'aroma' => 'Floral'
+                'image_url'   => 'https://images.unsplash.com/photo-1615397323386-30c144a2b1f8?q=80&w=800&auto=format&fit=crop',
+                'rareza'      => 'Diseñador', 'genero' => 'Mujer', 'aroma' => 'Floral', 'marca' => 'Dior'
             ),
             array(
                 'title'       => 'Habibi Musk',
                 'content'     => 'Almizcle puro con destellos dulces, directo desde Dubai.',
                 'price'       => '120000',
-                'image_url'   => 'https://picsum.photos/id/2/600/800.jpg',
-                'rareza'      => 'Árabe', 'genero' => 'Unisex', 'aroma' => 'Fresco'
+                'image_url'   => 'https://images.unsplash.com/photo-1595425964070-5cb2b5c00e6f?q=80&w=800&auto=format&fit=crop',
+                'rareza'      => 'Árabe', 'genero' => 'Unisex', 'aroma' => 'Fresco', 'marca' => 'Lattafa'
             ),
             array(
                 'title'       => 'Homme Bleu',
                 'content'     => 'Clásico, marino, para el hombre que conquista la ciudad.',
                 'price'       => '380000',
-                'image_url'   => 'https://picsum.photos/id/201/600/800.jpg',
-                'rareza'      => 'Diseñador', 'genero' => 'Hombre', 'aroma' => 'Fresco'
+                'image_url'   => 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?q=80&w=800&auto=format&fit=crop',
+                'rareza'      => 'Diseñador', 'genero' => 'Hombre', 'aroma' => 'Fresco', 'marca' => 'Dior'
             ),
             array(
                 'title'       => 'Santal Eco',
                 'content'     => 'Una alternativa accesible a las maderas más finas.',
                 'price'       => '95000',
-                'image_url'   => 'https://picsum.photos/id/212/600/800.jpg',
-                'rareza'      => 'Accesible', 'genero' => 'Unisex', 'aroma' => 'Amaderado'
+                'image_url'   => 'https://images.unsplash.com/photo-1616401784845-180882ba9ba8?q=80&w=800&auto=format&fit=crop',
+                'rareza'      => 'Accesible', 'genero' => 'Unisex', 'aroma' => 'Amaderado', 'marca' => 'Zara'
             ),
             array(
                 'title'       => 'Sultan Gold',
                 'content'     => 'Especias cálidas y oro líquido.',
                 'price'       => '140000',
-                'image_url'   => 'https://picsum.photos/id/22/600/800.jpg',
-                'rareza'      => 'Árabe', 'genero' => 'Hombre', 'aroma' => 'Oriental'
+                'image_url'   => 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?q=80&w=800&auto=format&fit=crop',
+                'rareza'      => 'Árabe', 'genero' => 'Hombre', 'aroma' => 'Oriental', 'marca' => 'Lattafa'
             )
         );
 
@@ -303,6 +310,7 @@ function lhparfum_ocdi_after_import_setup() {
                     wp_set_object_terms( $post_id, $product_data['rareza'], 'lh_rareza' );
                     wp_set_object_terms( $post_id, $product_data['genero'], 'lh_genero' );
                     wp_set_object_terms( $post_id, $product_data['aroma'], 'lh_aroma' );
+                    wp_set_object_terms( $post_id, $product_data['marca'], 'lh_marca' );
 
                     update_post_meta( $post_id, '_visibility', 'visible' );
                     update_post_meta( $post_id, '_stock_status', 'instock');

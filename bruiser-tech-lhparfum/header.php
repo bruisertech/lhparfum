@@ -100,12 +100,18 @@
             color: #000;
         }
 
+        /* Dynamic Background Color Overrides based on Rarity */
+        .custom-add-to-cart-wrapper.btn-bg-nicho button.single_add_to_cart_button { background: linear-gradient(to right, #fbbf24, #d97706); color: white; }
+        .custom-add-to-cart-wrapper.btn-bg-arabe button.single_add_to_cart_button { background: linear-gradient(to right, #a855f7, #7e22ce); color: white; }
+        .custom-add-to-cart-wrapper.btn-bg-disenador button.single_add_to_cart_button { background: linear-gradient(to right, #60a5fa, #1d4ed8); color: white; }
+        .custom-add-to-cart-wrapper.btn-bg-accesible button.single_add_to_cart_button { background: linear-gradient(to right, #34d399, #047857); color: white; }
+
         .custom-add-to-cart-wrapper button.single_add_to_cart_button:hover {
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             transform: translateY(-2px);
         }
 
-        /* The specific rarity glows injected via JS if we could, but CSS fallback works */
+        /* The specific rarity glows */
         .custom-add-to-cart-wrapper.glow-nicho button.single_add_to_cart_button { animation: pulseGlowGold 3s infinite; }
         .custom-add-to-cart-wrapper.glow-arabe button.single_add_to_cart_button { animation: pulseGlowPurple 3s infinite; }
         .custom-add-to-cart-wrapper.glow-disenador button.single_add_to_cart_button { animation: pulseGlowBlue 3s infinite; }

@@ -97,7 +97,7 @@ function lhparfum_execute_demo_reset() {
     }
 
     // 3. Borrar Taxonomías
-    $taxonomies = array( 'lh_rareza', 'lh_genero', 'lh_aroma' );
+    $taxonomies = array( 'lh_rareza', 'lh_genero', 'lh_aroma', 'lh_marca' );
     foreach ( $taxonomies as $taxonomy ) {
         $terms = get_terms( array( 'taxonomy' => $taxonomy, 'hide_empty' => false ) );
         if ( ! is_wp_error( $terms ) ) {
