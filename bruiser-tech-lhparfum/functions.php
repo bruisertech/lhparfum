@@ -99,6 +99,11 @@ $myUpdateChecker = PucFactory::buildUpdateChecker(
 // Optional: Set the branch that contains the stable release.
 $myUpdateChecker->setBranch('main');
 
+// Set GitHub authentication if a token is defined in wp-config.php (required for private repos)
+if ( defined( 'LH_PARFUM_GITHUB_TOKEN' ) ) {
+    $myUpdateChecker->setAuthentication( LH_PARFUM_GITHUB_TOKEN );
+}
+
 /**
  * Admin Bar Sync Button for Auto-Update
  */
