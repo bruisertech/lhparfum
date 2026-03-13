@@ -68,7 +68,12 @@
                     <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class="block">
                         <?php
                         if ( has_custom_logo() ) {
-                            the_custom_logo();
+                            // Ensure the custom logo doesn't blow up the header
+                            $custom_logo_id = get_theme_mod( 'custom_logo' );
+                            $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );
+                            if ( has_custom_logo() ) {
+                                echo '<img src="' . esc_url( $logo[0] ) . '" alt="' . get_bloginfo( 'name' ) . '" class="h-12 w-auto object-contain">';
+                            }
                         } else {
                             // Default to the generated transparent logos
                             echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-black.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-12 w-auto object-contain block dark:hidden">';
@@ -92,10 +97,10 @@
                     <!-- Fallback if menu not set -->
                     <?php if ( ! has_nav_menu( 'menu-1' ) ) : ?>
                         <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Inicio</a>
-                        <a href="<?php echo esc_url( home_url( '/' ) ); ?>#colecciones" class="text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Colecciones</a>
-                        <a href="<?php echo esc_url( home_url( '/shop/' ) ); ?>" class="text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Tienda</a>
-                        <a href="<?php echo esc_url( home_url( '/' ) ); ?>#sobre-nosotros" class="text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Sobre Nosotros</a>
-                        <a href="<?php echo esc_url( home_url( '/' ) ); ?>#contacto" class="text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Contacto</a>
+                        <a href="<?php echo esc_url( home_url( '/colecciones/' ) ); ?>" class="text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Colecciones</a>
+                        <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/tienda/' ) ); ?>" class="text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Tienda</a>
+                        <a href="<?php echo esc_url( home_url( '/sobre-nosotros/' ) ); ?>" class="text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Sobre Nosotros</a>
+                        <a href="<?php echo esc_url( home_url( '/contacto/' ) ); ?>" class="text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Contacto</a>
                     <?php endif; ?>
                 </nav>
 

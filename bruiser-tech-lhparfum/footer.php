@@ -29,8 +29,7 @@
             <div>
                 <h3 class="text-sm font-semibold tracking-wider uppercase text-gray-400 mb-4">Ayuda</h3>
                 <ul class="space-y-2 text-sm text-gray-300">
-                    <li><a href="#" class="hover:text-white transition-colors">Contáctanos</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Devoluciones</a></li>
+                    <li><a href="<?php echo esc_url( home_url( '/contacto/' ) ); ?>" class="hover:text-white transition-colors">Contáctanos</a></li>
                     <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
                     <li><a href="#" class="hover:text-white transition-colors">Rastrear Pedido</a></li>
                 </ul>
@@ -131,6 +130,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('color-theme', 'dark');
             }
         }
+
+        // Ensure body transitions immediately to prevent visual tearing
+        document.body.classList.add('transition-colors', 'duration-300');
     });
 });
 </script>
