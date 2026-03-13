@@ -220,70 +220,70 @@ function lhparfum_ocdi_after_import_setup() {
                 'title'       => 'Oud Royal',
                 'content'     => 'El lujo embotellado. Un viaje sensorial con auténtico oud de Oriente.',
                 'price'       => '450000',
-                'image_url'   => 'https://images.unsplash.com/photo-1590736704728-f4730bb30770?auto=format&fit=crop&q=80&w=500',
+                'image_url'   => 'https://picsum.photos/id/1050/600/800.jpg',
                 'rareza'      => 'Árabe', 'genero' => 'Unisex', 'aroma' => 'Oriental'
             ),
             array(
                 'title'       => 'Essence de Nuit',
                 'content'     => 'Una fragancia elegante y misteriosa para las noches más especiales.',
                 'price'       => '250000',
-                'image_url'   => 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=500',
+                'image_url'   => 'https://picsum.photos/id/1062/600/800.jpg',
                 'rareza'      => 'Diseñador', 'genero' => 'Mujer', 'aroma' => 'Floral'
             ),
             array(
                 'title'       => 'Bois Noir',
                 'content'     => 'Una mezcla profunda y amaderada con notas de sándalo y cedro.',
                 'price'       => '320000',
-                'image_url'   => 'https://images.unsplash.com/photo-1622618991746-fe6004db3a47?auto=format&fit=crop&q=80&w=500',
+                'image_url'   => 'https://picsum.photos/id/111/600/800.jpg',
                 'rareza'      => 'Nicho', 'genero' => 'Hombre', 'aroma' => 'Amaderado'
             ),
             array(
                 'title'       => 'Citrus Paradis',
                 'content'     => 'Fresco, ligero y lleno de energía. Perfecto para el día a día.',
                 'price'       => '180000',
-                'image_url'   => 'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&q=80&w=500',
+                'image_url'   => 'https://picsum.photos/id/152/600/800.jpg',
                 'rareza'      => 'Accesible', 'genero' => 'Unisex', 'aroma' => 'Cítrico'
             ),
             array(
                 'title'       => 'Amber Niche',
                 'content'     => 'El nicho definitivo, una resina dorada que atrapa la atención.',
                 'price'       => '550000',
-                'image_url'   => 'https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&q=80&w=500',
+                'image_url'   => 'https://picsum.photos/id/175/600/800.jpg',
                 'rareza'      => 'Nicho', 'genero' => 'Unisex', 'aroma' => 'Oriental'
             ),
             array(
                 'title'       => 'Velvet Rose',
                 'content'     => 'Una rosa profunda y aterciopelada, envuelta en misterio.',
                 'price'       => '290000',
-                'image_url'   => 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=500',
+                'image_url'   => 'https://picsum.photos/id/18/600/800.jpg',
                 'rareza'      => 'Diseñador', 'genero' => 'Mujer', 'aroma' => 'Floral'
             ),
             array(
                 'title'       => 'Habibi Musk',
                 'content'     => 'Almizcle puro con destellos dulces, directo desde Dubai.',
                 'price'       => '120000',
-                'image_url'   => 'https://images.unsplash.com/photo-1608528577891-eb0559ec1115?auto=format&fit=crop&q=80&w=500',
+                'image_url'   => 'https://picsum.photos/id/2/600/800.jpg',
                 'rareza'      => 'Árabe', 'genero' => 'Unisex', 'aroma' => 'Fresco'
             ),
             array(
                 'title'       => 'Homme Bleu',
                 'content'     => 'Clásico, marino, para el hombre que conquista la ciudad.',
                 'price'       => '380000',
-                'image_url'   => 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=500',
+                'image_url'   => 'https://picsum.photos/id/201/600/800.jpg',
                 'rareza'      => 'Diseñador', 'genero' => 'Hombre', 'aroma' => 'Fresco'
             ),
             array(
                 'title'       => 'Santal Eco',
                 'content'     => 'Una alternativa accesible a las maderas más finas.',
                 'price'       => '95000',
-                'image_url'   => 'https://images.unsplash.com/photo-1595425964070-5cb2b5c00e6f?auto=format&fit=crop&q=80&w=500',
+                'image_url'   => 'https://picsum.photos/id/212/600/800.jpg',
                 'rareza'      => 'Accesible', 'genero' => 'Unisex', 'aroma' => 'Amaderado'
             ),
             array(
                 'title'       => 'Sultan Gold',
                 'content'     => 'Especias cálidas y oro líquido.',
                 'price'       => '140000',
-                'image_url'   => 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=500',
+                'image_url'   => 'https://picsum.photos/id/22/600/800.jpg',
                 'rareza'      => 'Árabe', 'genero' => 'Hombre', 'aroma' => 'Oriental'
             )
         );
