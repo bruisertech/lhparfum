@@ -24,8 +24,13 @@
                         'pulse-glow-purple': 'pulseGlowPurple 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'pulse-glow-blue': 'pulseGlowBlue 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'pulse-glow-green': 'pulseGlowGreen 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'pulse-glow-white': 'pulseGlowWhite 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
+                        pulseGlowWhite: {
+                            '0%, 100%': { boxShadow: '0 0 5px rgba(255,255,255,0.2)' },
+                            '50%': { boxShadow: '0 0 20px rgba(255,255,255,0.6)' },
+                        },
                         pulseGlowGold: {
                             '0%, 100%': { boxShadow: '0 0 5px #fbbf24, 0 0 10px #fbbf24' },
                             '50%': { boxShadow: '0 0 15px #f59e0b, 0 0 20px #f59e0b' },
