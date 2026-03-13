@@ -60,8 +60,6 @@ add_action( 'after_setup_theme', 'bruiser_tech_lhparfum_setup' );
  */
 function bruiser_tech_lhparfum_scripts() {
     wp_enqueue_style( 'bruiser-tech-lhparfum-style', get_stylesheet_uri(), array(), '1.0.0' );
-    // Add Tailwind CSS via CDN
-    wp_enqueue_script( 'tailwindcss', 'https://cdn.tailwindcss.com', array(), '3.4.1', false );
 }
 add_action( 'wp_enqueue_scripts', 'bruiser_tech_lhparfum_scripts' );
 

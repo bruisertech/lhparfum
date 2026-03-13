@@ -5,7 +5,7 @@
  * This template can be overridden by copying it to yourtheme/woocommerce/cart/cart.php.
  *
  * @package WooCommerce\Templates
- * @version 9.4.0
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;

@@ -8,6 +8,8 @@
     <!-- Load Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+    <!-- Load Tailwind via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
         // Tailwind config for dark mode
         tailwind.config = {
@@ -46,7 +48,7 @@
 
     <!-- Top Banner (Optional, replicating Dossier's style) -->
     <div class="bg-gray-100 dark:bg-gray-800 text-center py-2 text-xs font-medium tracking-wide text-gray-900 dark:text-gray-100">
-        Hasta 20% de descuento + envío GRATIS. <a href="#" class="underline">Comprar ahora</a>
+        Hasta 20% de descuento + envío GRATIS. <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/tienda/' ) ); ?>" class="underline">Comprar ahora</a>
     </div>
 
     <!-- Main Navigation Header -->
