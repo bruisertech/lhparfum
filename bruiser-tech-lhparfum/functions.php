@@ -128,8 +128,12 @@ function lhparfum_handle_force_sync() {
         global $myUpdateChecker;
         if ( isset( $myUpdateChecker ) ) {
             $myUpdateChecker->checkForUpdates();
-            // Redirect back to avoid re-triggering on refresh
-            wp_redirect( admin_url( 'update-core.php?theme_sync_success=1' ) );
+
+            // Force WordPress to clear its update cache
+            delete_site_transient( 'update_themes' );
+
+            // Redirect back with force-check so WP core also refreshes its UI
+            wp_redirect( admin_url( 'update-core.php?force-check=1&theme_sync_success=1' ) );
             exit;
         }
     }
