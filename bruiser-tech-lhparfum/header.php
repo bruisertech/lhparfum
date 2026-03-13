@@ -69,22 +69,22 @@
         .site-header img.custom-logo { max-height: 48px !important; width: auto !important; object-fit: contain; }
 
         /* Force WooCommerce Add to Cart to look like our Luxury Button */
-        .custom-add-to-cart-wrapper form.cart { display: flex; flex-direction: column; gap: 1.5rem; width: 100%; }
+        .custom-add-to-cart-wrapper form.cart { display: flex; flex-direction: column; gap: 1.5rem; width: 100%; max-width: 400px; }
         .custom-add-to-cart-wrapper .quantity { display: flex; align-items: center; border: 1px solid #ddd; padding: 0.5rem 1rem; width: fit-content; }
         .dark .custom-add-to-cart-wrapper .quantity { border-color: #333; }
-        .custom-add-to-cart-wrapper .quantity input { background: transparent; border: none; outline: none; text-align: center; width: 3rem; color: inherit; font-weight: bold; }
+        .custom-add-to-cart-wrapper .quantity input { background: transparent; border: none; outline: none; text-align: center; width: 3rem; color: inherit; font-weight: bold; font-size: 0.875rem; }
 
         .custom-add-to-cart-wrapper button.single_add_to_cart_button {
             width: 100%;
             background-color: #000;
             color: #fff;
-            padding: 1.5rem 2rem;
-            font-size: 0.875rem;
-            font-weight: 900;
+            padding: 1.25rem 2rem;
+            font-size: 0.75rem;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.3em;
-            transition: all 0.5s ease;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            letter-spacing: 0.25em;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             position: relative;
             overflow: hidden;
             border-radius: 2px;

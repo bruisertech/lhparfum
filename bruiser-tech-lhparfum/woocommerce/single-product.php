@@ -87,16 +87,16 @@ get_header( 'shop' ); ?>
                 </div>
 
                 <!-- Product Info & Add to Cart (Clean, Typography Focused) -->
-                <div class="w-full lg:w-1/2 flex flex-col justify-start pt-12 lg:pt-24 max-w-xl">
+                <div class="w-full lg:w-1/2 flex flex-col justify-start pt-8 lg:pt-16 max-w-xl">
 
-                    <!-- Massive Rarity Pill -->
-                    <div class="mb-10">
+                    <!-- Delicate Rarity Pill -->
+                    <div class="mb-6">
                         <?php
                             if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) {
                                 $term = $rareza_terms[0];
                                 $slug = $term->slug;
 
-                                $pill_classes = 'inline-block px-8 py-3 rounded-full text-sm font-black uppercase tracking-[0.3em] text-white transition-all duration-1000 shadow-2xl relative overflow-hidden';
+                                $pill_classes = 'inline-block px-5 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-white transition-all duration-1000 shadow-md relative overflow-hidden';
 
                                 if ( $slug === 'nicho' ) {
                                     $pill_classes .= ' bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 animate-pulse-glow-gold';
@@ -109,7 +109,7 @@ get_header( 'shop' ); ?>
                                 }
 
                                 echo '<span class="' . esc_attr( $pill_classes ) . '">';
-                                echo '<span class="relative z-10 drop-shadow-md">' . esc_html( $term->name ) . '</span>';
+                                echo '<span class="relative z-10">' . esc_html( $term->name ) . '</span>';
                                 echo '<div class="absolute inset-0 bg-white opacity-20 mix-blend-overlay"></div>';
                                 echo '</span>';
                             }
@@ -117,35 +117,35 @@ get_header( 'shop' ); ?>
                     </div>
 
                     <!-- Title -->
-                    <h1 class="text-6xl md:text-8xl font-black text-black dark:text-white tracking-tighter mb-4 leading-[0.9]">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-2 leading-tight">
                         <?php the_title(); ?>
                     </h1>
 
-                    <!-- Aroma (Protagonismo) -->
-                    <div class="mb-12">
+                    <!-- Aroma (Protagonismo Elegante) -->
+                    <div class="mb-8">
                         <?php
                             $aroma_terms = get_the_terms( $product->get_id(), 'lh_aroma' );
                             if ( $aroma_terms && ! is_wp_error( $aroma_terms ) ) {
-                                echo '<span class="text-2xl md:text-3xl font-light italic font-serif text-[#888888] dark:text-[#aaaaaa] tracking-wide block border-b border-[#eeeeee] dark:border-[#222222] pb-6">';
-                                echo 'Aroma: <span class="font-medium text-black dark:text-white not-italic uppercase tracking-[0.2em] text-lg ml-2">' . esc_html( $aroma_terms[0]->name ) . '</span>';
+                                echo '<span class="text-lg md:text-xl font-light italic font-serif text-[#777777] dark:text-[#aaaaaa] tracking-wide block border-b border-[#eeeeee] dark:border-[#222222] pb-4">';
+                                echo 'Familia Olfativa: <span class="font-semibold text-gray-800 dark:text-gray-200 not-italic uppercase tracking-[0.15em] text-sm ml-2">' . esc_html( $aroma_terms[0]->name ) . '</span>';
                                 echo '</span>';
                             }
                         ?>
                     </div>
 
-                    <!-- Price -->
-                    <div class="text-3xl md:text-4xl font-light text-black dark:text-white mb-10 flex items-center">
+                    <!-- Price & Gender -->
+                    <div class="text-2xl md:text-3xl font-light text-gray-900 dark:text-white mb-8 flex items-center">
                         <?php echo $product->get_price_html(); ?>
                         <?php
                             $genero_terms = get_the_terms( $product->get_id(), 'lh_genero' );
                             if ( $genero_terms && ! is_wp_error( $genero_terms ) ) {
-                                echo '<span class="ml-6 text-xs font-semibold text-[#999999] tracking-[0.2em] uppercase border-l border-[#dddddd] dark:border-[#444444] pl-6 py-1">Para ' . esc_html( $genero_terms[0]->name ) . '</span>';
+                                echo '<span class="ml-4 text-[10px] font-medium text-[#888888] tracking-[0.15em] uppercase border-l border-[#dddddd] dark:border-[#444444] pl-4 py-1">Para ' . esc_html( $genero_terms[0]->name ) . '</span>';
                             }
                         ?>
                     </div>
 
                     <!-- Description (Clean & Minimal) -->
-                    <div class="text-lg text-[#666666] dark:text-[#999999] mb-16 leading-loose font-light">
+                    <div class="text-base md:text-lg text-[#555555] dark:text-[#bbbbbb] mb-12 leading-relaxed font-normal">
                         <?php the_content(); ?>
                     </div>
 
