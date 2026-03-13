@@ -13,6 +13,7 @@ function lhparfum_ocdi_import_files() {
     return array(
         array(
             'import_file_name'             => 'LHPARFUM Demo',
+            'local_import_file'            => trailingslashit( get_template_directory() ) . 'ocdi/dummy.xml',
             'import_preview_image_url'     => get_template_directory_uri() . '/screenshot.jpg',
             'import_notice'                => __( 'Después de iniciar la importación, se configurará la página de inicio, se crearán las colecciones y se añadirán 10 productos de prueba con rarezas y categorías.', 'bruiser-tech-lhparfum' ),
             'preview_url'                  => 'https://instagram.com/bruiser.tech',
@@ -319,15 +320,25 @@ function lhparfum_ocdi_after_import_setup() {
                     update_post_meta( $post_id, '_price', $product_data['price'] );
                     update_post_meta( $post_id, '_sku', sanitize_title( $product_data['title'] ) );
 
-                    // Intentar adjuntar imagen (Fallback: requiere sideload que puede fallar en entornos restringidos)
+                    // Intentar adjuntar imagen. Timeout explicitly handled.
                     require_once( ABSPATH . 'wp-admin/includes/file.php' );
                     require_once( ABSPATH . 'wp-admin/includes/media.php' );
                     require_once( ABSPATH . 'wp-admin/includes/image.php' );
 
+                    // Add a filter to increase timeout specifically for demo images on slow hosts
+                    if ( ! function_exists( 'lhparfum_extend_http_timeout' ) ) {
+                        function lhparfum_extend_http_timeout() { return 60; }
+                    }
+                    add_filter( 'http_request_timeout', 'lhparfum_extend_http_timeout' );
+
                     $tmp = download_url( $product_data['image_url'] );
+
+                    remove_filter( 'http_request_timeout', 'lhparfum_extend_http_timeout' );
+
                     if ( ! is_wp_error( $tmp ) ) {
+                        // Dummy image has no extension in url path usually, force .jpg
                         $file_array = array(
-                            'name'     => basename( wp_parse_url( $product_data['image_url'], PHP_URL_PATH ) ) . '.jpg',
+                            'name'     => sanitize_title($product_data['title']) . '.jpg',
                             'tmp_name' => $tmp
                         );
                         $thumb_id = media_handle_sideload( $file_array, $post_id );

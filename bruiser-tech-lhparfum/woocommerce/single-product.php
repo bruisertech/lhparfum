@@ -257,13 +257,15 @@ get_header( 'shop' ); ?>
                 echo '</div>';
                 echo '</div>'; // End Header Flex
 
-                // Carousel Track (CSS Snap Scroll, easily draggable on mobile, arrow click on desktop)
-                echo '<div class="relative w-full -mx-4 px-4 overflow-hidden">';
-                echo '<div id="lh-carousel-track" class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide pb-8" style="scroll-behavior: smooth;">';
+                // CSS Infinite Animation Track (Highly reliable and elegant)
+                echo '<div class="relative w-full overflow-hidden">';
+                echo '<div class="flex whitespace-nowrap animate-slide-left hover:[animation-play-state:paused] pb-8">';
 
-                while ( $related_products->have_posts() ) : $related_products->the_post();
-                    global $product;
-                    $link = get_the_permalink();
+                // We duplicate the loop twice to create the seamless infinite scroll illusion
+                for ($i = 0; $i < 2; $i++) {
+                    while ( $related_products->have_posts() ) : $related_products->the_post();
+                        global $product;
+                        $link = get_the_permalink();
 
                         // Get Mini Rarity Pill
                     $mini_rareza_terms = get_the_terms( $product->get_id(), 'lh_rareza' );
@@ -294,7 +296,7 @@ get_header( 'shop' ); ?>
                         $mini_genero_html = '<span class="absolute bottom-3 left-3 text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-white/90 dark:bg-black/90 text-black dark:text-white z-10 shadow-sm backdrop-blur-sm border border-black/10 dark:border-white/10">Para ' . esc_html( $mini_genero_terms[0]->name ) . '</span>';
                     }
                     ?>
-                        <div class="inline-block flex-none w-64 md:w-80 px-4 snap-start">
+                        <div class="inline-block flex-none w-64 md:w-80 px-4 transition-transform duration-500">
                         <div class="group relative flex flex-col items-center text-center transition duration-300 bg-transparent h-full">
                             <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden relative rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300" style="aspect-ratio: 3/4; font-size: 0; line-height: 0;">
                                 <?php echo $mini_rareza_html; ?>
@@ -349,65 +351,13 @@ get_header( 'shop' ); ?>
                         </div>
                     </div>
                     <?php
-                endwhile;
+                    endwhile;
+                    // Reset post data to loop again for the second set
+                    $related_products->rewind_posts();
+                }
 
                 echo '</div></div></div>'; // End track and wrappers
                 wp_reset_postdata();
-
-                // Inject JS for the carousel arrows and elegant auto-scroll
-                ?>
-                <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        const track = document.getElementById('lh-carousel-track');
-                        const prevBtn = document.getElementById('lh-carousel-prev');
-                        const nextBtn = document.getElementById('lh-carousel-next');
-                        let autoScrollInterval;
-
-                        if(track && prevBtn && nextBtn) {
-                            // Calculate scroll amount based on item width
-                            const getScrollAmount = () => {
-                                const firstItem = track.querySelector('.inline-block');
-                                return firstItem ? firstItem.offsetWidth : 300;
-                            };
-
-                            const startAutoScroll = () => {
-                                stopAutoScroll(); // Clear any existing
-                                autoScrollInterval = setInterval(() => {
-                                    // If we hit the end, elegantly jump back to start
-                                    if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 10) {
-                                        track.scrollTo({ left: 0, behavior: 'smooth' });
-                                    } else {
-                                        track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
-                                    }
-                                }, 3500); // Wait 3.5 seconds before scrolling to the next item
-                            };
-
-                            const stopAutoScroll = () => {
-                                if (autoScrollInterval) clearInterval(autoScrollInterval);
-                            };
-
-                            prevBtn.addEventListener('click', () => {
-                                track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
-                                startAutoScroll(); // reset timer
-                            });
-
-                            nextBtn.addEventListener('click', () => {
-                                track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
-                                startAutoScroll(); // reset timer
-                            });
-
-                            // Pause on hover or touch
-                            track.addEventListener('mouseenter', stopAutoScroll);
-                            track.addEventListener('mouseleave', startAutoScroll);
-                            track.addEventListener('touchstart', stopAutoScroll);
-                            track.addEventListener('touchend', startAutoScroll);
-
-                            // Start initially
-                            startAutoScroll();
-                        }
-                    });
-                </script>
-                <?php
             }
             ?>
 

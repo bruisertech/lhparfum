@@ -140,7 +140,10 @@
             100% { transform: translateX(-50%); }
         }
         .animate-slide-left {
-            animation: slideLeft 40s linear infinite;
+            animation: slideLeft 20s linear infinite;
+        }
+        .animate-slide-left:hover {
+            animation-play-state: paused;
         }
     </style>
 
