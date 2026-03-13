@@ -233,32 +233,37 @@ get_header( 'shop' ); ?>
                 </div>
             </div>
 
-            <!-- Related Products (Infinite Scroll Carousel) -->
+            <!-- Related Products (Interactive JS Carousel with Arrows) -->
             <?php
             $related_args = array(
                 'post_type'      => 'product',
-                'posts_per_page' => 8, // Get enough to fill the scroll
+                'posts_per_page' => 8,
                 'post__not_in'   => array( $product->get_id() ),
-                'orderby'        => 'rand', // Show variety from the store
+                'orderby'        => 'rand',
             );
 
             $related_products = new WP_Query( $related_args );
 
             if ( $related_products->have_posts() ) {
-                echo '<div class="mt-24 lg:mt-32 pt-16 border-t border-[#eeeeee] dark:border-[#222222] w-full overflow-hidden">';
-                echo '<h3 class="text-xs font-black uppercase tracking-[0.3em] text-[#999999] text-center mb-12">Descubre Otras Fragancias Excepcionales</h3>';
+                echo '<div class="mt-24 lg:mt-32 pt-16 border-t border-[#eeeeee] dark:border-[#222222] w-full relative">';
 
-                // We use CSS animations for an elegant infinite scroll effect, pausing on hover
-                echo '<div class="relative w-full flex overflow-hidden group/slider pb-12">';
+                echo '<div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">';
+                echo '<h3 class="text-xs md:text-sm font-black uppercase tracking-[0.3em] text-[#999999]">Descubre Otras Fragancias</h3>';
 
-                // Inner track that moves
-                echo '<div class="flex whitespace-nowrap animate-slide-left hover:[animation-play-state:paused]">';
+                // Elegant Navigation Arrows
+                echo '<div class="flex space-x-4">';
+                echo '<button id="lh-carousel-prev" aria-label="Previous" class="w-10 h-10 rounded-full border border-[#dddddd] dark:border-[#333333] flex items-center justify-center text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors focus:outline-none"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"></path></svg></button>';
+                echo '<button id="lh-carousel-next" aria-label="Next" class="w-10 h-10 rounded-full border border-[#dddddd] dark:border-[#333333] flex items-center justify-center text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors focus:outline-none"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"></path></svg></button>';
+                echo '</div>';
+                echo '</div>'; // End Header Flex
 
-                // We duplicate the loop twice to create the seamless infinite scroll illusion
-                for ($i = 0; $i < 2; $i++) {
-                    while ( $related_products->have_posts() ) : $related_products->the_post();
-                        global $product;
-                        $link = get_the_permalink();
+                // Carousel Track (CSS Snap Scroll, easily draggable on mobile, arrow click on desktop)
+                echo '<div class="relative w-full -mx-4 px-4 overflow-hidden">';
+                echo '<div id="lh-carousel-track" class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide pb-8" style="scroll-behavior: smooth;">';
+
+                while ( $related_products->have_posts() ) : $related_products->the_post();
+                    global $product;
+                    $link = get_the_permalink();
 
                         // Get Mini Rarity Pill
                     $mini_rareza_terms = get_the_terms( $product->get_id(), 'lh_rareza' );
@@ -289,7 +294,7 @@ get_header( 'shop' ); ?>
                         $mini_genero_html = '<span class="absolute bottom-3 left-3 text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-white/90 dark:bg-black/90 text-black dark:text-white z-10 shadow-sm backdrop-blur-sm border border-black/10 dark:border-white/10">Para ' . esc_html( $mini_genero_terms[0]->name ) . '</span>';
                     }
                     ?>
-                        <div class="inline-block flex-none w-64 md:w-80 px-4 transition-transform duration-500">
+                        <div class="inline-block flex-none w-64 md:w-80 px-4 snap-start">
                         <div class="group relative flex flex-col items-center text-center transition duration-300 bg-transparent h-full">
                             <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden relative rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300" style="aspect-ratio: 3/4; font-size: 0; line-height: 0;">
                                 <?php echo $mini_rareza_html; ?>
@@ -309,11 +314,12 @@ get_header( 'shop' ); ?>
                             }
                             ?>
 
-                            <div class="pt-3 flex flex-col justify-start w-full px-1 items-center text-center">
+                            <!-- Tight layout with no padding-top and negative margins to pull text intimately close to the image -->
+                            <div class="flex flex-col justify-start w-full px-1 items-center text-center pt-2">
                                 <?php
                                     $c_marca_terms = get_the_terms( $product->get_id(), 'lh_marca' );
                                     if ( $c_marca_terms && ! is_wp_error( $c_marca_terms ) ) {
-                                        echo '<span class="text-[9px] font-black uppercase tracking-[0.2em] text-[#999999] mb-0.5">' . esc_html( $c_marca_terms[0]->name ) . '</span>';
+                                        echo '<span class="text-[9px] font-black uppercase tracking-[0.2em] text-[#999999] mb-0.5 mt-1">' . esc_html( $c_marca_terms[0]->name ) . '</span>';
                                     }
                                 ?>
                                 <h2 class="text-sm md:text-base font-bold text-black dark:text-white mb-0.5 tracking-wide whitespace-normal leading-tight line-clamp-1">
@@ -343,13 +349,37 @@ get_header( 'shop' ); ?>
                         </div>
                     </div>
                     <?php
-                    endwhile;
-                    // Reset post data to loop again for the second set
-                    $related_products->rewind_posts();
-                }
+                endwhile;
 
-                echo '</div></div></div>';
+                echo '</div></div></div>'; // End track and wrappers
                 wp_reset_postdata();
+
+                // Inject JS for the carousel arrows
+                ?>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const track = document.getElementById('lh-carousel-track');
+                        const prevBtn = document.getElementById('lh-carousel-prev');
+                        const nextBtn = document.getElementById('lh-carousel-next');
+
+                        if(track && prevBtn && nextBtn) {
+                            // Calculate scroll amount based on item width
+                            const getScrollAmount = () => {
+                                const firstItem = track.querySelector('.inline-block');
+                                return firstItem ? firstItem.offsetWidth : 300;
+                            };
+
+                            prevBtn.addEventListener('click', () => {
+                                track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+                            });
+
+                            nextBtn.addEventListener('click', () => {
+                                track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+                            });
+                        }
+                    });
+                </script>
+                <?php
             }
             ?>
 

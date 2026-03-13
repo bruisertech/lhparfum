@@ -220,77 +220,77 @@ function lhparfum_ocdi_after_import_setup() {
         }
 
         // Crear 10 Productos de Demo
-        // Note: Using highly reliable source.unsplash.com random endpoints with specific keywords
-        // to guarantee high-quality aesthetic perfume bottles every time it imports, formatted to portrait.
+        // Note: `source.unsplash.com` was deprecated. I am explicitly using static raw image URLs from Unsplash
+        // with specific photo IDs, sized exactly to 800x1066 via query params to guarantee they download properly.
         $demo_products = array(
             array(
                 'title'       => 'Oud Royal',
                 'content'     => 'El lujo embotellado. Un viaje sensorial con auténtico oud de Oriente.',
                 'price'       => '450000',
-                'image_url'   => 'https://source.unsplash.com/800x1066/?luxury,perfume,oud',
+                'image_url'   => 'https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=800&h=1066&fit=crop',
                 'rareza'      => 'Árabe', 'genero' => 'Unisex', 'aroma' => 'Oriental', 'marca' => 'Lattafa'
             ),
             array(
                 'title'       => 'Essence de Nuit',
                 'content'     => 'Una fragancia elegante y misteriosa para las noches más especiales.',
                 'price'       => '250000',
-                'image_url'   => 'https://source.unsplash.com/800x1066/?chanel,perfume,dark',
+                'image_url'   => 'https://images.unsplash.com/photo-1541643600914-78b084683601?q=80&w=800&h=1066&fit=crop',
                 'rareza'      => 'Diseñador', 'genero' => 'Mujer', 'aroma' => 'Floral', 'marca' => 'Dior'
             ),
             array(
                 'title'       => 'Bois Noir',
                 'content'     => 'Una mezcla profunda y amaderada con notas de sándalo y cedro.',
                 'price'       => '320000',
-                'image_url'   => 'https://source.unsplash.com/800x1066/?cologne,wood,black',
+                'image_url'   => 'https://images.unsplash.com/photo-1622618991746-fe6004db3a47?q=80&w=800&h=1066&fit=crop',
                 'rareza'      => 'Nicho', 'genero' => 'Hombre', 'aroma' => 'Amaderado', 'marca' => 'Tom Ford'
             ),
             array(
                 'title'       => 'Citrus Paradis',
                 'content'     => 'Fresco, ligero y lleno de energía. Perfecto para el día a día.',
                 'price'       => '180000',
-                'image_url'   => 'https://source.unsplash.com/800x1066/?perfume,citrus,bright',
+                'image_url'   => 'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?q=80&w=800&h=1066&fit=crop',
                 'rareza'      => 'Accesible', 'genero' => 'Unisex', 'aroma' => 'Cítrico', 'marca' => 'Zara'
             ),
             array(
                 'title'       => 'Amber Niche',
                 'content'     => 'El nicho definitivo, una resina dorada que atrapa la atención.',
                 'price'       => '550000',
-                'image_url'   => 'https://source.unsplash.com/800x1066/?perfume,gold,amber',
+                'image_url'   => 'https://images.unsplash.com/photo-1590736704728-f4730bb30770?q=80&w=800&h=1066&fit=crop',
                 'rareza'      => 'Nicho', 'genero' => 'Unisex', 'aroma' => 'Oriental', 'marca' => 'Maison Francis Kurkdjian'
             ),
             array(
                 'title'       => 'Velvet Rose',
                 'content'     => 'Una rosa profunda y aterciopelada, envuelta en misterio.',
                 'price'       => '290000',
-                'image_url'   => 'https://source.unsplash.com/800x1066/?perfume,rose,velvet',
+                'image_url'   => 'https://images.unsplash.com/photo-1615397323386-30c144a2b1f8?q=80&w=800&h=1066&fit=crop',
                 'rareza'      => 'Diseñador', 'genero' => 'Mujer', 'aroma' => 'Floral', 'marca' => 'Dior'
             ),
             array(
                 'title'       => 'Habibi Musk',
                 'content'     => 'Almizcle puro con destellos dulces, directo desde Dubai.',
                 'price'       => '120000',
-                'image_url'   => 'https://source.unsplash.com/800x1066/?perfume,musk,arabic',
+                'image_url'   => 'https://images.unsplash.com/photo-1595425964070-5cb2b5c00e6f?q=80&w=800&h=1066&fit=crop',
                 'rareza'      => 'Árabe', 'genero' => 'Unisex', 'aroma' => 'Fresco', 'marca' => 'Lattafa'
             ),
             array(
                 'title'       => 'Homme Bleu',
                 'content'     => 'Clásico, marino, para el hombre que conquista la ciudad.',
                 'price'       => '380000',
-                'image_url'   => 'https://source.unsplash.com/800x1066/?cologne,blue,ocean',
+                'image_url'   => 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?q=80&w=800&h=1066&fit=crop',
                 'rareza'      => 'Diseñador', 'genero' => 'Hombre', 'aroma' => 'Fresco', 'marca' => 'Dior'
             ),
             array(
                 'title'       => 'Santal Eco',
                 'content'     => 'Una alternativa accesible a las maderas más finas.',
                 'price'       => '95000',
-                'image_url'   => 'https://source.unsplash.com/800x1066/?perfume,minimalist,sandalwood',
+                'image_url'   => 'https://images.unsplash.com/photo-1616401784845-180882ba9ba8?q=80&w=800&h=1066&fit=crop',
                 'rareza'      => 'Accesible', 'genero' => 'Unisex', 'aroma' => 'Amaderado', 'marca' => 'Zara'
             ),
             array(
                 'title'       => 'Sultan Gold',
                 'content'     => 'Especias cálidas y oro líquido.',
                 'price'       => '140000',
-                'image_url'   => 'https://source.unsplash.com/800x1066/?perfume,sultan,luxury',
+                'image_url'   => 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?q=80&w=800&h=1066&fit=crop',
                 'rareza'      => 'Árabe', 'genero' => 'Hombre', 'aroma' => 'Oriental', 'marca' => 'Lattafa'
             )
         );
