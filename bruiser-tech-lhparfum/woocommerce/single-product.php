@@ -37,57 +37,12 @@ get_header( 'shop' ); ?>
                 }
             ?>
 
-            <div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'flex flex-col lg:flex-row gap-16 lg:gap-32 items-center lg:items-start', $product ); ?>>
+            <div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'flex flex-col-reverse lg:flex-row gap-16 lg:gap-32 items-center lg:items-start', $product ); ?>>
 
-                <!-- Product Image Gallery (The Protagonist) -->
-                <div class="w-full lg:w-1/2 flex justify-center lg:justify-end">
-                    <div class="sticky top-32 group relative overflow-visible w-full max-w-lg">
+                <?php $rareza_terms = get_the_terms( $product->get_id(), 'lh_rareza' ); ?>
 
-                        <!-- Rarity LED Glow Behind the Image (Massive ambience effect) -->
-                        <?php
-                            $rareza_terms = get_the_terms( $product->get_id(), 'lh_rareza' );
-                            $glow_class = 'bg-white dark:bg-black'; // Default soft
-                            if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) {
-                                $slug = $rareza_terms[0]->slug;
-                                if ( $slug === 'nicho' ) $glow_class = 'bg-yellow-400 opacity-20 dark:opacity-10 animate-pulse-glow-gold blur-3xl';
-                                elseif ( $slug === 'arabe' ) $glow_class = 'bg-purple-600 opacity-20 dark:opacity-10 animate-pulse-glow-purple blur-3xl';
-                                elseif ( $slug === 'disenador' ) $glow_class = 'bg-blue-500 opacity-20 dark:opacity-10 animate-pulse-glow-blue blur-3xl';
-                                else $glow_class = 'bg-green-500 opacity-20 dark:opacity-10 animate-pulse-glow-green blur-3xl';
-                            }
-                            echo '<div class="absolute -inset-10 z-0 rounded-full transition-all duration-[2000ms] ' . esc_attr($glow_class) . ' pointer-events-none"></div>';
-                        ?>
-
-                        <!-- Main Image (Enforced Aspect Ratio) -->
-                        <div class="relative z-10 bg-transparent p-0 transition-transform duration-[1500ms] ease-out group-hover:scale-105 overflow-hidden rounded-sm" style="aspect-ratio: 3/4;">
-                            <?php
-                                $image_id  = $product->get_image_id();
-                                $image_url = wp_get_attachment_image_url( $image_id, 'full' );
-                                if ( $image_url ) {
-                                    echo '<img src="' . esc_url( $image_url ) . '" alt="' . esc_attr( $product->get_name() ) . '" class="absolute inset-0 w-full h-full object-cover shadow-none drop-shadow-2xl mix-blend-multiply dark:mix-blend-normal">';
-                                } else {
-                                    echo wc_placeholder_img( 'woocommerce_single' );
-                                }
-                            ?>
-                        </div>
-
-                        <!-- Mini Thumbnails (Minimalist dots or floating small squares) -->
-                        <div class="absolute -bottom-12 left-1/2 transform -translate-x-1/2 flex space-x-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-20">
-                           <?php
-                           $attachment_ids = $product->get_gallery_image_ids();
-                           if ( $attachment_ids ) {
-                               foreach ( $attachment_ids as $attachment_id ) {
-                                   echo '<div class="w-16 h-16 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-sm overflow-hidden flex-shrink-0 cursor-pointer hover:border-black dark:hover:border-white transition-all duration-300 shadow-lg">';
-                                   echo wp_get_attachment_image( $attachment_id, 'thumbnail', false, array( 'class' => 'w-full h-full object-cover mix-blend-multiply dark:mix-blend-normal' ) );
-                                   echo '</div>';
-                               }
-                           }
-                           ?>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Info & Add to Cart (Clean, Typography Focused) -->
-                <div class="w-full lg:w-1/2 flex flex-col justify-start pt-8 lg:pt-16 max-w-xl">
+                <!-- Product Info & Add to Cart (Left Side Now) -->
+                <div class="w-full lg:w-1/2 flex flex-col justify-start pt-8 lg:pt-16 max-w-xl lg:pl-12">
 
                     <!-- Delicate Rarity Pill -->
                     <div class="mb-6">
@@ -178,23 +133,77 @@ get_header( 'shop' ); ?>
                         ?>
                     </div>
 
-                    <!-- Clean Perks -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-[#eeeeee] dark:border-[#111111] pt-12">
-                        <div class="text-[10px] md:text-xs text-[#888888] dark:text-[#777777] font-semibold tracking-widest uppercase flex flex-col space-y-3">
+                    <!-- Clean Perks (3 Columns, Centered) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 border-t border-[#eeeeee] dark:border-[#111111] pt-12">
+                        <div class="text-[9px] md:text-[10px] text-[#888888] dark:text-[#777777] font-semibold tracking-widest uppercase flex flex-col items-center text-center space-y-3">
                             <span class="w-10 h-10 rounded-full border border-[#dddddd] dark:border-[#333333] flex items-center justify-center text-black dark:text-white">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
                             </span>
-                            Fragancia verificada por LH originals<br><span class="text-[9px] text-[#aaaaaa] mt-1">Perfume genuino y original</span>
+                            <span>Fragancia verificada por LH originals<br><span class="text-[8px] text-[#aaaaaa] mt-1 block">Perfume genuino y original</span></span>
                         </div>
-                        <div class="text-[10px] md:text-xs text-[#888888] dark:text-[#777777] font-semibold tracking-widest uppercase flex flex-col space-y-3">
+                        <div class="text-[9px] md:text-[10px] text-[#888888] dark:text-[#777777] font-semibold tracking-widest uppercase flex flex-col items-center text-center space-y-3">
                             <span class="w-10 h-10 rounded-full border border-[#dddddd] dark:border-[#333333] flex items-center justify-center text-black dark:text-white">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </span>
-                            Cruelty Free
+                            <span>Cruelty Free</span>
+                        </div>
+                        <div class="text-[9px] md:text-[10px] text-[#888888] dark:text-[#777777] font-semibold tracking-widest uppercase flex flex-col items-center text-center space-y-3">
+                            <span class="w-10 h-10 rounded-full border border-[#dddddd] dark:border-[#333333] flex items-center justify-center text-black dark:text-white">
+                                <!-- Temperature / Snowflake Icon for storage -->
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 13l4 4L19 7"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 2v20M17 5l-5 5-5-5m10 14l-5-5-5 5" opacity="0.3"></path></svg>
+                            </span>
+                            <span>Almacenado en ambiente adecuado<br><span class="text-[8px] text-[#aaaaaa] mt-1 block">LH Integrity</span></span>
                         </div>
                     </div>
 
                 </div>
+
+                <!-- Product Image Gallery (Right Side Now, Smaller) -->
+                <div class="w-full lg:w-1/2 flex justify-center lg:justify-start">
+                    <div class="sticky top-32 group relative overflow-visible w-full max-w-md">
+
+                        <!-- Rarity LED Glow Behind the Image (Massive ambience effect) -->
+                        <?php
+                            $glow_class = 'bg-white dark:bg-black'; // Default soft
+                            if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) {
+                                $slug = $rareza_terms[0]->slug;
+                                if ( $slug === 'nicho' ) $glow_class = 'bg-yellow-400 opacity-20 dark:opacity-10 animate-pulse-glow-gold blur-3xl';
+                                elseif ( $slug === 'arabe' ) $glow_class = 'bg-purple-600 opacity-20 dark:opacity-10 animate-pulse-glow-purple blur-3xl';
+                                elseif ( $slug === 'disenador' ) $glow_class = 'bg-blue-500 opacity-20 dark:opacity-10 animate-pulse-glow-blue blur-3xl';
+                                else $glow_class = 'bg-green-500 opacity-20 dark:opacity-10 animate-pulse-glow-green blur-3xl';
+                            }
+                            echo '<div class="absolute -inset-10 z-0 rounded-full transition-all duration-[2000ms] ' . esc_attr($glow_class) . ' pointer-events-none"></div>';
+                        ?>
+
+                        <!-- Main Image (Enforced Aspect Ratio) -->
+                        <div class="relative z-10 bg-transparent p-0 transition-transform duration-[1500ms] ease-out group-hover:scale-105 overflow-hidden rounded-sm" style="aspect-ratio: 3/4;">
+                            <?php
+                                $image_id  = $product->get_image_id();
+                                $image_url = wp_get_attachment_image_url( $image_id, 'full' );
+                                if ( $image_url ) {
+                                    echo '<img src="' . esc_url( $image_url ) . '" alt="' . esc_attr( $product->get_name() ) . '" class="absolute inset-0 w-full h-full object-cover shadow-none drop-shadow-2xl mix-blend-multiply dark:mix-blend-normal">';
+                                } else {
+                                    echo wc_placeholder_img( 'woocommerce_single' );
+                                }
+                            ?>
+                        </div>
+
+                        <!-- Mini Thumbnails (Minimalist dots or floating small squares) -->
+                        <div class="absolute -bottom-12 left-1/2 transform -translate-x-1/2 flex space-x-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-20">
+                           <?php
+                           $attachment_ids = $product->get_gallery_image_ids();
+                           if ( $attachment_ids ) {
+                               foreach ( $attachment_ids as $attachment_id ) {
+                                   echo '<div class="w-16 h-16 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-sm overflow-hidden flex-shrink-0 cursor-pointer hover:border-black dark:hover:border-white transition-all duration-300 shadow-lg">';
+                                   echo wp_get_attachment_image( $attachment_id, 'thumbnail', false, array( 'class' => 'w-full h-full object-cover mix-blend-multiply dark:mix-blend-normal' ) );
+                                   echo '</div>';
+                               }
+                           }
+                           ?>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <!-- Related Products (Infinite Scroll Carousel) -->
@@ -231,7 +240,7 @@ get_header( 'shop' ); ?>
                             $m_term = $mini_rareza_terms[0];
                             $m_slug = $m_term->slug;
 
-                            $m_pill_classes = 'absolute top-3 right-3 text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full text-white z-10 transition-all duration-300 shadow-md';
+                            $m_pill_classes = 'absolute top-3 right-3 text-[8px] font-black uppercase tracking-widest px-3 py-1 rounded-full text-white z-10 transition-all duration-300 shadow-md';
 
                             if ( $m_slug === 'nicho' ) {
                                 $m_pill_classes .= ' bg-gradient-to-r from-yellow-400 to-yellow-600 animate-pulse-glow-gold';
@@ -245,23 +254,33 @@ get_header( 'shop' ); ?>
 
                             $mini_rareza_html = '<span class="' . esc_attr( $m_pill_classes ) . '">' . esc_html( $m_term->name ) . '</span>';
                         }
+
+                        // Get Mini Gender Tag
+                        $mini_genero_terms = get_the_terms( $product->get_id(), 'lh_genero' );
+                        $mini_genero_html = '';
+                        if ( $mini_genero_terms && ! is_wp_error( $mini_genero_terms ) ) {
+                            $mini_genero_html = '<span class="absolute bottom-3 left-3 text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-white/90 dark:bg-black/90 text-black dark:text-white z-10 shadow-sm backdrop-blur-sm border border-black/10 dark:border-white/10">Para ' . esc_html( $mini_genero_terms[0]->name ) . '</span>';
+                        }
                         ?>
                         <div class="inline-block w-64 md:w-80 px-4 transition-transform duration-500">
                             <div class="group relative flex flex-col items-center text-center transition duration-300 bg-transparent h-full">
                                 <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden bg-transparent relative rounded-sm shadow-none group-hover:shadow-lg transition-shadow duration-300" style="aspect-ratio: 3/4;">
                                     <?php echo $mini_rareza_html; ?>
+                                    <?php echo $mini_genero_html; ?>
                                     <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover mix-blend-multiply dark:mix-blend-normal group-hover:scale-105 transition-transform duration-700 ease-in-out' ) ); ?>
-                                    <!-- Fix for black border glitch: remove absolute inset overlay that was causing artifacting -->
                                 </a>
-                                <div class="mt-6 flex flex-col justify-between flex-grow w-full px-2 items-center text-center">
-                                    <h2 class="text-sm md:text-base font-bold text-black dark:text-white mb-2 tracking-wide whitespace-normal">
+                                <div class="mt-3 flex flex-col justify-between flex-grow w-full px-2 items-center text-center">
+                                    <h2 class="text-sm md:text-base font-bold text-black dark:text-white mb-1 tracking-wide whitespace-normal">
                                         <a href="<?php echo esc_url( $link ); ?>" class="hover:underline decoration-2 underline-offset-4">
                                             <?php echo get_the_title(); ?>
                                         </a>
                                     </h2>
-                                    <div class="text-xs text-[#666666] dark:text-[#bbbbbb] font-light">
+                                    <div class="text-xs text-[#666666] dark:text-[#bbbbbb] font-light mb-3">
                                         <?php echo $product->get_price_html(); ?>
                                     </div>
+                                    <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>" class="text-[9px] font-bold uppercase tracking-[0.2em] text-[#6b21a8] dark:text-[#a855f7] border-b border-[#6b21a8]/30 dark:border-[#a855f7]/30 pb-0.5 hover:border-[#6b21a8] dark:hover:border-[#a855f7] transition-colors whitespace-nowrap">
+                                        Adquirir fragancia
+                                    </a>
                                 </div>
                             </div>
                         </div>
