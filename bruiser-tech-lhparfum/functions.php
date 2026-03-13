@@ -96,6 +96,9 @@ $myUpdateChecker = PucFactory::buildUpdateChecker(
     1 // Check exactly every 1 hour as requested
 );
 
+// Optional: Set the branch that contains the stable release.
+$myUpdateChecker->setBranch('main');
+
 /**
  * Admin Bar Sync Button for Auto-Update
  */
