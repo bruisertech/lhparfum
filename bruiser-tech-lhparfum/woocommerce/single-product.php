@@ -257,9 +257,9 @@ get_header( 'shop' ); ?>
                 echo '</div>';
                 echo '</div>'; // End Header Flex
 
-                // Reimagined smooth scrolling carousel track.
-                echo '<div class="relative w-full overflow-hidden cursor-grab active:cursor-grabbing pb-8 select-none" id="lh-carousel-container">';
-                echo '<div id="lh-carousel-track" class="flex flex-nowrap gap-4 transition-transform duration-0 ease-linear">';
+                // Reimagined smooth scrolling carousel using Swiper.js for robustness
+                echo '<div class="swiper lh-related-swiper w-full relative pb-12 cursor-grab active:cursor-grabbing">';
+                echo '<div class="swiper-wrapper">';
 
                 while ( $related_products->have_posts() ) : $related_products->the_post();
                     global $product;
@@ -284,9 +284,9 @@ get_header( 'shop' ); ?>
 
                     $formatted_taxonomies = implode(' &bull; ', $tax_string);
                     ?>
-                    <!-- Reimagined card, fixed width to keep scroll consistent -->
-                    <div class="inline-block flex-none w-[70vw] sm:w-[280px] md:w-[320px] lh-carousel-item" draggable="false">
-                        <div class="group relative flex flex-col items-center text-center transition duration-300 bg-transparent h-full">
+                    <!-- Reimagined card as a Swiper Slide -->
+                    <div class="swiper-slide !w-[70vw] sm:!w-[280px] md:!w-[320px] box-border">
+                        <div class="group relative flex flex-col items-center text-center transition duration-300 bg-transparent h-full px-2">
                             <!-- Image without pills, completely clean -->
                             <a href="<?php echo esc_url( $link ); ?>" draggable="false" class="block w-full overflow-hidden relative rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300 mb-3" style="aspect-ratio: 3/4; font-size: 0; line-height: 0;">
                                 <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out block m-0 p-0' ) ); ?>
@@ -329,189 +329,59 @@ get_header( 'shop' ); ?>
                     <?php
                 endwhile;
 
-                echo '</div></div></div></div>'; // End track and wrappers
+                echo '</div></div></div>'; // End track and wrappers
                 wp_reset_postdata();
 
-                // Reimagined JS: requestAnimationFrame smooth scrolling, hover slowdown, drag/swipe controls
+                // Load Swiper CSS/JS dynamically for this template, plus robust, elegant setup
                 ?>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+                <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
-                        const container = document.getElementById('lh-carousel-container');
-                        const track = document.getElementById('lh-carousel-track');
-                        const prevBtn = document.getElementById('lh-carousel-prev');
-                        const nextBtn = document.getElementById('lh-carousel-next');
+                        const swiperElement = document.querySelector('.lh-related-swiper');
+                        if (!swiperElement) return;
 
-                        if(!track || !container) return;
+                        // Initialize Swiper
+                        const swiper = new Swiper('.lh-related-swiper', {
+                            // Core parameters
+                            direction: 'horizontal',
+                            loop: true,
+                            speed: 800, // Smooth snapping speed
+                            slidesPerView: 'auto',
+                            spaceBetween: 16, // Matching the gap
+                            grabCursor: true,
 
-                        // Configuration
-                        let speed = 0.5; // Normal auto-scroll speed
-                        const hoverSpeed = 0.1; // Slow down on hover
-                        let currentSpeed = speed;
-                        let position = 0;
-                        let animationId = null;
-                        let jumpTimeoutId = null; // Store timeout ID for jumping
+                            // Autoplay that pauses on hover so users can click 'Adquirir' easily
+                            autoplay: {
+                                delay: 3000,
+                                disableOnInteraction: false,
+                                pauseOnMouseEnter: true,
+                            },
 
-                        // Dragging state
-                        let isDragging = false;
-                        let startX = 0;
-                        let currentTranslate = 0;
-                        let prevTranslate = 0;
-                        let draggedDistance = 0;
+                            // Navigation arrows
+                            navigation: {
+                                nextEl: '#lh-carousel-next',
+                                prevEl: '#lh-carousel-prev',
+                            },
+                        });
 
-                        // Calculate bounds to avoid scrolling infinitely past limits
-                        let maxScroll = 0;
-
-                        const updateBounds = () => {
-                            // Calculate total width of all items + gaps minus container width
-                            const containerWidth = container.offsetWidth;
-                            const trackWidth = track.scrollWidth;
-                            maxScroll = Math.max(0, trackWidth - containerWidth);
-                        };
-
-                        // Initial setup
-                        updateBounds();
-                        window.addEventListener('resize', updateBounds);
-
-                        // Prevent anchor clicks if we are dragging
-                        const items = track.querySelectorAll('a');
-                        items.forEach(item => {
-                            item.addEventListener('click', (e) => {
-                                if (Math.abs(draggedDistance) > 5) {
+                        // Prevent click jumping during drags for anchors
+                        const links = swiperElement.querySelectorAll('a');
+                        links.forEach(link => {
+                            link.addEventListener('click', function(e) {
+                                if (swiperElement.classList.contains('swiper-button-disabled')) return; // let swiper handle
+                                if (swiper.animating || Math.abs(swiper.translate - swiper.previousTranslate) > 5) {
                                     e.preventDefault();
                                 }
                             });
                         });
-
-                        // 1. Continuous Auto-Scroll Loop
-                        const scrollLoop = () => {
-                            if (!isDragging) {
-                                position += currentSpeed;
-
-                                // Reset if reached the end (or bounce if preferred, here we just stop at ends like normal)
-                                // We'll make it reverse direction if it hits ends, to be elegant.
-                                if (position >= maxScroll) {
-                                    position = maxScroll;
-                                    currentSpeed = -Math.abs(currentSpeed); // reverse
-                                } else if (position <= 0) {
-                                    position = 0;
-                                    currentSpeed = Math.abs(currentSpeed); // forward
-                                }
-
-                                track.style.transform = `translateX(-${position}px)`;
-                                prevTranslate = -position;
-                            }
-                            animationId = requestAnimationFrame(scrollLoop);
-                        };
-
-                        // Start animation
-                        animationId = requestAnimationFrame(scrollLoop);
-
-                        // 2. Hover Interaction: Slow down gracefully
-                        container.addEventListener('mouseenter', () => {
-                            if (!isDragging) {
-                                currentSpeed = Math.sign(currentSpeed) * hoverSpeed;
-                            }
-                        });
-
-                        container.addEventListener('mouseleave', () => {
-                            if (!isDragging) {
-                                currentSpeed = Math.sign(currentSpeed) * speed;
-                            }
-                        });
-
-                        // 3. Mouse / Touch Dragging
-                        const dragStart = (e) => {
-                            isDragging = true;
-                            container.classList.add('cursor-grabbing');
-                            startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-                            draggedDistance = 0;
-                            // Ensure currentTranslate matches the actual position when drag starts
-                            currentTranslate = -position;
-                            prevTranslate = currentTranslate;
-                            cancelAnimationFrame(animationId);
-                            if (jumpTimeoutId) clearTimeout(jumpTimeoutId);
-                        };
-
-                        const dragAction = (e) => {
-                            if (!isDragging) return;
-                            const x = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-                            const walk = x - startX;
-                            draggedDistance = walk;
-                            currentTranslate = prevTranslate + walk;
-
-                            // Visual constraint (optional rubber band effect, simplified here)
-                            if (currentTranslate > 0) currentTranslate = 0;
-                            if (currentTranslate < -maxScroll) currentTranslate = -maxScroll;
-
-                            track.style.transform = `translateX(${currentTranslate}px)`;
-                        };
-
-                        const dragEnd = () => {
-                            isDragging = false;
-                            container.classList.remove('cursor-grabbing');
-
-                            prevTranslate = currentTranslate;
-                            position = -prevTranslate;
-
-                            // Resume animation
-                            animationId = requestAnimationFrame(scrollLoop);
-                        };
-
-                        // Event Listeners for Drag
-                        container.addEventListener('mousedown', dragStart);
-                        container.addEventListener('touchstart', dragStart, {passive: true});
-
-                        container.addEventListener('mousemove', dragAction);
-                        container.addEventListener('touchmove', dragAction, {passive: true});
-
-                        container.addEventListener('mouseup', dragEnd);
-                        container.addEventListener('mouseleave', () => { if(isDragging) dragEnd(); });
-                        container.addEventListener('touchend', dragEnd);
-
-                        // 4. Arrow Controls (Smooth snap to next/prev item distance)
-                        if (prevBtn && nextBtn) {
-                            const getJumpDistance = () => {
-                                const item = track.querySelector('.lh-carousel-item');
-                                return item ? item.offsetWidth + 16 : 300; // width + gap
-                            };
-
-                            const jumpTo = (distance) => {
-                                // Pause animation briefly
-                                cancelAnimationFrame(animationId);
-                                if (jumpTimeoutId) clearTimeout(jumpTimeoutId);
-
-                                position += distance;
-
-                                // Clamp
-                                if (position > maxScroll) position = maxScroll;
-                                if (position < 0) position = 0;
-
-                                // Use CSS transition for the jump
-                                track.style.transition = 'transform 0.4s ease-out';
-                                track.style.transform = `translateX(-${position}px)`;
-                                prevTranslate = -position;
-
-                                // Remove transition and resume auto scroll
-                                jumpTimeoutId = setTimeout(() => {
-                                    track.style.transition = 'none';
-                                    animationId = requestAnimationFrame(scrollLoop);
-                                }, 400);
-                            };
-
-                            prevBtn.addEventListener('click', (e) => {
-                                e.preventDefault();
-                                currentSpeed = -Math.abs(speed); // Make auto-scroll go left after clicking prev
-                                jumpTo(-getJumpDistance());
-                            });
-
-                            nextBtn.addEventListener('click', (e) => {
-                                e.preventDefault();
-                                currentSpeed = Math.abs(speed); // Make auto-scroll go right after clicking next
-                                jumpTo(getJumpDistance());
-                            });
-                        }
                     });
                 </script>
+                <style>
+                    /* Ensure Swiper doesn't cut off our hover effects / drop shadows */
+                    .lh-related-swiper { overflow: visible !important; clip-path: inset(-100px -100px -100px -100px); }
+                    .lh-related-swiper .swiper-slide { height: auto; display: flex; }
+                </style>
                 <?php
             }
             ?>
