@@ -104,6 +104,15 @@ if ( defined( 'LH_PARFUM_GITHUB_TOKEN' ) ) {
     $myUpdateChecker->setAuthentication( LH_PARFUM_GITHUB_TOKEN );
 }
 
+// Force PUC to strictly use the branch contents instead of looking for Releases/Tags
+add_filter( $myUpdateChecker->getUniqueName('vcs_update_detection_strategies'), function( $strategies ) {
+    // Keep only the STRATEGY_BRANCH strategy
+    if ( isset( $strategies['branch'] ) ) {
+        return array( 'branch' => $strategies['branch'] );
+    }
+    return $strategies;
+} );
+
 /**
  * Admin Bar Sync Button for Auto-Update
  */
