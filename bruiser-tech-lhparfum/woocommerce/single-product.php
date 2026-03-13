@@ -42,7 +42,7 @@ get_header( 'shop' ); ?>
                 <?php $rareza_terms = get_the_terms( $product->get_id(), 'lh_rareza' ); ?>
 
                 <!-- Product Info & Add to Cart (Left Side Now, Right-Aligned on Desktop, Centered on Mobile) -->
-                <div class="w-full lg:w-1/2 flex flex-col items-center text-center lg:items-end lg:text-right pt-8 lg:pt-16 max-w-xl lg:pl-12 mx-auto lg:mx-0 justify-between">
+                <div class="w-full lg:w-1/2 flex flex-col items-center text-center lg:items-end lg:text-right pt-8 lg:pt-32 max-w-xl lg:pl-12 mx-auto lg:mx-0">
 
                     <!-- Delicate Rarity Pill -->
                     <div class="mb-6 flex justify-center lg:justify-end w-full">
@@ -248,15 +248,19 @@ get_header( 'shop' ); ?>
                 echo '<div class="mt-24 lg:mt-32 pt-16 border-t border-[#eeeeee] dark:border-[#222222] w-full overflow-hidden">';
                 echo '<h3 class="text-xs font-black uppercase tracking-[0.3em] text-[#999999] text-center mb-12">Descubre Otras Fragancias Excepcionales</h3>';
 
-                // We use native CSS snap scrolling for an elegant, draggable/swipeable carousel
-                echo '<div class="relative w-full">';
-                echo '<div class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide pb-12 -mx-4 px-4">';
+                // We use CSS animations for an elegant infinite scroll effect, pausing on hover
+                echo '<div class="relative w-full flex overflow-hidden group/slider pb-12">';
 
-                while ( $related_products->have_posts() ) : $related_products->the_post();
-                    global $product;
-                    $link = get_the_permalink();
+                // Inner track that moves
+                echo '<div class="flex whitespace-nowrap animate-slide-left hover:[animation-play-state:paused]">';
 
-                    // Get Mini Rarity Pill
+                // We duplicate the loop twice to create the seamless infinite scroll illusion
+                for ($i = 0; $i < 2; $i++) {
+                    while ( $related_products->have_posts() ) : $related_products->the_post();
+                        global $product;
+                        $link = get_the_permalink();
+
+                        // Get Mini Rarity Pill
                     $mini_rareza_terms = get_the_terms( $product->get_id(), 'lh_rareza' );
                     $mini_rareza_html = '';
                     if ( $mini_rareza_terms && ! is_wp_error( $mini_rareza_terms ) ) {
@@ -285,7 +289,7 @@ get_header( 'shop' ); ?>
                         $mini_genero_html = '<span class="absolute bottom-3 left-3 text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-white/90 dark:bg-black/90 text-black dark:text-white z-10 shadow-sm backdrop-blur-sm border border-black/10 dark:border-white/10">Para ' . esc_html( $mini_genero_terms[0]->name ) . '</span>';
                     }
                     ?>
-                    <div class="inline-block flex-none w-[75vw] sm:w-80 px-4 snap-center">
+                        <div class="inline-block flex-none w-64 md:w-80 px-4 transition-transform duration-500">
                         <div class="group relative flex flex-col items-center text-center transition duration-300 bg-transparent h-full">
                             <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden bg-transparent relative rounded-sm shadow-none group-hover:shadow-lg transition-shadow duration-300" style="aspect-ratio: 3/4;">
                                 <?php echo $mini_rareza_html; ?>
@@ -339,7 +343,10 @@ get_header( 'shop' ); ?>
                         </div>
                     </div>
                     <?php
-                endwhile;
+                    endwhile;
+                    // Reset post data to loop again for the second set
+                    $related_products->rewind_posts();
+                }
 
                 echo '</div></div></div>';
                 wp_reset_postdata();

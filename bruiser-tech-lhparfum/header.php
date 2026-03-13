@@ -133,6 +133,15 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+
+        /* Infinite Scroll Animation for Related Products */
+        @keyframes slideLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-slide-left {
+            animation: slideLeft 40s linear infinite;
+        }
     </style>
 
     <!-- Dark Mode Init Script -->
