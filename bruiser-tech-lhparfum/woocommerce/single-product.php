@@ -257,110 +257,81 @@ get_header( 'shop' ); ?>
                 echo '</div>';
                 echo '</div>'; // End Header Flex
 
-                // Interactive and Auto-scrolling JS Track
+                // Simple, robust scrolling track. Removed all duplication loops. Let CSS do the scrolling naturally.
                 echo '<div class="relative w-full -mx-4 px-4 overflow-hidden">';
-                // Removed animate-slide-left so JS scrollLeft works natively.
-                echo '<div id="lh-carousel-track" class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide pb-8">';
+                echo '<div id="lh-carousel-track" class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide pb-8 gap-4">';
 
-                // We duplicate the loop multiple times to create a massive buffer for the infinite scroll illusion
-                for ($i = 0; $i < 4; $i++) {
-                    while ( $related_products->have_posts() ) : $related_products->the_post();
-                        global $product;
-                        $link = get_the_permalink();
+                while ( $related_products->have_posts() ) : $related_products->the_post();
+                    global $product;
+                    $link = get_the_permalink();
 
-                        // Get Mini Rarity Pill
-                    $mini_rareza_terms = get_the_terms( $product->get_id(), 'lh_rareza' );
-                    $mini_rareza_html = '';
-                    if ( $mini_rareza_terms && ! is_wp_error( $mini_rareza_terms ) ) {
-                        $m_term = $mini_rareza_terms[0];
-                        $m_slug = $m_term->slug;
+                    // Harvest taxonomies for the unified text string
+                    $tax_string = array();
 
-                        $m_pill_classes = 'absolute top-3 right-3 text-[8px] font-black uppercase tracking-widest px-3 py-1 rounded-full text-white z-10 transition-all duration-300 shadow-md';
+                    $m_marca = get_the_terms( $product->get_id(), 'lh_marca' );
+                    if ( $m_marca && ! is_wp_error( $m_marca ) ) $tax_string[] = esc_html( $m_marca[0]->name );
 
-                        if ( $m_slug === 'nicho' ) {
-                            $m_pill_classes .= ' bg-gradient-to-r from-yellow-400 to-yellow-600 animate-pulse-glow-gold';
-                        } elseif ( $m_slug === 'arabe' ) {
-                            $m_pill_classes .= ' bg-gradient-to-r from-purple-500 to-purple-800 animate-pulse-glow-purple';
-                        } elseif ( $m_slug === 'disenador' ) {
-                            $m_pill_classes .= ' bg-gradient-to-r from-blue-400 to-blue-700 animate-pulse-glow-blue';
-                        } else {
-                            $m_pill_classes .= ' bg-gradient-to-r from-emerald-400 to-emerald-700 animate-pulse-glow-green';
-                        }
+                    $m_genero = get_the_terms( $product->get_id(), 'lh_genero' );
+                    if ( $m_genero && ! is_wp_error( $m_genero ) ) $tax_string[] = esc_html( $m_genero[0]->name );
 
-                        $mini_rareza_html = '<span class="' . esc_attr( $m_pill_classes ) . '">' . esc_html( $m_term->name ) . '</span>';
+                    $m_rareza = get_the_terms( $product->get_id(), 'lh_rareza' );
+                    if ( $m_rareza && ! is_wp_error( $m_rareza ) ) {
+                        $tax_string[] = esc_html( $m_rareza[0]->name );
+                        $c_slug = $m_rareza[0]->slug;
+                    } else {
+                        $c_slug = '';
                     }
 
-                    // Get Mini Gender Tag
-                    $mini_genero_terms = get_the_terms( $product->get_id(), 'lh_genero' );
-                    $mini_genero_html = '';
-                    if ( $mini_genero_terms && ! is_wp_error( $mini_genero_terms ) ) {
-                        $mini_genero_html = '<span class="absolute bottom-3 left-3 text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-white/90 dark:bg-black/90 text-black dark:text-white z-10 shadow-sm backdrop-blur-sm border border-black/10 dark:border-white/10">Para ' . esc_html( $mini_genero_terms[0]->name ) . '</span>';
-                    }
+                    $formatted_taxonomies = implode(' &bull; ', $tax_string);
                     ?>
-                        <div class="inline-block flex-none w-[75vw] sm:w-64 md:w-80 px-4 snap-start">
+                    <div class="inline-block flex-none w-[70vw] sm:w-64 md:w-80 snap-start">
                         <div class="group relative flex flex-col items-center text-center transition duration-300 bg-transparent h-full">
-                            <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden relative rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300" style="aspect-ratio: 3/4; font-size: 0; line-height: 0;">
-                                <?php echo $mini_rareza_html; ?>
-                                <?php echo $mini_genero_html; ?>
+                            <!-- Image without pills, completely clean -->
+                            <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden relative rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300 mb-3" style="aspect-ratio: 3/4; font-size: 0; line-height: 0;">
                                 <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out block m-0 p-0' ) ); ?>
                             </a>
 
-                            <?php
-                            // Determine dynamic color for the carousel button
-                            $carousel_btn_color = 'text-gray-900 dark:text-white border-gray-900/30 dark:border-white/30 hover:border-gray-900 dark:hover:border-white';
-                            if ( $mini_rareza_terms && ! is_wp_error( $mini_rareza_terms ) ) {
-                                $c_slug = $mini_rareza_terms[0]->slug;
-                                if ( $c_slug === 'nicho' ) $carousel_btn_color = 'text-yellow-600 dark:text-yellow-400 border-yellow-600/30 dark:border-yellow-400/30 hover:border-yellow-600 dark:hover:border-yellow-400';
-                                elseif ( $c_slug === 'arabe' ) $carousel_btn_color = 'text-purple-600 dark:text-purple-400 border-purple-600/30 dark:border-purple-400/30 hover:border-purple-600 dark:hover:border-purple-400';
-                                elseif ( $c_slug === 'disenador' ) $carousel_btn_color = 'text-blue-600 dark:text-blue-400 border-blue-600/30 dark:border-blue-400/30 hover:border-blue-600 dark:hover:border-blue-400';
-                                else $carousel_btn_color = 'text-emerald-600 dark:text-emerald-400 border-emerald-600/30 dark:border-emerald-400/30 hover:border-emerald-600 dark:hover:border-emerald-400';
-                            }
-                            ?>
+                            <div class="flex flex-col justify-start w-full px-1 items-center text-center">
+                                <!-- Elegant, unified taxonomy string -->
+                                <?php if ( ! empty( $formatted_taxonomies ) ) : ?>
+                                    <span class="text-[8px] md:text-[9px] font-black uppercase tracking-[0.25em] text-[#999999] mb-1.5 leading-relaxed">
+                                        <?php echo $formatted_taxonomies; ?>
+                                    </span>
+                                <?php endif; ?>
 
-                            <!-- Tight layout with no padding-top and negative margins to pull text intimately close to the image -->
-                            <div class="flex flex-col justify-start w-full px-1 items-center text-center pt-2">
-                                <?php
-                                    $c_marca_terms = get_the_terms( $product->get_id(), 'lh_marca' );
-                                    if ( $c_marca_terms && ! is_wp_error( $c_marca_terms ) ) {
-                                        echo '<span class="text-[9px] font-black uppercase tracking-[0.2em] text-[#999999] mb-0.5 mt-1">' . esc_html( $c_marca_terms[0]->name ) . '</span>';
-                                    }
-                                ?>
-                                <h2 class="text-sm md:text-base font-bold text-black dark:text-white mb-0.5 tracking-wide whitespace-normal leading-tight line-clamp-1">
+                                <!-- Title -->
+                                <h2 class="text-sm md:text-base font-bold text-black dark:text-white mb-1 tracking-wide whitespace-normal leading-tight line-clamp-1">
                                     <a href="<?php echo esc_url( $link ); ?>" class="hover:underline decoration-2 underline-offset-4">
                                         <?php echo get_the_title(); ?>
                                     </a>
                                 </h2>
-                                <div class="text-xs text-[#666666] dark:text-[#bbbbbb] font-light mb-3">
+
+                                <!-- Price -->
+                                <div class="text-xs text-[#666666] dark:text-[#bbbbbb] font-light mb-4">
                                     <?php echo $product->get_price_html(); ?>
                                 </div>
 
+                                <!-- Dynamic Button -->
                                 <?php
-                                    // Use solid background gradients for the carousel button instead of text colors
                                     $carousel_btn_bg = 'bg-gray-900 dark:bg-white text-white dark:text-black';
-                                    if ( $mini_rareza_terms && ! is_wp_error( $mini_rareza_terms ) ) {
-                                        $c_slug = $mini_rareza_terms[0]->slug;
-                                        if ( $c_slug === 'nicho' ) $carousel_btn_bg = 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-white shadow-md hover:shadow-lg hover:shadow-yellow-500/20';
-                                        elseif ( $c_slug === 'arabe' ) $carousel_btn_bg = 'bg-gradient-to-r from-purple-500 to-purple-800 text-white shadow-md hover:shadow-lg hover:shadow-purple-500/20';
-                                        elseif ( $c_slug === 'disenador' ) $carousel_btn_bg = 'bg-gradient-to-r from-blue-400 to-blue-700 text-white shadow-md hover:shadow-lg hover:shadow-blue-500/20';
-                                        else $carousel_btn_bg = 'bg-gradient-to-r from-emerald-400 to-emerald-700 text-white shadow-md hover:shadow-lg hover:shadow-emerald-500/20';
-                                    }
+                                    if ( $c_slug === 'nicho' ) $carousel_btn_bg = 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-white shadow-md hover:shadow-lg hover:shadow-yellow-500/20';
+                                    elseif ( $c_slug === 'arabe' ) $carousel_btn_bg = 'bg-gradient-to-r from-purple-500 to-purple-800 text-white shadow-md hover:shadow-lg hover:shadow-purple-500/20';
+                                    elseif ( $c_slug === 'disenador' ) $carousel_btn_bg = 'bg-gradient-to-r from-blue-400 to-blue-700 text-white shadow-md hover:shadow-lg hover:shadow-blue-500/20';
+                                    elseif ( $c_slug === 'accesible' ) $carousel_btn_bg = 'bg-gradient-to-r from-emerald-400 to-emerald-700 text-white shadow-md hover:shadow-lg hover:shadow-emerald-500/20';
                                 ?>
-                                <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>" class="inline-block px-5 py-2.5 w-[85%] text-[8px] font-black uppercase tracking-[0.2em] rounded-sm transition-all duration-300 transform group-hover:scale-105 <?php echo esc_attr($carousel_btn_bg); ?>">
+                                <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>" class="inline-block px-5 py-2.5 w-full max-w-[85%] text-[8px] font-black uppercase tracking-[0.2em] rounded-sm transition-all duration-300 transform group-hover:scale-105 <?php echo esc_attr($carousel_btn_bg); ?>">
                                     Adquirir fragancia
                                 </a>
                             </div>
                         </div>
                     </div>
                     <?php
-                    endwhile;
-                    // Reset post data to loop again for the second set
-                    $related_products->rewind_posts();
-                }
+                endwhile;
 
                 echo '</div></div></div>'; // End track and wrappers
                 wp_reset_postdata();
 
-                // Inject Robust JS for Carousel Interaction and Auto-scroll
+                // Simple, robust JS for arrows and simple slow auto-scroll via interval (no requestAnimationFrame conflicts)
                 ?>
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
@@ -370,68 +341,58 @@ get_header( 'shop' ); ?>
 
                         if(!track) return;
 
-                        let animationId;
-                        let isPaused = false;
-                        let scrollSpeed = 0.5; // pixels per frame
-                        let pauseTimeout;
+                        let autoInterval;
 
-                        // Function to definitively pause the loop for interactions
-                        const triggerPause = (duration = 3000) => {
-                            isPaused = true;
-                            clearTimeout(pauseTimeout);
-                            pauseTimeout = setTimeout(() => {
-                                isPaused = false;
-                            }, duration);
-                        };
-
-                        // The infinite loop
-                        const smoothAutoScroll = () => {
-                            if (!isPaused) {
-                                track.scrollLeft += scrollSpeed;
-
-                                // Seamless reset illusion
-                                if (track.scrollLeft >= track.scrollWidth / 2) {
-                                    track.style.scrollBehavior = 'auto';
-                                    track.scrollLeft = 0;
-                                    // small delay before restoring smooth behavior to ensure DOM caught the auto jump
-                                    setTimeout(() => { track.style.scrollBehavior = 'smooth'; }, 50);
+                        // Very simple interval that acts like a human clicking "next" slowly
+                        const startAuto = () => {
+                            clearInterval(autoInterval);
+                            autoInterval = setInterval(() => {
+                                if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 10) {
+                                    track.scrollTo({ left: 0, behavior: 'smooth' });
+                                } else {
+                                    const firstItem = track.querySelector('.inline-block');
+                                    const scrollAmt = firstItem ? firstItem.offsetWidth + 16 : 300;
+                                    track.scrollBy({ left: scrollAmt, behavior: 'smooth' });
                                 }
-                            }
-                            animationId = requestAnimationFrame(smoothAutoScroll);
+                            }, 4500);
                         };
 
-                        // Kickoff
-                        animationId = requestAnimationFrame(smoothAutoScroll);
+                        const stopAuto = () => { clearInterval(autoInterval); };
 
-                        // Global pause events for the track
+                        // Start
+                        startAuto();
+
+                        // Stop on any manual interaction
                         ['mouseenter', 'touchstart', 'scroll'].forEach(evt => {
-                            track.addEventListener(evt, () => triggerPause(3000), {passive: true});
+                            track.addEventListener(evt, () => {
+                                stopAuto();
+                                // Resume after 5 seconds of no interaction
+                                clearTimeout(track.resumeTimer);
+                                track.resumeTimer = setTimeout(startAuto, 5000);
+                            }, {passive: true});
                         });
 
-                        // Button Handlers
                         if(prevBtn && nextBtn) {
                             const getScrollAmount = () => {
                                 const firstItem = track.querySelector('.inline-block');
-                                return firstItem ? firstItem.offsetWidth : 300;
+                                return firstItem ? firstItem.offsetWidth + 16 : 300; // include gap
                             };
 
-                            const handleNavClick = (direction) => {
-                                triggerPause(4000); // Give them 4 seconds of peace after a click
-                                if (direction === 'next') {
-                                    track.scrollLeft += getScrollAmount();
-                                } else {
-                                    track.scrollLeft -= getScrollAmount();
-                                }
-                            };
-
-                            prevBtn.addEventListener('click', (e) => { e.preventDefault(); handleNavClick('prev'); });
-                            nextBtn.addEventListener('click', (e) => { e.preventDefault(); handleNavClick('next'); });
-
-                            // Pause while touching buttons on mobile too
-                            ['touchstart', 'mouseenter'].forEach(evt => {
-                                prevBtn.addEventListener(evt, () => triggerPause(3000), {passive: true});
-                                nextBtn.addEventListener(evt, () => triggerPause(3000), {passive: true});
+                            prevBtn.addEventListener('click', (e) => {
+                                e.preventDefault();
+                                track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
                             });
+
+                            nextBtn.addEventListener('click', (e) => {
+                                e.preventDefault();
+                                track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+                            });
+
+                            // Stop auto if they hover arrows
+                            prevBtn.addEventListener('mouseenter', stopAuto);
+                            nextBtn.addEventListener('mouseenter', stopAuto);
+                            prevBtn.addEventListener('mouseleave', startAuto);
+                            nextBtn.addEventListener('mouseleave', startAuto);
                         }
                     });
                 </script>
