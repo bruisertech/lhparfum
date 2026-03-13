@@ -84,6 +84,61 @@ require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/demo-reset.php';
 
 /**
+ * Auto-Update Infrastructure (Plugin Update Checker)
+ */
+require_once get_template_directory() . '/inc/plugin-update-checker/plugin-update-checker.php';
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
+$myUpdateChecker = PucFactory::buildUpdateChecker(
+    'https://github.com/bruiser-tech/lh-parfum-theme',
+    __FILE__,
+    'lh-parfum-theme',
+    1 // Check exactly every 1 hour as requested
+);
+
+// Optional: Set the branch that contains the stable release.
+$myUpdateChecker->setBranch('main');
+
+/**
+ * Admin Bar Sync Button for Auto-Update
+ */
+function lhparfum_add_sync_button_to_admin_bar( $admin_bar ) {
+    if ( ! current_user_can( 'update_themes' ) ) {
+        return;
+    }
+
+    $admin_bar->add_node( array(
+        'id'    => 'lhparfum-force-sync',
+        'title' => '🚀 Forzar Sync GitHub',
+        'href'  => wp_nonce_url( admin_url( 'update-core.php?force-check=1&lhparfum_sync=1' ), 'lhparfum_sync_action' ),
+        'meta'  => array(
+            'title' => __( 'Forzar comprobación de actualizaciones del tema LHPARFUM', 'bruiser-tech-lhparfum' ),
+        ),
+    ) );
+}
+add_action( 'admin_bar_menu', 'lhparfum_add_sync_button_to_admin_bar', 100 );
+
+function lhparfum_handle_force_sync() {
+    if ( isset( $_GET['lhparfum_sync'], $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'lhparfum_sync_action' ) && current_user_can( 'update_themes' ) ) {
+        global $myUpdateChecker;
+        if ( isset( $myUpdateChecker ) ) {
+            $myUpdateChecker->checkForUpdates();
+            // Redirect back to avoid re-triggering on refresh
+            wp_redirect( admin_url( 'update-core.php?theme_sync_success=1' ) );
+            exit;
+        }
+    }
+}
+add_action( 'admin_init', 'lhparfum_handle_force_sync' );
+
+function lhparfum_sync_success_notice() {
+    if ( isset( $_GET['theme_sync_success'] ) ) {
+        echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( '✅ Sincronización con GitHub completada con éxito. Revisa si hay nuevas versiones disponibles.', 'bruiser-tech-lhparfum' ) . '</p></div>';
+    }
+}
+add_action( 'admin_notices', 'lhparfum_sync_success_notice' );
+
+/**
  * Custom WooCommerce Adjustments
  */
 // Remove breadcrumbs
