@@ -66,7 +66,53 @@
         .dark ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
 
         /* Force restrict custom logo output from WP */
-        .site-header img.custom-logo { max-height: 48px; width: auto; object-fit: contain; }
+        .site-header img.custom-logo { max-height: 48px !important; width: auto !important; object-fit: contain; }
+
+        /* Force WooCommerce Add to Cart to look like our Luxury Button */
+        .custom-add-to-cart-wrapper form.cart { display: flex; flex-direction: column; gap: 1.5rem; width: 100%; }
+        .custom-add-to-cart-wrapper .quantity { display: flex; align-items: center; border: 1px solid #ddd; padding: 0.5rem 1rem; width: fit-content; }
+        .dark .custom-add-to-cart-wrapper .quantity { border-color: #333; }
+        .custom-add-to-cart-wrapper .quantity input { background: transparent; border: none; outline: none; text-align: center; width: 3rem; color: inherit; font-weight: bold; }
+
+        .custom-add-to-cart-wrapper button.single_add_to_cart_button {
+            width: 100%;
+            background-color: #000;
+            color: #fff;
+            padding: 1.5rem 2rem;
+            font-size: 0.875rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            transition: all 0.5s ease;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+
+        .dark .custom-add-to-cart-wrapper button.single_add_to_cart_button {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .custom-add-to-cart-wrapper button.single_add_to_cart_button:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-2px);
+        }
+
+        /* The specific rarity glows injected via JS if we could, but CSS fallback works */
+        .custom-add-to-cart-wrapper.glow-nicho button.single_add_to_cart_button { animation: pulseGlowGold 3s infinite; }
+        .custom-add-to-cart-wrapper.glow-arabe button.single_add_to_cart_button { animation: pulseGlowPurple 3s infinite; }
+        .custom-add-to-cart-wrapper.glow-disenador button.single_add_to_cart_button { animation: pulseGlowBlue 3s infinite; }
+        .custom-add-to-cart-wrapper.glow-accesible button.single_add_to_cart_button { animation: pulseGlowGreen 3s infinite; }
+        .custom-add-to-cart-wrapper button.single_add_to_cart_button:hover { animation: none; }
+
+        /* Variable products clean up */
+        .custom-add-to-cart-wrapper table.variations { width: 100%; margin-bottom: 1.5rem; text-align: left; }
+        .custom-add-to-cart-wrapper table.variations td.label { font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em; color: #888; padding-bottom: 0.5rem; }
+        .custom-add-to-cart-wrapper table.variations select { width: 100%; padding: 0.75rem; background: transparent; border: 1px solid #ddd; outline: none; margin-bottom: 1rem; }
+        .dark .custom-add-to-cart-wrapper table.variations select { border-color: #444; color: white; }
+        .custom-add-to-cart-wrapper .woocommerce-variation-price { font-size: 1.5rem; font-weight: 300; margin-bottom: 1rem; }
     </style>
 
     <!-- Dark Mode Init Script -->

@@ -28,7 +28,16 @@ get_header( 'shop' ); ?>
             <?php the_post(); ?>
             <?php global $product; ?>
 
-            <div class="flex flex-col lg:flex-row gap-16 lg:gap-32 items-center lg:items-start">
+            <?php
+                // WooCommerce Core Action: Important for notices and some plugin integrations
+                do_action( 'woocommerce_before_single_product' );
+                if ( post_password_required() ) {
+                    echo get_the_password_form(); // WPCS: XSS ok.
+                    return;
+                }
+            ?>
+
+            <div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'flex flex-col lg:flex-row gap-16 lg:gap-32 items-center lg:items-start', $product ); ?>>
 
                 <!-- Product Image Gallery (The Protagonist) -->
                 <div class="w-full lg:w-1/2 flex justify-center lg:justify-end">
@@ -140,39 +149,22 @@ get_header( 'shop' ); ?>
                         <?php the_content(); ?>
                     </div>
 
-                    <!-- Add to Cart Form with Glowing LED Button -->
-                    <div class="mb-16 w-full">
-                        <?php
-                        if ( $product->is_type( 'variable' ) ) {
-                            woocommerce_variable_add_to_cart();
-                        } else {
-                            // High-end Glowing LED Button
-                            echo '<form action="' . esc_url( $product->add_to_cart_url() ) . '" class="w-full" method="post" enctype="multipart/form-data">';
-
-                            // Determine button glow color based on rarity
-                            $btn_glow_class = 'animate-pulse-glow-white dark:animate-pulse-glow-white hover:animate-none'; // Default
-                            if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) {
-                                $slug = $rareza_terms[0]->slug;
-                                if ( $slug === 'nicho' ) $btn_glow_class = 'hover:animate-pulse-glow-gold';
-                                elseif ( $slug === 'arabe' ) $btn_glow_class = 'hover:animate-pulse-glow-purple';
-                                elseif ( $slug === 'disenador' ) $btn_glow_class = 'hover:animate-pulse-glow-blue';
-                                else $btn_glow_class = 'hover:animate-pulse-glow-green';
-                            }
-
-                            echo '<button type="submit" name="add-to-cart" value="' . esc_attr( $product->get_id() ) . '" class="group w-full relative overflow-hidden bg-black dark:bg-white text-white dark:text-black px-12 py-8 text-sm font-black uppercase tracking-[0.3em] transition-all duration-700 flex justify-between items-center rounded-sm ' . esc_attr($btn_glow_class) . '">';
-
-                            // Sliding sheen effect
-                            echo '<div class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white dark:via-black to-transparent opacity-20 transition-transform duration-[1500ms] ease-in-out group-hover:translate-x-full"></div>';
-
-                            echo '<span class="relative z-10">Adquirir fragancia</span>';
-                            echo '<span class="relative z-10 flex items-center space-x-4">';
-                            echo '<span class="w-8 h-[1px] bg-[#555555] dark:bg-[#cccccc]"></span>';
-                            echo '<span class="font-normal text-[#dddddd] dark:text-[#333333]">' . wc_price( $product->get_price() ) . '</span>';
-                            echo '</span>';
-
-                            echo '</button>';
-                            echo '</form>';
+                    <!-- Add to Cart Form with Core WooCommerce Integration -->
+                    <?php
+                        $btn_glow_class = '';
+                        if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) {
+                            $slug = $rareza_terms[0]->slug;
+                            if ( $slug === 'nicho' ) $btn_glow_class = 'glow-nicho';
+                            elseif ( $slug === 'arabe' ) $btn_glow_class = 'glow-arabe';
+                            elseif ( $slug === 'disenador' ) $btn_glow_class = 'glow-disenador';
+                            else $btn_glow_class = 'glow-accesible';
                         }
+                    ?>
+                    <div class="mb-16 w-full custom-add-to-cart-wrapper <?php echo esc_attr($btn_glow_class); ?>">
+                        <?php
+                            // Force WooCommerce to output the standard add to cart logic (for variables, quantity, etc)
+                            // But we will style it via CSS to match the LED aesthetic.
+                            do_action( 'woocommerce_' . $product->get_type() . '_add_to_cart' );
                         ?>
                     </div>
 
@@ -194,6 +186,8 @@ get_header( 'shop' ); ?>
 
                 </div>
             </div>
+
+            <?php do_action( 'woocommerce_after_single_product' ); ?>
 
         <?php endwhile; // end of the loop. ?>
     </div>
