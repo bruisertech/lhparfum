@@ -291,10 +291,10 @@ get_header( 'shop' ); ?>
                     ?>
                         <div class="inline-block flex-none w-64 md:w-80 px-4 transition-transform duration-500">
                         <div class="group relative flex flex-col items-center text-center transition duration-300 bg-transparent h-full">
-                            <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden bg-transparent relative rounded-sm shadow-none group-hover:shadow-lg transition-shadow duration-300" style="aspect-ratio: 3/4;">
+                            <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden relative rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300" style="aspect-ratio: 3/4; font-size: 0; line-height: 0;">
                                 <?php echo $mini_rareza_html; ?>
                                 <?php echo $mini_genero_html; ?>
-                                <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover mix-blend-multiply dark:mix-blend-normal group-hover:scale-105 transition-transform duration-700 ease-in-out' ) ); ?>
+                                <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out block m-0 p-0' ) ); ?>
                             </a>
 
                             <?php

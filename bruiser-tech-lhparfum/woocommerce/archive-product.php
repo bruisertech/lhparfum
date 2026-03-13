@@ -188,12 +188,12 @@ get_header( 'shop' );
                         }
                         ?>
                         <div class="group relative flex flex-col items-center text-center transition duration-300 bg-white dark:bg-gray-900 h-full">
-                            <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden bg-[#f8f8f8] dark:bg-[#111111] relative rounded-sm shadow-sm group-hover:shadow-lg transition-shadow duration-300" style="aspect-ratio: 3/4;">
+                            <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden relative rounded-sm shadow-sm group-hover:shadow-lg transition-shadow duration-300" style="aspect-ratio: 3/4; font-size: 0; line-height: 0;">
                                 <?php echo $rareza_html; ?>
-                                <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover mix-blend-multiply dark:mix-blend-normal group-hover:scale-105 transition-transform duration-700 ease-in-out' ) ); ?>
+                                <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out block m-0 p-0' ) ); ?>
                                 <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
                             </a>
-                            <div class="mt-6 flex flex-col justify-between flex-grow w-full px-2 items-center text-center">
+                            <div class="pt-4 flex flex-col justify-between flex-grow w-full px-2 items-center text-center">
                                 <?php
                                 $genero_terms = get_the_terms( $product->get_id(), 'lh_genero' );
                                 if ( $genero_terms && ! is_wp_error( $genero_terms ) ) {
