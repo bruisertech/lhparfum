@@ -69,7 +69,10 @@
         .site-header img.custom-logo { max-height: 48px !important; width: auto !important; object-fit: contain; }
 
         /* Force WooCommerce Add to Cart to look like our Luxury Button */
-        .custom-add-to-cart-wrapper form.cart { display: flex; flex-direction: column; gap: 1.5rem; width: 100%; max-width: 400px; }
+        .custom-add-to-cart-wrapper form.cart { display: flex; flex-direction: column; gap: 1.5rem; width: 100%; max-width: 400px; align-items: center; }
+        @media (min-width: 1024px) {
+            .custom-add-to-cart-wrapper form.cart { align-items: flex-end; }
+        }
 
         /* Hide default number spin buttons for elegant quantity input */
         .quantity input[type=number]::-webkit-inner-spin-button,
@@ -116,18 +119,13 @@
         .dark .custom-add-to-cart-wrapper table.variations select { border-color: #444; color: white; }
         .custom-add-to-cart-wrapper .woocommerce-variation-price { font-size: 1.5rem; font-weight: 300; margin-bottom: 1rem; }
 
-        /* Infinite Scroll Animation for Related Products */
-        @keyframes slideLeft {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+        /* Utility to hide scrollbar but allow scrolling */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
         }
-        .animate-slide-left {
-            animation: slideLeft 50s linear infinite;
-        }
-        .animate-slide-left:hover {
-            /* We can't smoothly transition animation-duration without resetting it in pure CSS,
-               but we can use a trick or just let it continue at a slower pace if we used JS.
-               For pure CSS, removing the abrupt pause and just keeping it elegantly slow is best. */
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
     </style>
 

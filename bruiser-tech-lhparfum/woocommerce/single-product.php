@@ -41,11 +41,11 @@ get_header( 'shop' ); ?>
 
                 <?php $rareza_terms = get_the_terms( $product->get_id(), 'lh_rareza' ); ?>
 
-                <!-- Product Info & Add to Cart (Left Side Now) -->
-                <div class="w-full lg:w-1/2 flex flex-col justify-start pt-8 lg:pt-16 max-w-xl lg:pl-12">
+                <!-- Product Info & Add to Cart (Left Side Now, Right-Aligned on Desktop, Centered on Mobile) -->
+                <div class="w-full lg:w-1/2 flex flex-col items-center text-center lg:items-end lg:text-right pt-8 lg:pt-16 max-w-xl lg:pl-12 mx-auto lg:mx-0">
 
                     <!-- Delicate Rarity Pill -->
-                    <div class="mb-6">
+                    <div class="mb-6 flex justify-center lg:justify-end w-full">
                         <?php
                             if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) {
                                 $term = $rareza_terms[0];
@@ -73,18 +73,18 @@ get_header( 'shop' ); ?>
                     </div>
 
                     <!-- Title -->
-                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white tracking-wide mb-3 leading-tight">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-2 leading-tight w-full">
                         <?php the_title(); ?>
                     </h1>
 
                     <!-- Aroma (Protagonismo Elegante) -->
-                    <div class="mb-8">
+                    <div class="mb-8 w-full flex justify-center lg:justify-end">
                         <?php
                             $aroma_terms = get_the_terms( $product->get_id(), 'lh_aroma' );
                             if ( $aroma_terms && ! is_wp_error( $aroma_terms ) ) {
                                 $term = $aroma_terms[0];
                                 $term_link = get_term_link( $term );
-                                echo '<div class="text-lg md:text-xl font-light italic font-serif text-[#777777] dark:text-[#aaaaaa] tracking-wide block border-b border-[#eeeeee] dark:border-[#222222] pb-4">';
+                                echo '<div class="text-lg md:text-xl font-light italic font-serif text-[#777777] dark:text-[#aaaaaa] tracking-wide inline-block border-b border-[#eeeeee] dark:border-[#222222] pb-4">';
                                 echo 'Familia Olfativa: ';
                                 echo '<a href="' . esc_url( $term_link ) . '" class="font-semibold text-gray-800 dark:text-gray-200 not-italic uppercase tracking-[0.15em] text-sm ml-2 hover:text-black dark:hover:text-white hover:underline transition-colors">';
                                 echo esc_html( $term->name );
@@ -95,7 +95,7 @@ get_header( 'shop' ); ?>
                     </div>
 
                     <!-- Price & Gender -->
-                    <div class="text-2xl md:text-3xl font-light text-gray-900 dark:text-white mb-8 flex items-center">
+                    <div class="text-2xl md:text-3xl font-light text-gray-900 dark:text-white mb-8 flex items-center justify-center lg:justify-end w-full">
                         <?php echo $product->get_price_html(); ?>
                         <?php
                             $genero_terms = get_the_terms( $product->get_id(), 'lh_genero' );
@@ -110,7 +110,7 @@ get_header( 'shop' ); ?>
                     </div>
 
                     <!-- Description (Clean & Minimal) -->
-                    <div class="text-base md:text-lg text-[#555555] dark:text-[#bbbbbb] mb-12 leading-relaxed font-normal">
+                    <div class="text-base md:text-lg text-[#555555] dark:text-[#bbbbbb] mb-12 leading-relaxed font-normal w-full">
                         <?php the_content(); ?>
                     </div>
 
@@ -125,7 +125,7 @@ get_header( 'shop' ); ?>
                             else $btn_glow_class = 'glow-accesible';
                         }
                     ?>
-                    <div class="mb-16 w-full custom-add-to-cart-wrapper <?php echo esc_attr($btn_glow_class); ?>">
+                    <div class="mb-16 w-full flex justify-center lg:justify-end custom-add-to-cart-wrapper <?php echo esc_attr($btn_glow_class); ?>">
                         <?php
                             // Force WooCommerce to output the standard add to cart logic (for variables, quantity, etc)
                             // But we will style it via CSS to match the LED aesthetic.
@@ -164,15 +164,16 @@ get_header( 'shop' ); ?>
 
                         <!-- Rarity LED Glow Behind the Image (Massive ambience effect) -->
                         <?php
-                            $glow_class = 'bg-white dark:bg-black'; // Default soft
+                            $glow_class = 'bg-white dark:bg-black blur-3xl'; // Default soft
                             if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) {
                                 $slug = $rareza_terms[0]->slug;
-                                if ( $slug === 'nicho' ) $glow_class = 'bg-yellow-400 opacity-20 dark:opacity-10 animate-pulse-glow-gold blur-3xl';
-                                elseif ( $slug === 'arabe' ) $glow_class = 'bg-purple-600 opacity-20 dark:opacity-10 animate-pulse-glow-purple blur-3xl';
-                                elseif ( $slug === 'disenador' ) $glow_class = 'bg-blue-500 opacity-20 dark:opacity-10 animate-pulse-glow-blue blur-3xl';
-                                else $glow_class = 'bg-green-500 opacity-20 dark:opacity-10 animate-pulse-glow-green blur-3xl';
+                                // Increased opacity and blur spread for a much stronger, ethereal LED glow requested by user
+                                if ( $slug === 'nicho' ) $glow_class = 'bg-yellow-400 opacity-40 dark:opacity-30 animate-pulse-glow-gold blur-[64px]';
+                                elseif ( $slug === 'arabe' ) $glow_class = 'bg-purple-600 opacity-40 dark:opacity-30 animate-pulse-glow-purple blur-[64px]';
+                                elseif ( $slug === 'disenador' ) $glow_class = 'bg-blue-500 opacity-40 dark:opacity-30 animate-pulse-glow-blue blur-[64px]';
+                                else $glow_class = 'bg-green-500 opacity-40 dark:opacity-30 animate-pulse-glow-green blur-[64px]';
                             }
-                            echo '<div class="absolute -inset-10 z-0 rounded-full transition-all duration-[2000ms] ' . esc_attr($glow_class) . ' pointer-events-none"></div>';
+                            echo '<div class="absolute -inset-20 z-0 rounded-full transition-all duration-[2000ms] ' . esc_attr($glow_class) . ' pointer-events-none mix-blend-screen"></div>';
                         ?>
 
                         <!-- Main Image (Enforced Aspect Ratio) -->
@@ -221,74 +222,67 @@ get_header( 'shop' ); ?>
                 echo '<div class="mt-24 lg:mt-32 pt-16 border-t border-[#eeeeee] dark:border-[#222222] w-full overflow-hidden">';
                 echo '<h3 class="text-xs font-black uppercase tracking-[0.3em] text-[#999999] text-center mb-12">Descubre Otras Fragancias Excepcionales</h3>';
 
-                // We use CSS animations for an elegant infinite scroll effect
-                echo '<div class="relative w-full flex overflow-hidden group/slider">';
+                // We use native CSS snap scrolling for an elegant, draggable/swipeable carousel
+                echo '<div class="relative w-full">';
+                echo '<div class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide pb-12 -mx-4 px-4">';
 
-                // Inner track that moves
-                echo '<div class="flex whitespace-nowrap animate-slide-left">';
+                while ( $related_products->have_posts() ) : $related_products->the_post();
+                    global $product;
+                    $link = get_the_permalink();
 
-                // We duplicate the loop twice to create the seamless infinite scroll illusion
-                for ($i = 0; $i < 2; $i++) {
-                    while ( $related_products->have_posts() ) : $related_products->the_post();
-                        global $product;
-                        $link = get_the_permalink();
+                    // Get Mini Rarity Pill
+                    $mini_rareza_terms = get_the_terms( $product->get_id(), 'lh_rareza' );
+                    $mini_rareza_html = '';
+                    if ( $mini_rareza_terms && ! is_wp_error( $mini_rareza_terms ) ) {
+                        $m_term = $mini_rareza_terms[0];
+                        $m_slug = $m_term->slug;
 
-                        // Get Mini Rarity Pill
-                        $mini_rareza_terms = get_the_terms( $product->get_id(), 'lh_rareza' );
-                        $mini_rareza_html = '';
-                        if ( $mini_rareza_terms && ! is_wp_error( $mini_rareza_terms ) ) {
-                            $m_term = $mini_rareza_terms[0];
-                            $m_slug = $m_term->slug;
+                        $m_pill_classes = 'absolute top-3 right-3 text-[8px] font-black uppercase tracking-widest px-3 py-1 rounded-full text-white z-10 transition-all duration-300 shadow-md';
 
-                            $m_pill_classes = 'absolute top-3 right-3 text-[8px] font-black uppercase tracking-widest px-3 py-1 rounded-full text-white z-10 transition-all duration-300 shadow-md';
-
-                            if ( $m_slug === 'nicho' ) {
-                                $m_pill_classes .= ' bg-gradient-to-r from-yellow-400 to-yellow-600 animate-pulse-glow-gold';
-                            } elseif ( $m_slug === 'arabe' ) {
-                                $m_pill_classes .= ' bg-gradient-to-r from-purple-500 to-purple-800 animate-pulse-glow-purple';
-                            } elseif ( $m_slug === 'disenador' ) {
-                                $m_pill_classes .= ' bg-gradient-to-r from-blue-400 to-blue-700 animate-pulse-glow-blue';
-                            } else {
-                                $m_pill_classes .= ' bg-gradient-to-r from-emerald-400 to-emerald-700 animate-pulse-glow-green';
-                            }
-
-                            $mini_rareza_html = '<span class="' . esc_attr( $m_pill_classes ) . '">' . esc_html( $m_term->name ) . '</span>';
+                        if ( $m_slug === 'nicho' ) {
+                            $m_pill_classes .= ' bg-gradient-to-r from-yellow-400 to-yellow-600 animate-pulse-glow-gold';
+                        } elseif ( $m_slug === 'arabe' ) {
+                            $m_pill_classes .= ' bg-gradient-to-r from-purple-500 to-purple-800 animate-pulse-glow-purple';
+                        } elseif ( $m_slug === 'disenador' ) {
+                            $m_pill_classes .= ' bg-gradient-to-r from-blue-400 to-blue-700 animate-pulse-glow-blue';
+                        } else {
+                            $m_pill_classes .= ' bg-gradient-to-r from-emerald-400 to-emerald-700 animate-pulse-glow-green';
                         }
 
-                        // Get Mini Gender Tag
-                        $mini_genero_terms = get_the_terms( $product->get_id(), 'lh_genero' );
-                        $mini_genero_html = '';
-                        if ( $mini_genero_terms && ! is_wp_error( $mini_genero_terms ) ) {
-                            $mini_genero_html = '<span class="absolute bottom-3 left-3 text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-white/90 dark:bg-black/90 text-black dark:text-white z-10 shadow-sm backdrop-blur-sm border border-black/10 dark:border-white/10">Para ' . esc_html( $mini_genero_terms[0]->name ) . '</span>';
-                        }
-                        ?>
-                        <div class="inline-block w-64 md:w-80 px-4 transition-transform duration-500">
-                            <div class="group relative flex flex-col items-center text-center transition duration-300 bg-transparent h-full">
-                                <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden bg-transparent relative rounded-sm shadow-none group-hover:shadow-lg transition-shadow duration-300" style="aspect-ratio: 3/4;">
-                                    <?php echo $mini_rareza_html; ?>
-                                    <?php echo $mini_genero_html; ?>
-                                    <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover mix-blend-multiply dark:mix-blend-normal group-hover:scale-105 transition-transform duration-700 ease-in-out' ) ); ?>
-                                </a>
-                                <div class="mt-3 flex flex-col justify-between flex-grow w-full px-2 items-center text-center">
-                                    <h2 class="text-sm md:text-base font-bold text-black dark:text-white mb-1 tracking-wide whitespace-normal">
-                                        <a href="<?php echo esc_url( $link ); ?>" class="hover:underline decoration-2 underline-offset-4">
-                                            <?php echo get_the_title(); ?>
-                                        </a>
-                                    </h2>
-                                    <div class="text-xs text-[#666666] dark:text-[#bbbbbb] font-light mb-3">
-                                        <?php echo $product->get_price_html(); ?>
-                                    </div>
-                                    <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>" class="text-[9px] font-bold uppercase tracking-[0.2em] text-[#6b21a8] dark:text-[#a855f7] border-b border-[#6b21a8]/30 dark:border-[#a855f7]/30 pb-0.5 hover:border-[#6b21a8] dark:hover:border-[#a855f7] transition-colors whitespace-nowrap">
-                                        Adquirir fragancia
+                        $mini_rareza_html = '<span class="' . esc_attr( $m_pill_classes ) . '">' . esc_html( $m_term->name ) . '</span>';
+                    }
+
+                    // Get Mini Gender Tag
+                    $mini_genero_terms = get_the_terms( $product->get_id(), 'lh_genero' );
+                    $mini_genero_html = '';
+                    if ( $mini_genero_terms && ! is_wp_error( $mini_genero_terms ) ) {
+                        $mini_genero_html = '<span class="absolute bottom-3 left-3 text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-white/90 dark:bg-black/90 text-black dark:text-white z-10 shadow-sm backdrop-blur-sm border border-black/10 dark:border-white/10">Para ' . esc_html( $mini_genero_terms[0]->name ) . '</span>';
+                    }
+                    ?>
+                    <div class="inline-block flex-none w-[75vw] sm:w-80 px-4 snap-center">
+                        <div class="group relative flex flex-col items-center text-center transition duration-300 bg-transparent h-full">
+                            <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden bg-transparent relative rounded-sm shadow-none group-hover:shadow-lg transition-shadow duration-300" style="aspect-ratio: 3/4;">
+                                <?php echo $mini_rareza_html; ?>
+                                <?php echo $mini_genero_html; ?>
+                                <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover mix-blend-multiply dark:mix-blend-normal group-hover:scale-105 transition-transform duration-700 ease-in-out' ) ); ?>
+                            </a>
+                            <div class="mt-4 flex flex-col justify-between flex-grow w-full px-2 items-center text-center">
+                                <h2 class="text-sm md:text-base font-bold text-black dark:text-white mb-1 tracking-wide whitespace-normal">
+                                    <a href="<?php echo esc_url( $link ); ?>" class="hover:underline decoration-2 underline-offset-4">
+                                        <?php echo get_the_title(); ?>
                                     </a>
+                                </h2>
+                                <div class="text-xs text-[#666666] dark:text-[#bbbbbb] font-light mb-4">
+                                    <?php echo $product->get_price_html(); ?>
                                 </div>
+                                <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>" class="text-[9px] font-bold uppercase tracking-[0.2em] text-[#6b21a8] dark:text-[#a855f7] border-b border-[#6b21a8]/30 dark:border-[#a855f7]/30 pb-0.5 hover:border-[#6b21a8] dark:hover:border-[#a855f7] transition-colors whitespace-nowrap">
+                                    Adquirir fragancia
+                                </a>
                             </div>
                         </div>
-                        <?php
-                    endwhile;
-                    // Reset post data to loop again for the second set
-                    $related_products->rewind_posts();
-                }
+                    </div>
+                    <?php
+                endwhile;
 
                 echo '</div></div></div>';
                 wp_reset_postdata();
