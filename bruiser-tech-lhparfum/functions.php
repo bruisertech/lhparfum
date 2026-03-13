@@ -90,14 +90,11 @@ require_once get_template_directory() . '/inc/plugin-update-checker/plugin-updat
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 $myUpdateChecker = PucFactory::buildUpdateChecker(
-    'https://github.com/bruiser-tech/lh-parfum-theme',
+    'https://github.com/bruisertech/lhparfum',
     __FILE__,
-    'lh-parfum-theme',
+    'bruiser-tech-lhparfum',
     1 // Check exactly every 1 hour as requested
 );
-
-// Optional: Set the branch that contains the stable release.
-$myUpdateChecker->setBranch('main');
 
 /**
  * Admin Bar Sync Button for Auto-Update
