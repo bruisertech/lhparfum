@@ -84,8 +84,11 @@ require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/demo-reset.php';
 
 /**
- * Custom WooCommerce Texts
+ * Custom WooCommerce Adjustments
  */
+// Remove breadcrumbs
+remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20, 0 );
+
 // Change add to cart text on single product pages
 add_filter( 'woocommerce_product_single_add_to_cart_text', 'bruiser_tech_lhparfum_custom_cart_button_text' );
 // Change add to cart text on product archives

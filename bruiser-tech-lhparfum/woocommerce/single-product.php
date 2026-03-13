@@ -95,8 +95,9 @@ get_header( 'shop' ); ?>
                             if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) {
                                 $term = $rareza_terms[0];
                                 $slug = $term->slug;
+                                $term_link = get_term_link( $term );
 
-                                $pill_classes = 'inline-block px-5 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-white transition-all duration-1000 shadow-md relative overflow-hidden';
+                                $pill_classes = 'inline-block px-5 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-white transition-all duration-1000 shadow-md relative overflow-hidden group/pill hover:scale-105';
 
                                 if ( $slug === 'nicho' ) {
                                     $pill_classes .= ' bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 animate-pulse-glow-gold';
@@ -108,10 +109,10 @@ get_header( 'shop' ); ?>
                                     $pill_classes .= ' bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-700 animate-pulse-glow-green';
                                 }
 
-                                echo '<span class="' . esc_attr( $pill_classes ) . '">';
+                                echo '<a href="' . esc_url( $term_link ) . '" class="' . esc_attr( $pill_classes ) . '">';
                                 echo '<span class="relative z-10">' . esc_html( $term->name ) . '</span>';
-                                echo '<div class="absolute inset-0 bg-white opacity-20 mix-blend-overlay"></div>';
-                                echo '</span>';
+                                echo '<div class="absolute inset-0 bg-white opacity-20 mix-blend-overlay group-hover/pill:opacity-40 transition-opacity duration-300"></div>';
+                                echo '</a>';
                             }
                         ?>
                     </div>
@@ -126,9 +127,14 @@ get_header( 'shop' ); ?>
                         <?php
                             $aroma_terms = get_the_terms( $product->get_id(), 'lh_aroma' );
                             if ( $aroma_terms && ! is_wp_error( $aroma_terms ) ) {
-                                echo '<span class="text-lg md:text-xl font-light italic font-serif text-[#777777] dark:text-[#aaaaaa] tracking-wide block border-b border-[#eeeeee] dark:border-[#222222] pb-4">';
-                                echo 'Familia Olfativa: <span class="font-semibold text-gray-800 dark:text-gray-200 not-italic uppercase tracking-[0.15em] text-sm ml-2">' . esc_html( $aroma_terms[0]->name ) . '</span>';
-                                echo '</span>';
+                                $term = $aroma_terms[0];
+                                $term_link = get_term_link( $term );
+                                echo '<div class="text-lg md:text-xl font-light italic font-serif text-[#777777] dark:text-[#aaaaaa] tracking-wide block border-b border-[#eeeeee] dark:border-[#222222] pb-4">';
+                                echo 'Familia Olfativa: ';
+                                echo '<a href="' . esc_url( $term_link ) . '" class="font-semibold text-gray-800 dark:text-gray-200 not-italic uppercase tracking-[0.15em] text-sm ml-2 hover:text-black dark:hover:text-white hover:underline transition-colors">';
+                                echo esc_html( $term->name );
+                                echo '</a>';
+                                echo '</div>';
                             }
                         ?>
                     </div>
@@ -139,7 +145,11 @@ get_header( 'shop' ); ?>
                         <?php
                             $genero_terms = get_the_terms( $product->get_id(), 'lh_genero' );
                             if ( $genero_terms && ! is_wp_error( $genero_terms ) ) {
-                                echo '<span class="ml-4 text-[10px] font-medium text-[#888888] tracking-[0.15em] uppercase border-l border-[#dddddd] dark:border-[#444444] pl-4 py-1">Para ' . esc_html( $genero_terms[0]->name ) . '</span>';
+                                $term = $genero_terms[0];
+                                $term_link = get_term_link( $term );
+                                echo '<a href="' . esc_url( $term_link ) . '" class="ml-4 text-[10px] font-medium text-[#888888] tracking-[0.15em] uppercase border-l border-[#dddddd] dark:border-[#444444] pl-4 py-1 hover:text-black dark:hover:text-white transition-colors">';
+                                echo 'Para ' . esc_html( $term->name );
+                                echo '</a>';
                             }
                         ?>
                     </div>

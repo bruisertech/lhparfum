@@ -70,9 +70,11 @@
 
         /* Force WooCommerce Add to Cart to look like our Luxury Button */
         .custom-add-to-cart-wrapper form.cart { display: flex; flex-direction: column; gap: 1.5rem; width: 100%; max-width: 400px; }
-        .custom-add-to-cart-wrapper .quantity { display: flex; align-items: center; border: 1px solid #ddd; padding: 0.5rem 1rem; width: fit-content; }
-        .dark .custom-add-to-cart-wrapper .quantity { border-color: #333; }
-        .custom-add-to-cart-wrapper .quantity input { background: transparent; border: none; outline: none; text-align: center; width: 3rem; color: inherit; font-weight: bold; font-size: 0.875rem; }
+
+        /* Hide default number spin buttons for elegant quantity input */
+        .quantity input[type=number]::-webkit-inner-spin-button,
+        .quantity input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        .quantity input[type=number] { -moz-appearance: textfield; }
 
         .custom-add-to-cart-wrapper button.single_add_to_cart_button {
             width: 100%;
