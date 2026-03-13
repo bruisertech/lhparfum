@@ -115,6 +115,15 @@
         .custom-add-to-cart-wrapper table.variations select { width: 100%; padding: 0.75rem; background: transparent; border: 1px solid #ddd; outline: none; margin-bottom: 1rem; }
         .dark .custom-add-to-cart-wrapper table.variations select { border-color: #444; color: white; }
         .custom-add-to-cart-wrapper .woocommerce-variation-price { font-size: 1.5rem; font-weight: 300; margin-bottom: 1rem; }
+
+        /* Infinite Scroll Animation for Related Products */
+        @keyframes slideLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-slide-left {
+            animation: slideLeft 30s linear infinite;
+        }
     </style>
 
     <!-- Dark Mode Init Script -->

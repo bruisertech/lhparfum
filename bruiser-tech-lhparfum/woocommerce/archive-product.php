@@ -187,11 +187,11 @@ get_header( 'shop' );
                             $rareza_html = '<span class="' . esc_attr( $pill_classes ) . '">' . esc_html( $term->name ) . '</span>';
                         }
                         ?>
-                        <div class="group relative flex flex-col items-center text-center transition duration-300 bg-white dark:bg-gray-900">
-                            <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden bg-gray-50 dark:bg-gray-800 aspect-w-3 aspect-h-4 relative rounded-sm shadow-sm group-hover:shadow-lg transition-shadow duration-300">
+                        <div class="group relative flex flex-col items-center text-center transition duration-300 bg-white dark:bg-gray-900 h-full">
+                            <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden bg-[#f8f8f8] dark:bg-[#111111] relative rounded-sm shadow-sm group-hover:shadow-lg transition-shadow duration-300" style="aspect-ratio: 3/4;">
                                 <?php echo $rareza_html; ?>
-                                <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'object-cover w-full h-full group-hover:scale-110 transition-transform duration-700 ease-in-out' ) ); ?>
-                                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-opacity duration-300"></div>
+                                <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover mix-blend-multiply dark:mix-blend-normal group-hover:scale-105 transition-transform duration-700 ease-in-out' ) ); ?>
+                                <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
                             </a>
                             <div class="mt-6 flex flex-col justify-between flex-grow w-full px-2 items-center text-center">
                                 <?php
