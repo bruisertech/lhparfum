@@ -354,13 +354,14 @@ get_header( 'shop' ); ?>
                 echo '</div></div></div>'; // End track and wrappers
                 wp_reset_postdata();
 
-                // Inject JS for the carousel arrows
+                // Inject JS for the carousel arrows and elegant auto-scroll
                 ?>
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
                         const track = document.getElementById('lh-carousel-track');
                         const prevBtn = document.getElementById('lh-carousel-prev');
                         const nextBtn = document.getElementById('lh-carousel-next');
+                        let autoScrollInterval;
 
                         if(track && prevBtn && nextBtn) {
                             // Calculate scroll amount based on item width
@@ -369,13 +370,40 @@ get_header( 'shop' ); ?>
                                 return firstItem ? firstItem.offsetWidth : 300;
                             };
 
+                            const startAutoScroll = () => {
+                                stopAutoScroll(); // Clear any existing
+                                autoScrollInterval = setInterval(() => {
+                                    // If we hit the end, elegantly jump back to start
+                                    if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 10) {
+                                        track.scrollTo({ left: 0, behavior: 'smooth' });
+                                    } else {
+                                        track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+                                    }
+                                }, 3500); // Wait 3.5 seconds before scrolling to the next item
+                            };
+
+                            const stopAutoScroll = () => {
+                                if (autoScrollInterval) clearInterval(autoScrollInterval);
+                            };
+
                             prevBtn.addEventListener('click', () => {
                                 track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+                                startAutoScroll(); // reset timer
                             });
 
                             nextBtn.addEventListener('click', () => {
                                 track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+                                startAutoScroll(); // reset timer
                             });
+
+                            // Pause on hover or touch
+                            track.addEventListener('mouseenter', stopAutoScroll);
+                            track.addEventListener('mouseleave', startAutoScroll);
+                            track.addEventListener('touchstart', stopAutoScroll);
+                            track.addEventListener('touchend', startAutoScroll);
+
+                            // Start initially
+                            startAutoScroll();
                         }
                     });
                 </script>
