@@ -332,10 +332,8 @@ get_header( 'shop' ); ?>
                 echo '</div></div></div>'; // End track and wrappers
                 wp_reset_postdata();
 
-                // Load Swiper CSS/JS dynamically for this template, plus robust, elegant setup
+                // Load robust, elegant setup for Swiper (dependencies enqueued in functions.php)
                 ?>
-                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-                <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
                         const swiperElement = document.querySelector('.lh-related-swiper');
