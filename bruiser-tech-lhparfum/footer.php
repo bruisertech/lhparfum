@@ -92,8 +92,12 @@
 </div>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
     var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
     var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    var themeToggleBtn = document.getElementById('theme-toggle');
+
+    if (!themeToggleBtn || !themeToggleDarkIcon || !themeToggleLightIcon) return;
 
     // Change the icons inside the button based on previous settings
     if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -101,8 +105,6 @@
     } else {
         themeToggleDarkIcon.classList.remove('hidden');
     }
-
-    var themeToggleBtn = document.getElementById('theme-toggle');
 
     themeToggleBtn.addEventListener('click', function() {
         // toggle icons inside button
@@ -130,6 +132,7 @@
             }
         }
     });
+});
 </script>
 
 <?php wp_footer(); ?>

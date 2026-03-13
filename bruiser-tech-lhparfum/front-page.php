@@ -56,9 +56,38 @@ get_header();
                         $loop = new WP_Query( $args );
 
                         if ( $loop->have_posts() ) {
-                            echo '<ul class="products columns-4">';
+                            echo '<ul class="products grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 list-none m-0 p-0">';
                             while ( $loop->have_posts() ) : $loop->the_post();
-                                wc_get_template_part( 'content', 'product' );
+                                echo '<li class="product flex flex-col items-center text-center group transition-transform duration-300 hover:-translate-y-2">';
+
+                                // Image
+                                echo '<a href="' . get_permalink() . '" class="w-full mb-4 overflow-hidden relative block">';
+                                if ( has_post_thumbnail() ) {
+                                    echo get_the_post_thumbnail( get_the_ID(), 'woocommerce_thumbnail', array( 'class' => 'w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105' ) );
+                                } else {
+                                    echo '<img src="' . wc_placeholder_img_src() . '" alt="Placeholder" class="w-full h-auto object-cover" />';
+                                }
+                                echo '</a>';
+
+                                // Title
+                                echo '<a href="' . get_permalink() . '" class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2 hover:underline">';
+                                echo get_the_title();
+                                echo '</a>';
+
+                                // Price
+                                global $product;
+                                if ( $price_html = $product->get_price_html() ) {
+                                    echo '<span class="price text-gray-500 dark:text-gray-400 mb-4">' . $price_html . '</span>';
+                                }
+
+                                // Add to cart
+                                echo '<div class="mt-auto">';
+                                woocommerce_template_loop_add_to_cart( array(
+                                    'class' => 'button add_to_cart_button ajax_add_to_cart inline-block px-6 py-2 border border-gray-900 dark:border-white text-gray-900 dark:text-white font-semibold uppercase tracking-widest text-xs hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-gray-900 transition-colors'
+                                ) );
+                                echo '</div>';
+
+                                echo '</li>';
                             endwhile;
                             echo '</ul>';
                         } else {

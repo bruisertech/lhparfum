@@ -84,3 +84,15 @@ require get_template_directory() . '/inc/customizer.php';
  * Demo Reset Tool
  */
 require get_template_directory() . '/inc/demo-reset.php';
+
+/**
+ * Custom WooCommerce Texts
+ */
+// Change add to cart text on single product pages
+add_filter( 'woocommerce_product_single_add_to_cart_text', 'bruiser_tech_lhparfum_custom_cart_button_text' );
+// Change add to cart text on product archives
+add_filter( 'woocommerce_product_add_to_cart_text', 'bruiser_tech_lhparfum_custom_cart_button_text' );
+
+function bruiser_tech_lhparfum_custom_cart_button_text() {
+    return __( 'Adquirir fragancia', 'bruiser-tech-lhparfum' );
+}

@@ -53,15 +53,118 @@ function lhparfum_ocdi_after_import_setup() {
         ) );
     }
 
-    // 2. Crear Página de Contacto si no existe
-    $contact_page = lhparfum_get_post_by_title( 'Contacto', 'page' );
-    if ( ! $contact_page ) {
-        wp_insert_post( array(
-            'post_title'   => 'Contacto',
-            'post_content' => 'Ponte en contacto con nosotros.',
-            'post_status'  => 'publish',
-            'post_type'    => 'page',
-        ) );
+    // 2. Crear Páginas (Colecciones, Sobre Nosotros, Contacto)
+    $pages = array(
+        array(
+            'title'   => 'Colecciones',
+            'content' => '<!-- wp:group {"align":"full","layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"><!-- wp:heading {"textAlign":"center","level":1,"style":{"spacing":{"margin":{"bottom":"2rem"}}}} -->
+<h1 class="wp-block-heading has-text-align-center" style="margin-bottom:2rem; font-weight: 800; text-transform: uppercase;">Nuestras Colecciones</h1>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph {"align":"center","style":{"spacing":{"margin":{"bottom":"4rem"}}}} -->
+<p class="has-text-align-center text-gray-500 text-lg" style="margin-bottom:4rem">Descubre las familias olfativas de LHPARFUM.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:columns -->
+<div class="wp-block-columns grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"><!-- wp:column -->
+<div class="wp-block-column bg-gray-50 dark:bg-gray-800 p-8 text-center border border-gray-200 dark:border-gray-700"><!-- wp:heading {"textAlign":"center","level":3} -->
+<h3 class="wp-block-heading has-text-align-center font-bold text-xl mb-4">Oriental / Amaderada</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p class="text-gray-500 dark:text-gray-400">Aromas cálidos, sensuales y profundos. Maderas nobles, especias y notas dulces.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column bg-gray-50 dark:bg-gray-800 p-8 text-center border border-gray-200 dark:border-gray-700"><!-- wp:heading {"textAlign":"center","level":3} -->
+<h3 class="wp-block-heading has-text-align-center font-bold text-xl mb-4">Cítrica / Fresca</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p class="text-gray-500 dark:text-gray-400">Vibrantes, luminosas y enérgicas. Cítricos, notas verdes y acuáticas.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column bg-gray-50 dark:bg-gray-800 p-8 text-center border border-gray-200 dark:border-gray-700"><!-- wp:heading {"textAlign":"center","level":3} -->
+<h3 class="wp-block-heading has-text-align-center font-bold text-xl mb-4">Floral</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p class="text-gray-500 dark:text-gray-400">Elegantes, románticas y atemporales. Rosas, jazmín, ylang-ylang y flores exóticas.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div></div>
+<!-- /wp:group -->'
+        ),
+        array(
+            'title'   => 'Sobre Nosotros',
+            'content' => '<!-- wp:group {"align":"full","layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+<!-- wp:heading {"textAlign":"center","level":1,"style":{"spacing":{"margin":{"bottom":"3rem"}}}} -->
+<h1 class="wp-block-heading has-text-align-center" style="margin-bottom:3rem; font-weight: 800; text-transform: uppercase;">La Esencia de LHPARFUM</h1>
+<!-- /wp:heading -->
+
+<!-- wp:columns {"verticalAlignment":"center"} -->
+<div class="wp-block-columns are-vertically-aligned-center grid grid-cols-1 md:grid-cols-2 gap-12 items-center"><!-- wp:column {"verticalAlignment":"center"} -->
+<div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"align":"center"} -->
+<figure class="wp-block-image aligncenter"><img src="https://images.unsplash.com/photo-1615397323386-30c144a2b1f8?auto=format&fit=crop&q=80&w=800" alt="Sobre Nosotros"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"verticalAlignment":"center"} -->
+<div class="wp-block-column is-vertically-aligned-center"><!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading font-bold text-2xl mb-4">Perfección Embotellada</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p class="text-gray-600 dark:text-gray-400 mb-6 text-lg">Nacidos en Colombia, nuestra misión es democratizar la alta perfumería. Creemos que una fragancia de lujo no debería ser un privilegio inalcanzable, sino una expresión personal diaria.</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p class="text-gray-600 dark:text-gray-400 text-lg">Seleccionamos los ingredientes más puros y nobles del mundo para crear composiciones olfativas únicas, envasadas con elegancia y sobriedad.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+</div></div>
+<!-- /wp:group -->'
+        ),
+        array(
+            'title'   => 'Contacto',
+            'content' => '<!-- wp:group {"align":"full","layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull"><div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+<!-- wp:heading {"textAlign":"center","level":1,"style":{"spacing":{"margin":{"bottom":"2rem"}}}} -->
+<h1 class="wp-block-heading has-text-align-center" style="margin-bottom:2rem; font-weight: 800; text-transform: uppercase;">Contáctanos</h1>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center text-gray-500 text-lg mb-8">¿Tienes dudas sobre una fragancia? ¿Necesitas ayuda con tu pedido? Estamos aquí para asistirte.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<div class="bg-gray-50 dark:bg-gray-800 p-8 border border-gray-200 dark:border-gray-700 mb-12">
+    <h3 class="font-bold text-xl mb-4 text-gray-900 dark:text-white">Atención al Cliente</h3>
+    <p class="text-gray-600 dark:text-gray-400 mb-2"><strong>Email:</strong> contacto@lhparfum.com</p>
+    <p class="text-gray-600 dark:text-gray-400 mb-2"><strong>Teléfono:</strong> +57 300 123 4567</p>
+    <p class="text-gray-600 dark:text-gray-400"><strong>Horario:</strong> Lunes a Viernes, 9:00 AM - 6:00 PM</p>
+</div>
+<!-- /wp:html -->
+
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center text-gray-500 text-sm italic">Para consultas sobre envíos, por favor incluye tu número de orden en el mensaje.</p>
+<!-- /wp:paragraph -->
+</div></div>
+<!-- /wp:group -->'
+        )
+    );
+
+    foreach ( $pages as $page ) {
+        $existing_page = lhparfum_get_post_by_title( $page['title'], 'page' );
+        if ( ! $existing_page ) {
+            wp_insert_post( array(
+                'post_title'   => $page['title'],
+                'post_content' => $page['content'],
+                'post_status'  => 'publish',
+                'post_type'    => 'page',
+            ) );
+        }
     }
 
     // Configurar Inicio como Front Page
@@ -70,7 +173,7 @@ function lhparfum_ocdi_after_import_setup() {
         update_option( 'page_on_front', (int) $front_page_id );
     }
 
-    // 3. Crear 5 Productos de Demo de WooCommerce
+    // 3. Crear Productos de Demo de WooCommerce
     if ( class_exists( 'WooCommerce' ) ) {
         $demo_products = array(
             array(

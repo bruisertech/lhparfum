@@ -58,7 +58,7 @@ get_header( 'shop' );
                         ?>
                         <div class="group relative flex flex-col items-center text-center transition duration-300 bg-white dark:bg-gray-900">
                             <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden bg-gray-50 dark:bg-gray-800 aspect-w-3 aspect-h-4 relative rounded-sm shadow-sm group-hover:shadow-lg transition-shadow duration-300">
-                                <?php echo woocommerce_get_product_thumbnail( 'woocommerce_thumbnail', array( 'class' => 'object-cover w-full h-full group-hover:scale-110 transition-transform duration-700 ease-in-out' ) ); ?>
+                                <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'object-cover w-full h-full group-hover:scale-110 transition-transform duration-700 ease-in-out' ) ); ?>
                                 <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-opacity duration-300"></div>
                             </a>
                             <div class="mt-6 flex flex-col justify-between flex-grow w-full px-2">

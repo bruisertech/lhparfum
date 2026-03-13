@@ -87,7 +87,7 @@ get_header( 'shop' ); ?>
                             // Simple add to cart button mimicking luxury e-commerce
                             echo '<form action="' . esc_url( $product->add_to_cart_url() ) . '" class="w-full" method="post" enctype="multipart/form-data">';
                             echo '<button type="submit" name="add-to-cart" value="' . esc_attr( $product->get_id() ) . '" class="w-full bg-black dark:bg-white text-white dark:text-black px-8 py-5 text-sm font-bold uppercase tracking-widest hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors shadow-lg flex justify-center items-center space-x-3 rounded-none">';
-                            echo '<span>Añadir a la bolsa</span> <span class="text-gray-400 dark:text-gray-500 font-normal border-l border-gray-600 dark:border-gray-300 pl-3 ml-3">' . wc_price( $product->get_price() ) . '</span>';
+                            echo '<span>Adquirir fragancia</span> <span class="text-gray-400 dark:text-gray-500 font-normal border-l border-gray-600 dark:border-gray-300 pl-3 ml-3">' . wc_price( $product->get_price() ) . '</span>';
                             echo '</button>';
                             echo '</form>';
                         }
@@ -103,10 +103,6 @@ get_header( 'shop' ); ?>
                         <li class="flex items-center">
                             <svg class="w-6 h-6 mr-4 text-gray-900 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 13l4 4L19 7"></path></svg>
                             Ingredientes limpios y sostenibles
-                        </li>
-                        <li class="flex items-center">
-                            <svg class="w-6 h-6 mr-4 text-gray-900 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                            Devoluciones gratuitas en 30 días
                         </li>
                     </ul>
                 </div>
