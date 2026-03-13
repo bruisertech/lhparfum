@@ -252,15 +252,15 @@ get_header( 'shop' ); ?>
 
                 // Elegant Navigation Arrows
                 echo '<div class="flex space-x-4">';
-                echo '<button id="lh-carousel-prev" aria-label="Previous" class="w-10 h-10 rounded-full border border-[#dddddd] dark:border-[#333333] flex items-center justify-center text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors focus:outline-none"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"></path></svg></button>';
-                echo '<button id="lh-carousel-next" aria-label="Next" class="w-10 h-10 rounded-full border border-[#dddddd] dark:border-[#333333] flex items-center justify-center text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors focus:outline-none"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"></path></svg></button>';
+                echo '<button type="button" id="lh-carousel-prev" aria-label="Previous" class="w-10 h-10 rounded-full border border-[#dddddd] dark:border-[#333333] flex items-center justify-center text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors focus:outline-none"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"></path></svg></button>';
+                echo '<button type="button" id="lh-carousel-next" aria-label="Next" class="w-10 h-10 rounded-full border border-[#dddddd] dark:border-[#333333] flex items-center justify-center text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors focus:outline-none"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"></path></svg></button>';
                 echo '</div>';
                 echo '</div>'; // End Header Flex
 
                 // Interactive and Auto-scrolling JS Track
                 echo '<div class="relative w-full -mx-4 px-4 overflow-hidden">';
                 // Removed animate-slide-left so JS scrollLeft works natively.
-                echo '<div id="lh-carousel-track" class="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8" style="scroll-behavior: smooth;">';
+                echo '<div id="lh-carousel-track" class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide pb-8">';
 
                 // We duplicate the loop multiple times to create a massive buffer for the infinite scroll illusion
                 for ($i = 0; $i < 4; $i++) {
@@ -360,7 +360,7 @@ get_header( 'shop' ); ?>
                 echo '</div></div></div>'; // End track and wrappers
                 wp_reset_postdata();
 
-                // Inject JS for the carousel arrows and elegant auto-scroll frame-by-frame
+                // Inject Robust JS for Carousel Interaction and Auto-scroll
                 ?>
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
@@ -371,54 +371,67 @@ get_header( 'shop' ); ?>
                         if(!track) return;
 
                         let animationId;
-                        let isHovered = false;
+                        let isPaused = false;
                         let scrollSpeed = 0.5; // pixels per frame
+                        let pauseTimeout;
 
-                        // Clone nodes for infinite scroll illusion if they reach the end
+                        // Function to definitively pause the loop for interactions
+                        const triggerPause = (duration = 3000) => {
+                            isPaused = true;
+                            clearTimeout(pauseTimeout);
+                            pauseTimeout = setTimeout(() => {
+                                isPaused = false;
+                            }, duration);
+                        };
+
+                        // The infinite loop
                         const smoothAutoScroll = () => {
-                            if (!isHovered) {
+                            if (!isPaused) {
                                 track.scrollLeft += scrollSpeed;
 
-                                // Reset to start seamlessly when reaching halfway
-                                // (since we duplicated the items 4 times, halfway is safe)
+                                // Seamless reset illusion
                                 if (track.scrollLeft >= track.scrollWidth / 2) {
-                                    // Momentarily disable smooth behavior for instant snapback
                                     track.style.scrollBehavior = 'auto';
                                     track.scrollLeft = 0;
-                                    track.style.scrollBehavior = 'smooth';
+                                    // small delay before restoring smooth behavior to ensure DOM caught the auto jump
+                                    setTimeout(() => { track.style.scrollBehavior = 'smooth'; }, 50);
                                 }
                             }
                             animationId = requestAnimationFrame(smoothAutoScroll);
                         };
 
-                        // Start continuous scrolling
+                        // Kickoff
                         animationId = requestAnimationFrame(smoothAutoScroll);
 
-                        // Pause interactions
-                        track.addEventListener('mouseenter', () => isHovered = true);
-                        track.addEventListener('mouseleave', () => isHovered = false);
-                        track.addEventListener('touchstart', () => isHovered = true, {passive: true});
-                        track.addEventListener('touchend', () => isHovered = false);
+                        // Global pause events for the track
+                        ['mouseenter', 'touchstart', 'scroll'].forEach(evt => {
+                            track.addEventListener(evt, () => triggerPause(3000), {passive: true});
+                        });
 
+                        // Button Handlers
                         if(prevBtn && nextBtn) {
                             const getScrollAmount = () => {
                                 const firstItem = track.querySelector('.inline-block');
                                 return firstItem ? firstItem.offsetWidth : 300;
                             };
 
-                            prevBtn.addEventListener('click', () => {
-                                track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
-                            });
+                            const handleNavClick = (direction) => {
+                                triggerPause(4000); // Give them 4 seconds of peace after a click
+                                if (direction === 'next') {
+                                    track.scrollLeft += getScrollAmount();
+                                } else {
+                                    track.scrollLeft -= getScrollAmount();
+                                }
+                            };
 
-                            nextBtn.addEventListener('click', () => {
-                                track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
-                            });
+                            prevBtn.addEventListener('click', (e) => { e.preventDefault(); handleNavClick('prev'); });
+                            nextBtn.addEventListener('click', (e) => { e.preventDefault(); handleNavClick('next'); });
 
-                            // Also pause when hovering arrows
-                            prevBtn.addEventListener('mouseenter', () => isHovered = true);
-                            prevBtn.addEventListener('mouseleave', () => isHovered = false);
-                            nextBtn.addEventListener('mouseenter', () => isHovered = true);
-                            nextBtn.addEventListener('mouseleave', () => isHovered = false);
+                            // Pause while touching buttons on mobile too
+                            ['touchstart', 'mouseenter'].forEach(evt => {
+                                prevBtn.addEventListener(evt, () => triggerPause(3000), {passive: true});
+                                nextBtn.addEventListener(evt, () => triggerPause(3000), {passive: true});
+                            });
                         }
                     });
                 </script>
