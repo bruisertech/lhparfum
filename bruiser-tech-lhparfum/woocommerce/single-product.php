@@ -257,12 +257,13 @@ get_header( 'shop' ); ?>
                 echo '</div>';
                 echo '</div>'; // End Header Flex
 
-                // CSS Infinite Animation Track (Highly reliable and elegant)
-                echo '<div class="relative w-full overflow-hidden">';
-                echo '<div class="flex whitespace-nowrap animate-slide-left hover:[animation-play-state:paused] pb-8">';
+                // Interactive and Auto-scrolling JS Track
+                echo '<div class="relative w-full -mx-4 px-4 overflow-hidden">';
+                // Removed animate-slide-left so JS scrollLeft works natively.
+                echo '<div id="lh-carousel-track" class="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8" style="scroll-behavior: smooth;">';
 
-                // We duplicate the loop twice to create the seamless infinite scroll illusion
-                for ($i = 0; $i < 2; $i++) {
+                // We duplicate the loop multiple times to create a massive buffer for the infinite scroll illusion
+                for ($i = 0; $i < 4; $i++) {
                     while ( $related_products->have_posts() ) : $related_products->the_post();
                         global $product;
                         $link = get_the_permalink();
@@ -296,7 +297,7 @@ get_header( 'shop' ); ?>
                         $mini_genero_html = '<span class="absolute bottom-3 left-3 text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-white/90 dark:bg-black/90 text-black dark:text-white z-10 shadow-sm backdrop-blur-sm border border-black/10 dark:border-white/10">Para ' . esc_html( $mini_genero_terms[0]->name ) . '</span>';
                     }
                     ?>
-                        <div class="inline-block flex-none w-64 md:w-80 px-4 transition-transform duration-500">
+                        <div class="inline-block flex-none w-[75vw] sm:w-64 md:w-80 px-4 snap-start">
                         <div class="group relative flex flex-col items-center text-center transition duration-300 bg-transparent h-full">
                             <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden relative rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300" style="aspect-ratio: 3/4; font-size: 0; line-height: 0;">
                                 <?php echo $mini_rareza_html; ?>
@@ -358,6 +359,70 @@ get_header( 'shop' ); ?>
 
                 echo '</div></div></div>'; // End track and wrappers
                 wp_reset_postdata();
+
+                // Inject JS for the carousel arrows and elegant auto-scroll frame-by-frame
+                ?>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const track = document.getElementById('lh-carousel-track');
+                        const prevBtn = document.getElementById('lh-carousel-prev');
+                        const nextBtn = document.getElementById('lh-carousel-next');
+
+                        if(!track) return;
+
+                        let animationId;
+                        let isHovered = false;
+                        let scrollSpeed = 0.5; // pixels per frame
+
+                        // Clone nodes for infinite scroll illusion if they reach the end
+                        const smoothAutoScroll = () => {
+                            if (!isHovered) {
+                                track.scrollLeft += scrollSpeed;
+
+                                // Reset to start seamlessly when reaching halfway
+                                // (since we duplicated the items 4 times, halfway is safe)
+                                if (track.scrollLeft >= track.scrollWidth / 2) {
+                                    // Momentarily disable smooth behavior for instant snapback
+                                    track.style.scrollBehavior = 'auto';
+                                    track.scrollLeft = 0;
+                                    track.style.scrollBehavior = 'smooth';
+                                }
+                            }
+                            animationId = requestAnimationFrame(smoothAutoScroll);
+                        };
+
+                        // Start continuous scrolling
+                        animationId = requestAnimationFrame(smoothAutoScroll);
+
+                        // Pause interactions
+                        track.addEventListener('mouseenter', () => isHovered = true);
+                        track.addEventListener('mouseleave', () => isHovered = false);
+                        track.addEventListener('touchstart', () => isHovered = true, {passive: true});
+                        track.addEventListener('touchend', () => isHovered = false);
+
+                        if(prevBtn && nextBtn) {
+                            const getScrollAmount = () => {
+                                const firstItem = track.querySelector('.inline-block');
+                                return firstItem ? firstItem.offsetWidth : 300;
+                            };
+
+                            prevBtn.addEventListener('click', () => {
+                                track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+                            });
+
+                            nextBtn.addEventListener('click', () => {
+                                track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+                            });
+
+                            // Also pause when hovering arrows
+                            prevBtn.addEventListener('mouseenter', () => isHovered = true);
+                            prevBtn.addEventListener('mouseleave', () => isHovered = false);
+                            nextBtn.addEventListener('mouseenter', () => isHovered = true);
+                            nextBtn.addEventListener('mouseleave', () => isHovered = false);
+                        }
+                    });
+                </script>
+                <?php
             }
             ?>
 
