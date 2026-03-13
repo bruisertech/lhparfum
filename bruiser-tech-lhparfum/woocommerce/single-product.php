@@ -155,29 +155,6 @@ get_header( 'shop' ); ?>
                         ?>
                     </div>
 
-                    <!-- Clean Perks (3 Columns, Centered) -->
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 border-t border-[#eeeeee] dark:border-[#111111] pt-12 w-full justify-items-center">
-                        <div class="text-[9px] md:text-[10px] text-[#888888] dark:text-[#777777] font-semibold tracking-widest uppercase flex flex-col items-center text-center space-y-3">
-                            <span class="w-10 h-10 rounded-full border border-[#dddddd] dark:border-[#333333] flex items-center justify-center text-black dark:text-white">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
-                            </span>
-                            <span>Fragancia verificada por LH originals<br><span class="text-[8px] text-[#aaaaaa] mt-1 block">Perfume genuino y original</span></span>
-                        </div>
-                        <div class="text-[9px] md:text-[10px] text-[#888888] dark:text-[#777777] font-semibold tracking-widest uppercase flex flex-col items-center text-center space-y-3">
-                            <span class="w-10 h-10 rounded-full border border-[#dddddd] dark:border-[#333333] flex items-center justify-center text-black dark:text-white">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            </span>
-                            <span>Cruelty Free</span>
-                        </div>
-                        <div class="text-[9px] md:text-[10px] text-[#888888] dark:text-[#777777] font-semibold tracking-widest uppercase flex flex-col items-center text-center space-y-3">
-                            <span class="w-10 h-10 rounded-full border border-[#dddddd] dark:border-[#333333] flex items-center justify-center text-black dark:text-white">
-                                <!-- Temperature / Snowflake Icon for storage -->
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 13l4 4L19 7"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 2v20M17 5l-5 5-5-5m10 14l-5-5-5 5" opacity="0.3"></path></svg>
-                            </span>
-                            <span>Almacenado en ambiente adecuado<br><span class="text-[8px] text-[#aaaaaa] mt-1 block">LH Integrity</span></span>
-                        </div>
-                    </div>
-
                 </div>
 
                 <!-- Product Image Gallery (Right Side, Stretches to match text height perfectly) -->
@@ -199,14 +176,14 @@ get_header( 'shop' ); ?>
                             echo '<div class="absolute -inset-20 z-0 rounded-full transition-all duration-[2000ms] ' . esc_attr($glow_class) . ' pointer-events-none mix-blend-screen"></div>';
                         ?>
 
-                        <!-- Main Image (Stretches to fill the flex container height) -->
-                        <div class="relative z-10 bg-transparent p-0 transition-transform duration-[1500ms] ease-out group-hover:scale-[1.02] overflow-hidden rounded-sm flex-grow w-full h-full min-h-[500px]">
+                        <!-- Main Image (Enforced Max Height to prevent overwhelming the button) -->
+                        <div class="relative z-10 bg-transparent p-0 transition-transform duration-[1500ms] ease-out group-hover:scale-[1.02] overflow-hidden rounded-sm flex-grow w-full h-full max-h-[600px] self-start lg:ml-auto">
                             <?php
                                 $image_id  = $product->get_image_id();
                                 $image_url = wp_get_attachment_image_url( $image_id, 'full' );
                                 if ( $image_url ) {
-                                    // Use object-cover to allow the image to elegantly fill the dynamically sized container
-                                    echo '<img src="' . esc_url( $image_url ) . '" alt="' . esc_attr( $product->get_name() ) . '" class="absolute inset-0 w-full h-full object-cover shadow-none drop-shadow-2xl mix-blend-multiply dark:mix-blend-normal">';
+                                    // Use object-contain or cover with a max-height to ensure the image does not bleed past the add-to-cart boundary
+                                    echo '<img src="' . esc_url( $image_url ) . '" alt="' . esc_attr( $product->get_name() ) . '" class="absolute inset-0 w-full h-full object-cover lg:object-contain object-top shadow-none drop-shadow-2xl mix-blend-multiply dark:mix-blend-normal">';
                                 } else {
                                     echo wc_placeholder_img( 'woocommerce_single' );
                                 }
@@ -229,6 +206,31 @@ get_header( 'shop' ); ?>
                     </div>
                 </div>
 
+            </div>
+
+            <!-- Clean Global Perks (3 Columns, Centered across entire page width) -->
+            <div class="w-full mt-16 md:mt-24">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-12 max-w-4xl mx-auto justify-items-center">
+                    <div class="text-[10px] md:text-xs text-[#888888] dark:text-[#777777] font-semibold tracking-widest uppercase flex flex-col items-center text-center space-y-4">
+                        <span class="w-12 h-12 rounded-full border border-[#dddddd] dark:border-[#333333] flex items-center justify-center text-black dark:text-white">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+                        </span>
+                        <span>Fragancia verificada por LH originals<br><span class="text-[9px] md:text-[10px] text-[#aaaaaa] mt-1 block">Perfume genuino y original</span></span>
+                    </div>
+                    <div class="text-[10px] md:text-xs text-[#888888] dark:text-[#777777] font-semibold tracking-widest uppercase flex flex-col items-center text-center space-y-4">
+                        <span class="w-12 h-12 rounded-full border border-[#dddddd] dark:border-[#333333] flex items-center justify-center text-black dark:text-white">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </span>
+                        <span>Cruelty Free</span>
+                    </div>
+                    <div class="text-[10px] md:text-xs text-[#888888] dark:text-[#777777] font-semibold tracking-widest uppercase flex flex-col items-center text-center space-y-4">
+                        <span class="w-12 h-12 rounded-full border border-[#dddddd] dark:border-[#333333] flex items-center justify-center text-black dark:text-white">
+                            <!-- Temperature / Snowflake Icon for storage -->
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 13l4 4L19 7"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 2v20M17 5l-5 5-5-5m10 14l-5-5-5 5" opacity="0.3"></path></svg>
+                        </span>
+                        <span>Almacenado en ambiente adecuado<br><span class="text-[9px] md:text-[10px] text-[#aaaaaa] mt-1 block">LH Integrity</span></span>
+                    </div>
+                </div>
             </div>
 
             <!-- Related Products (Infinite Scroll Carousel) -->
@@ -303,22 +305,34 @@ get_header( 'shop' ); ?>
                             }
                             ?>
 
-                            <div class="mt-2 flex flex-col justify-start w-full px-2 items-center text-center">
+                            <div class="pt-3 flex flex-col justify-start w-full px-1 items-center text-center">
                                 <?php
                                     $c_marca_terms = get_the_terms( $product->get_id(), 'lh_marca' );
                                     if ( $c_marca_terms && ! is_wp_error( $c_marca_terms ) ) {
-                                        echo '<span class="text-[9px] font-black uppercase tracking-[0.2em] text-[#999999] mb-1">' . esc_html( $c_marca_terms[0]->name ) . '</span>';
+                                        echo '<span class="text-[9px] font-black uppercase tracking-[0.2em] text-[#999999] mb-0.5">' . esc_html( $c_marca_terms[0]->name ) . '</span>';
                                     }
                                 ?>
-                                <h2 class="text-sm md:text-base font-bold text-black dark:text-white mb-1 tracking-wide whitespace-normal leading-tight">
+                                <h2 class="text-sm md:text-base font-bold text-black dark:text-white mb-0.5 tracking-wide whitespace-normal leading-tight line-clamp-1">
                                     <a href="<?php echo esc_url( $link ); ?>" class="hover:underline decoration-2 underline-offset-4">
                                         <?php echo get_the_title(); ?>
                                     </a>
                                 </h2>
-                                <div class="text-xs text-[#666666] dark:text-[#bbbbbb] font-light mb-2">
+                                <div class="text-xs text-[#666666] dark:text-[#bbbbbb] font-light mb-3">
                                     <?php echo $product->get_price_html(); ?>
                                 </div>
-                                <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>" class="text-[9px] font-bold uppercase tracking-[0.2em] border-b pb-0.5 transition-colors whitespace-nowrap <?php echo esc_attr($carousel_btn_color); ?>">
+
+                                <?php
+                                    // Use solid background gradients for the carousel button instead of text colors
+                                    $carousel_btn_bg = 'bg-gray-900 dark:bg-white text-white dark:text-black';
+                                    if ( $mini_rareza_terms && ! is_wp_error( $mini_rareza_terms ) ) {
+                                        $c_slug = $mini_rareza_terms[0]->slug;
+                                        if ( $c_slug === 'nicho' ) $carousel_btn_bg = 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-white shadow-md hover:shadow-lg hover:shadow-yellow-500/20';
+                                        elseif ( $c_slug === 'arabe' ) $carousel_btn_bg = 'bg-gradient-to-r from-purple-500 to-purple-800 text-white shadow-md hover:shadow-lg hover:shadow-purple-500/20';
+                                        elseif ( $c_slug === 'disenador' ) $carousel_btn_bg = 'bg-gradient-to-r from-blue-400 to-blue-700 text-white shadow-md hover:shadow-lg hover:shadow-blue-500/20';
+                                        else $carousel_btn_bg = 'bg-gradient-to-r from-emerald-400 to-emerald-700 text-white shadow-md hover:shadow-lg hover:shadow-emerald-500/20';
+                                    }
+                                ?>
+                                <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>" class="inline-block px-5 py-2.5 w-[85%] text-[8px] font-black uppercase tracking-[0.2em] rounded-sm transition-all duration-300 transform group-hover:scale-105 <?php echo esc_attr($carousel_btn_bg); ?>">
                                     Adquirir fragancia
                                 </a>
                             </div>
