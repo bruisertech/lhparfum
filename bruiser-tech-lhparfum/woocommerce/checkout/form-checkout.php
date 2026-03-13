@@ -5,7 +5,7 @@
  * This template can be overridden by copying it to yourtheme/woocommerce/checkout/form-checkout.php.
  *
  * @package WooCommerce\Templates
- * @version 10.1.0
+ * @version 10.6.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

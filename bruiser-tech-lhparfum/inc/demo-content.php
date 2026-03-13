@@ -173,6 +173,27 @@ function lhparfum_ocdi_after_import_setup() {
         update_option( 'page_on_front', (int) $front_page_id );
     }
 
+    // Assign pages to Primary Menu automatically
+    $main_menu = get_term_by( 'name', 'Menu Principal', 'nav_menu' );
+    if ( ! $main_menu ) {
+        $menu_id = wp_create_nav_menu( 'Menu Principal' );
+        if ( ! is_wp_error( $menu_id ) ) {
+            $locations = get_theme_mod( 'nav_menu_locations' );
+            $locations['menu-1'] = $menu_id;
+            set_theme_mod( 'nav_menu_locations', $locations );
+
+            // Add pages
+            wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'Inicio', 'menu-item-object-id' => $front_page_id, 'menu-item-object' => 'page', 'menu-item-type' => 'post_type', 'menu-item-status' => 'publish' ) );
+            $colecciones = lhparfum_get_post_by_title('Colecciones');
+            if($colecciones) wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'Colecciones', 'menu-item-object-id' => $colecciones->ID, 'menu-item-object' => 'page', 'menu-item-type' => 'post_type', 'menu-item-status' => 'publish' ) );
+            wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'Tienda', 'menu-item-url' => home_url( '/shop/' ), 'menu-item-type' => 'custom', 'menu-item-status' => 'publish' ) );
+            $nosotros = lhparfum_get_post_by_title('Sobre Nosotros');
+            if($nosotros) wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'Sobre Nosotros', 'menu-item-object-id' => $nosotros->ID, 'menu-item-object' => 'page', 'menu-item-type' => 'post_type', 'menu-item-status' => 'publish' ) );
+            $contacto = lhparfum_get_post_by_title('Contacto');
+            if($contacto) wp_update_nav_menu_item( $menu_id, 0, array( 'menu-item-title' => 'Contacto', 'menu-item-object-id' => $contacto->ID, 'menu-item-object' => 'page', 'menu-item-type' => 'post_type', 'menu-item-status' => 'publish' ) );
+        }
+    }
+
     // 3. Crear Productos de Demo de WooCommerce
     if ( class_exists( 'WooCommerce' ) ) {
         $demo_products = array(
