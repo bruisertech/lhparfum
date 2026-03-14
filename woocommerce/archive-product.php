@@ -141,29 +141,27 @@ get_header( 'shop' );
                         </div>
                     <?php endif; ?>
 
-                    <!-- Marca Filter (Elegant Typography & Custom Dynamic Checkbox) -->
+                    <!-- Marca Filter (Elegant Editorial Typography without Checkbox) -->
                     <?php
                     $marcas = get_terms( array( 'taxonomy' => 'lh_marca', 'hide_empty' => false ) );
                     if ( ! empty( $marcas ) && ! is_wp_error( $marcas ) ) :
                         $current_marca = isset( $_GET['filter_marca'] ) && is_array( $_GET['filter_marca'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_GET['filter_marca'] ) ) : array();
                     ?>
                         <div>
-                            <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Marca</h3>
-                            <ul class="space-y-4 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
+                            <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-6">Casa Perfumista</h3>
+                            <ul class="space-y-5 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
                                 <?php foreach ( $marcas as $term ) :
                                     $is_checked = in_array( $term->slug, $current_marca );
                                 ?>
                                     <li>
-                                        <label class="flex items-center cursor-pointer group">
+                                        <label class="block cursor-pointer group relative">
                                             <input type="checkbox" name="filter_marca[]" value="<?php echo esc_attr( $term->slug ); ?>" <?php checked( $is_checked ); ?> class="sr-only peer" onchange="this.form.submit()">
-                                            <!-- Custom Elegant Checkbox -->
-                                            <div class="w-4 h-4 border border-gray-300 dark:border-gray-600 rounded-sm mr-4 flex items-center justify-center transition-all duration-300 group-hover:border-black dark:group-hover:border-white peer-checked:bg-black peer-checked:border-black dark:peer-checked:bg-white dark:peer-checked:border-white">
-                                                <svg class="w-2.5 h-2.5 text-white dark:text-black opacity-0 peer-checked:opacity-100 transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                                            </div>
-                                            <!-- Imposing Typography for Brand -->
-                                            <span class="text-base font-serif font-bold uppercase tracking-[0.15em] text-gray-800 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white transition-colors <?php echo $is_checked ? 'text-black dark:text-white' : ''; ?>">
+                                            <!-- High Fashion Serif Typography -->
+                                            <span class="inline-block text-base md:text-lg font-serif uppercase tracking-[0.2em] transition-all duration-500 <?php echo $is_checked ? 'text-black dark:text-white font-black scale-105 origin-left' : 'text-gray-500 dark:text-gray-400 font-medium hover:text-gray-800 dark:hover:text-gray-200'; ?>">
                                                 <?php echo esc_html( $term->name ); ?>
                                             </span>
+                                            <!-- Elegant Underline Animation -->
+                                            <span class="absolute -bottom-1 left-0 h-[1px] bg-black dark:bg-white transition-all duration-500 ease-out <?php echo $is_checked ? 'w-full opacity-100' : 'w-0 opacity-0 group-hover:w-1/2 group-hover:opacity-50'; ?>"></span>
                                         </label>
                                     </li>
                                 <?php endforeach; ?>
@@ -171,22 +169,29 @@ get_header( 'shop' );
                         </div>
                     <?php endif; ?>
 
-                    <!-- Aroma Filter -->
+                    <!-- Aroma Filter (Handwritten Cursive Style) -->
                     <?php
                     $aromas = get_terms( array( 'taxonomy' => 'lh_aroma', 'hide_empty' => false ) );
                     if ( ! empty( $aromas ) && ! is_wp_error( $aromas ) ) :
                         $current_aroma = isset( $_GET['filter_aroma'] ) && is_array( $_GET['filter_aroma'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_GET['filter_aroma'] ) ) : array();
                     ?>
-                        <div>
-                            <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Familia Olfativa</h3>
-                            <ul class="space-y-3 max-h-48 overflow-y-auto pr-2">
-                                <?php foreach ( $aromas as $term ) : ?>
+                        <div class="mt-8">
+                            <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-6">Familia Olfativa</h3>
+                            <ul class="space-y-6 max-h-72 overflow-y-auto pr-4 custom-scrollbar">
+                                <?php foreach ( $aromas as $term ) :
+                                    $is_checked = in_array( $term->slug, $current_aroma );
+                                ?>
                                     <li>
-                                        <label class="flex items-center space-x-3 cursor-pointer group">
-                                            <input type="checkbox" name="filter_aroma[]" value="<?php echo esc_attr( $term->slug ); ?>" <?php checked( in_array( $term->slug, $current_aroma ) ); ?> class="form-checkbox h-4 w-4 text-black dark:text-white bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-sm focus:ring-black dark:focus:ring-white transition duration-150 ease-in-out cursor-pointer" onchange="this.form.submit()">
-                                            <span class="text-sm text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white transition-colors">
+                                        <label class="flex items-center cursor-pointer group w-full justify-between">
+                                            <input type="checkbox" name="filter_aroma[]" value="<?php echo esc_attr( $term->slug ); ?>" <?php checked( $is_checked ); ?> class="sr-only peer" onchange="this.form.submit()">
+
+                                            <!-- Handwritten Font injected from header.php -->
+                                            <span class="font-['Alex_Brush',_cursive] text-3xl leading-none capitalize transition-all duration-700 <?php echo $is_checked ? 'text-black dark:text-white transform scale-110 drop-shadow-sm origin-left' : 'text-gray-400 dark:text-gray-500 hover:text-gray-800 dark:hover:text-gray-300'; ?>">
                                                 <?php echo esc_html( $term->name ); ?>
                                             </span>
+
+                                            <!-- Elegant Dot Indicator instead of checkbox -->
+                                            <span class="w-1.5 h-1.5 rounded-full bg-black dark:bg-white transition-all duration-500 <?php echo $is_checked ? 'opacity-100 scale-100 animate-pulse' : 'opacity-0 scale-0 group-hover:opacity-30 group-hover:scale-50'; ?>"></span>
                                         </label>
                                     </li>
                                 <?php endforeach; ?>
