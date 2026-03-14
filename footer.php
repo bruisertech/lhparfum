@@ -196,6 +196,53 @@ document.addEventListener('DOMContentLoaded', function() {
     jQuery(document.body).on('added_to_cart', function() {
         openSideCart();
     });
+
+    // Handle AJAX Quantity Updates
+    jQuery(document).on('click', '.lhparfum-qty-btn', function(e) {
+        e.preventDefault();
+
+        const $btn = jQuery(this);
+        const action = $btn.data('action');
+        const cartItemKey = $btn.data('cart_item_key');
+        const $input = $btn.siblings('.lhparfum-qty-input');
+        let currentVal = parseInt($input.val());
+        const maxVal = $input.attr('max') ? parseInt($input.attr('max')) : null;
+
+        if (action === 'plus') {
+            if (maxVal && currentVal >= maxVal) return;
+            currentVal++;
+        } else if (action === 'minus') {
+            if (currentVal <= 0) return;
+            currentVal--;
+        }
+
+        $input.val(currentVal);
+
+        const $cartContent = jQuery('.widget_shopping_cart_content');
+        $cartContent.css('opacity', '0.5');
+
+        jQuery.ajax({
+            type: 'POST',
+            url: lhparfum_ajax.ajax_url,
+            data: {
+                action: 'lhparfum_update_mini_cart',
+                nonce: lhparfum_ajax.nonce,
+                cart_item_key: cartItemKey,
+                qty: currentVal
+            },
+            success: function(response) {
+                if(response.success) {
+                    // Trigger WooCommerce fragment refresh to redraw the cart UI
+                    jQuery(document.body).trigger('wc_fragment_refresh');
+                } else {
+                    $cartContent.css('opacity', '1');
+                }
+            },
+            error: function() {
+                $cartContent.css('opacity', '1');
+            }
+        });
+    });
 });
 </script>
 
