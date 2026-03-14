@@ -171,7 +171,6 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
         </div>
 
         <div class="woocommerce-mini-cart__buttons buttons flex flex-col gap-3">
-            <a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="button wc-forward w-full text-center border border-gray-900 dark:border-white text-gray-900 dark:text-white bg-transparent py-4 font-bold uppercase tracking-widest text-xs hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-gray-900 transition-colors rounded-sm"><?php esc_html_e( 'Ver Bolsa', 'bruiser-tech-lhparfum' ); ?></a>
             <a href="<?php echo esc_url( wc_get_checkout_url() ); ?>" class="button checkout wc-forward w-full text-center bg-black dark:bg-white text-white dark:text-black py-4 font-bold uppercase tracking-widest text-xs hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors rounded-sm shadow-lg shadow-black/10 dark:shadow-white/10"><?php esc_html_e( 'Pasar por caja', 'bruiser-tech-lhparfum' ); ?></a>
         </div>
 

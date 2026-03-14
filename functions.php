@@ -183,6 +183,20 @@ function bruiser_tech_lhparfum_custom_cart_button_text() {
 }
 
 /**
+ * Redirect Cart Page to Checkout to force luxury "Side Cart Only" experience
+ */
+function bruiser_tech_lhparfum_redirect_cart_to_checkout() {
+    if ( is_cart() && ! WC()->cart->is_empty() ) {
+        wp_safe_redirect( wc_get_checkout_url() );
+        exit;
+    } elseif ( is_cart() && WC()->cart->is_empty() ) {
+        wp_safe_redirect( wc_get_page_permalink( 'shop' ) );
+        exit;
+    }
+}
+add_action( 'template_redirect', 'bruiser_tech_lhparfum_redirect_cart_to_checkout' );
+
+/**
  * WooCommerce AJAX Cart Fragments
  */
 function bruiser_tech_lhparfum_cart_fragments( $fragments ) {
