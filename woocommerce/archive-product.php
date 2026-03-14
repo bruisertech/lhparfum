@@ -15,20 +15,13 @@ get_header( 'shop' );
 ?>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 transition-colors duration-300">
-    <!-- Header -->
-    <header class="woocommerce-products-header mb-12 border-b border-gray-200 dark:border-gray-800 pb-8 text-center">
-        <?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
-            <h1 class="woocommerce-products-header__title page-title text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-                <?php woocommerce_page_title(); ?>
-            </h1>
-        <?php endif; ?>
+    <!-- Removed Title Header as requested -->
+    <?php
+    // We still call the description action in case categories have important SEO text
+    do_action( 'woocommerce_archive_description' );
+    ?>
 
-        <?php
-        do_action( 'woocommerce_archive_description' );
-        ?>
-    </header>
-
-    <div class="flex flex-col md:flex-row gap-12">
+    <div class="flex flex-col md:flex-row gap-12 mt-4">
         <!-- Sidebar Filters -->
         <aside class="w-full md:w-1/4 lg:w-1/5 shrink-0 hidden md:block border-r border-gray-200 dark:border-gray-800 pr-8">
             <div class="sticky top-24">
@@ -37,21 +30,29 @@ get_header( 'shop' );
                         Refinar Búsqueda
                     </h2>
 
-                    <!-- Price Range Filter -->
+                    <!-- Price Range Filter (Bubbles) -->
                     <div>
-                        <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Rango de Precio</h3>
-                        <div class="flex items-center space-x-2 mb-4">
+                        <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Presupuesto Máximo</h3>
+                        <div class="flex flex-wrap gap-2">
                             <?php
-                            $min_val = isset( $_GET['min_price'] ) ? esc_attr( $_GET['min_price'] ) : '';
                             $max_val = isset( $_GET['max_price'] ) ? esc_attr( $_GET['max_price'] ) : '';
+                            $price_points = array( 100000, 200000, 300000 );
+
+                            foreach ( $price_points as $price ) {
+                                $is_active = ( $max_val == $price );
+                                $active_classes = $is_active
+                                    ? 'bg-black text-white dark:bg-white dark:text-black border-black dark:border-white shadow-md'
+                                    : 'bg-transparent text-gray-600 dark:text-gray-400 border-gray-300 dark:border-gray-700 hover:border-gray-500 dark:hover:border-gray-500';
+
+                                echo '<label class="cursor-pointer inline-block">';
+                                echo '<input type="radio" name="max_price" value="' . esc_attr( $price ) . '" class="sr-only" onchange="this.form.submit()" ' . checked( $is_active, true, false ) . '>';
+                                echo '<span class="inline-block px-3 py-1.5 rounded-full text-[10px] font-bold tracking-widest transition-all duration-300 border ' . esc_attr( $active_classes ) . '">';
+                                echo 'Max $' . number_format( $price, 0, ',', '.' );
+                                echo '</span>';
+                                echo '</label>';
+                            }
                             ?>
-                            <input type="number" name="min_price" value="<?php echo $min_val; ?>" placeholder="Min" class="w-full text-xs p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-sm focus:ring-black dark:focus:ring-white">
-                            <span class="text-gray-500">-</span>
-                            <input type="number" name="max_price" value="<?php echo $max_val; ?>" placeholder="Max" class="w-full text-xs p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-sm focus:ring-black dark:focus:ring-white">
                         </div>
-                        <button type="submit" class="w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white text-[10px] font-bold uppercase tracking-widest py-2 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
-                            Aplicar Precio
-                        </button>
                     </div>
 
                     <!-- Genero Filter -->
@@ -219,53 +220,90 @@ get_header( 'shop' );
                         global $product;
                         $link = apply_filters( 'woocommerce_loop_product_link', get_the_permalink(), $product );
 
-                        // Get Rareza
+                        // Harvest Taxonomies
                         $rareza_terms = get_the_terms( $product->get_id(), 'lh_rareza' );
+
+                        $tax_string = array();
+                        $m_marca = get_the_terms( $product->get_id(), 'lh_marca' );
+                        if ( $m_marca && ! is_wp_error( $m_marca ) ) $tax_string[] = esc_html( $m_marca[0]->name );
+
+                        $m_genero = get_the_terms( $product->get_id(), 'lh_genero' );
+                        if ( $m_genero && ! is_wp_error( $m_genero ) ) $tax_string[] = esc_html( $m_genero[0]->name );
+
+                        $m_aroma = get_the_terms( $product->get_id(), 'lh_aroma' );
+                        if ( $m_aroma && ! is_wp_error( $m_aroma ) ) $tax_string[] = esc_html( $m_aroma[0]->name );
+
+                        $formatted_taxonomies = implode(' &bull; ', $tax_string);
+
+                        // Pill & Glow Logic
                         $rareza_html = '';
+                        $glow_class = '';
+                        $carousel_btn_bg = 'bg-black dark:bg-white text-white dark:text-black';
+
                         if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) {
                             $term = $rareza_terms[0];
                             $slug = $term->slug;
 
-                            $pill_classes = 'absolute top-4 right-4 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full text-white z-10 transition-all duration-300';
+                            $pill_classes = 'absolute top-4 right-4 inline-flex items-center justify-center px-4 py-1.5 rounded-full text-[9px] font-bold uppercase tracking-[0.25em] transition-all duration-500 shadow-md overflow-hidden z-20 border border-transparent text-white group-hover:scale-105';
 
                             if ( $slug === 'nicho' ) {
-                                $pill_classes .= ' bg-yellow-500 animate-pulse-glow-gold';
+                                $pill_classes .= ' bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 animate-pulse-glow-gold';
+                                $glow_class = 'bg-yellow-400 opacity-30 dark:opacity-20 animate-pulse-glow-gold blur-[48px]';
+                                $carousel_btn_bg = 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-white shadow-md hover:shadow-lg hover:shadow-yellow-500/20';
                             } elseif ( $slug === 'arabe' ) {
-                                $pill_classes .= ' bg-purple-600 animate-pulse-glow-purple';
+                                $pill_classes .= ' bg-gradient-to-r from-purple-500 via-purple-600 to-purple-800 animate-pulse-glow-purple';
+                                $glow_class = 'bg-purple-600 opacity-30 dark:opacity-20 animate-pulse-glow-purple blur-[48px]';
+                                $carousel_btn_bg = 'bg-gradient-to-r from-purple-500 to-purple-800 text-white shadow-md hover:shadow-lg hover:shadow-purple-500/20';
                             } elseif ( $slug === 'disenador' ) {
-                                $pill_classes .= ' bg-blue-500 animate-pulse-glow-blue';
+                                $pill_classes .= ' bg-gradient-to-r from-blue-400 via-blue-500 to-blue-700 animate-pulse-glow-blue';
+                                $glow_class = 'bg-blue-500 opacity-30 dark:opacity-20 animate-pulse-glow-blue blur-[48px]';
+                                $carousel_btn_bg = 'bg-gradient-to-r from-blue-400 to-blue-700 text-white shadow-md hover:shadow-lg hover:shadow-blue-500/20';
                             } else {
-                                $pill_classes .= ' bg-green-500 animate-pulse-glow-green';
+                                $pill_classes .= ' bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-700 animate-pulse-glow-green';
+                                $glow_class = 'bg-green-500 opacity-30 dark:opacity-20 animate-pulse-glow-green blur-[48px]';
+                                $carousel_btn_bg = 'bg-gradient-to-r from-emerald-400 to-emerald-700 text-white shadow-md hover:shadow-lg hover:shadow-emerald-500/20';
                             }
 
-                            $rareza_html = '<span class="' . esc_attr( $pill_classes ) . '">' . esc_html( $term->name ) . '</span>';
+                            $rareza_html = '<div class="' . esc_attr( $pill_classes ) . '">';
+                            $rareza_html .= '<span class="relative z-10">' . esc_html( $term->name ) . '</span>';
+                            $rareza_html .= '<div class="absolute inset-0 bg-white opacity-20 mix-blend-overlay"></div>';
+                            $rareza_html .= '</div>';
                         }
                         ?>
-                        <div class="group relative flex flex-col items-center text-center transition duration-300 bg-white dark:bg-gray-900 h-full">
-                            <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden relative rounded-sm shadow-sm group-hover:shadow-lg transition-shadow duration-300" style="aspect-ratio: 3/4; font-size: 0; line-height: 0;">
+                        <div class="group relative flex flex-col items-center text-center transition duration-300 bg-transparent h-full">
+                            <!-- LED Ambient Glow -->
+                            <?php if ( $glow_class ) : ?>
+                                <div class="absolute inset-0 <?php echo esc_attr( $glow_class ); ?> rounded-sm -z-10 group-hover:scale-110 transition-transform duration-700 pointer-events-none"></div>
+                            <?php endif; ?>
+
+                            <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden relative rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300 mb-3 z-10" style="aspect-ratio: 3/4; font-size: 0; line-height: 0;">
                                 <?php echo $rareza_html; ?>
                                 <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out block m-0 p-0' ) ); ?>
-                                <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
                             </a>
-                            <div class="pt-4 flex flex-col justify-between flex-grow w-full px-2 items-center text-center">
-                                <?php
-                                $genero_terms = get_the_terms( $product->get_id(), 'lh_genero' );
-                                if ( $genero_terms && ! is_wp_error( $genero_terms ) ) {
-                                    echo '<span class="text-[10px] font-semibold text-[#888888] dark:text-[#aaaaaa] uppercase tracking-[0.2em] mb-3 inline-block">' . esc_html( $genero_terms[0]->name ) . '</span>';
-                                }
-                                ?>
-                                <h2 class="text-lg md:text-xl font-black text-black dark:text-white mb-2 tracking-tight leading-tight">
+                            <div class="pt-2 flex flex-col justify-start flex-grow w-full px-2 items-center text-center z-10">
+
+                                <!-- Elegant Taxonomies -->
+                                <?php if ( ! empty( $formatted_taxonomies ) ) : ?>
+                                    <span class="text-[8px] md:text-[9px] font-black uppercase tracking-[0.25em] text-[#999999] mb-1.5 leading-relaxed">
+                                        <?php echo $formatted_taxonomies; ?>
+                                    </span>
+                                <?php endif; ?>
+
+                                <!-- Title -->
+                                <h2 class="text-sm md:text-base font-bold text-black dark:text-white mb-1 tracking-wide whitespace-normal leading-tight line-clamp-1">
                                     <a href="<?php echo esc_url( $link ); ?>" class="hover:underline decoration-2 underline-offset-4">
                                         <?php echo get_the_title(); ?>
                                     </a>
                                 </h2>
-                                <div class="text-sm md:text-base text-[#666666] dark:text-[#bbbbbb] font-light mb-6">
+
+                                <!-- Price -->
+                                <div class="text-xs text-[#666666] dark:text-[#bbbbbb] font-light mb-4">
                                     <?php echo $product->get_price_html(); ?>
                                 </div>
 
-                                <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>" class="mt-auto w-full group relative overflow-hidden bg-black dark:bg-white text-white dark:text-black px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500 shadow-md hover:shadow-xl flex justify-center items-center rounded-sm">
-                                    <div class="absolute inset-0 w-0 bg-white dark:bg-black opacity-10 transition-all duration-[600ms] ease-out group-hover:w-full"></div>
-                                    <span class="relative z-10"><?php echo esc_html( $product->add_to_cart_text() ); ?></span>
+                                <!-- Dynamic Add to Cart -->
+                                <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>" class="mt-auto inline-block px-5 py-2.5 w-full max-w-[85%] text-[8px] font-black uppercase tracking-[0.2em] rounded-sm transition-all duration-300 transform group-hover:scale-105 <?php echo esc_attr($carousel_btn_bg); ?>">
+                                    Adquirir fragancia
                                 </a>
                             </div>
                         </div>
