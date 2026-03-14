@@ -286,9 +286,15 @@ function bruiser_tech_lhparfum_product_query( $q ) {
             $q->set( 'tax_query', $tax_query );
         }
 
-        // We rely on WooCommerce's native `max_price` parameter parsing
-        // to handle the price filtering robustly (including variable products),
-        // so we don't need a custom meta_query for it here.
+        // Explicitly set price query variables if present in URL
+        // WooCommerce's WC_Query uses these exact keys to perform its optimized SQL JOIN on wc_product_meta_lookup
+        if ( isset( $_GET['max_price'] ) && is_numeric( $_GET['max_price'] ) ) {
+            $q->set( 'max_price', floatval( wp_unslash( $_GET['max_price'] ) ) );
+        }
+
+        if ( isset( $_GET['min_price'] ) && is_numeric( $_GET['min_price'] ) ) {
+            $q->set( 'min_price', floatval( wp_unslash( $_GET['min_price'] ) ) );
+        }
     }
 }
 add_action( 'woocommerce_product_query', 'bruiser_tech_lhparfum_product_query' );
