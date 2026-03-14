@@ -183,10 +183,13 @@
             <div class="flex justify-between h-16 items-center">
                 <!-- Mobile Menu Button -->
                 <div class="flex items-center md:hidden flex-1">
-                    <button type="button" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white focus:outline-none" aria-controls="mobile-menu" aria-expanded="false">
+                    <button type="button" id="mobile-menu-toggle" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white focus:outline-none" aria-controls="mobile-menu" aria-expanded="false">
                         <span class="sr-only">Abrir menú principal</span>
-                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg class="h-6 w-6 transition-transform duration-300" id="hamburger-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg class="h-6 w-6 hidden transition-transform duration-300" id="close-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
@@ -261,5 +264,93 @@
             </div>
         </div>
     </header><!-- #masthead -->
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-[45] bg-white dark:bg-gray-900 transform -translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] pt-20 px-6 overflow-y-auto">
+        <nav class="flex flex-col space-y-8 mt-8">
+            <?php
+            wp_nav_menu( array(
+                'theme_location' => 'menu-1',
+                'container'      => false,
+                'menu_class'     => 'flex flex-col space-y-6 text-xl font-bold uppercase tracking-widest text-gray-900 dark:text-gray-100',
+                'fallback_cb'    => false,
+                'items_wrap'     => '<ul id="%1$s" class="%2$s">%3$s</ul>'
+            ) );
+            ?>
+            <!-- Fallback if menu not set -->
+            <?php if ( ! has_nav_menu( 'menu-1' ) ) : ?>
+                <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-gray-900 dark:text-gray-100 hover:text-gray-500 transition-colors">Inicio</a>
+                <a href="<?php echo esc_url( home_url( '/colecciones/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-gray-900 dark:text-gray-100 hover:text-gray-500 transition-colors">Colecciones</a>
+                <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/tienda/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-gray-900 dark:text-gray-100 hover:text-gray-500 transition-colors">Tienda</a>
+                <a href="<?php echo esc_url( home_url( '/sobre-nosotros/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-gray-900 dark:text-gray-100 hover:text-gray-500 transition-colors">Sobre Nosotros</a>
+                <a href="<?php echo esc_url( home_url( '/contacto/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-gray-900 dark:text-gray-100 hover:text-gray-500 transition-colors">Contacto</a>
+            <?php endif; ?>
+
+            <div class="pt-8 border-t border-gray-200 dark:border-gray-800 flex items-center justify-between">
+                <span class="text-sm font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">Modo Oscuro</span>
+                <button id="mobile-theme-toggle" type="button" class="w-12 h-6 rounded-full bg-gray-300 dark:bg-gray-600 relative transition-colors focus:outline-none">
+                    <span class="sr-only">Toggle dark mode</span>
+                    <span class="absolute left-1 top-1 w-4 h-4 rounded-full bg-white transition-transform transform dark:translate-x-6"></span>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleBtn = document.getElementById('mobile-menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const hamburgerIcon = document.getElementById('hamburger-icon');
+            const closeIcon = document.getElementById('close-icon');
+            let isMenuOpen = false;
+
+            if (toggleBtn && mobileMenu) {
+                toggleBtn.addEventListener('click', function() {
+                    isMenuOpen = !isMenuOpen;
+                    if (isMenuOpen) {
+                        mobileMenu.classList.remove('-translate-x-full');
+                        hamburgerIcon.classList.add('hidden');
+                        closeIcon.classList.remove('hidden');
+                        document.body.classList.add('overflow-hidden');
+                    } else {
+                        mobileMenu.classList.add('-translate-x-full');
+                        hamburgerIcon.classList.remove('hidden');
+                        closeIcon.classList.add('hidden');
+                        document.body.classList.remove('overflow-hidden');
+                    }
+                });
+            }
+
+            // Mobile theme toggle logic
+            const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
+            if(mobileThemeToggle) {
+                mobileThemeToggle.addEventListener('click', function() {
+                    // Re-use desktop logic by triggering a click on it, or run logic directly
+                    const desktopBtn = document.getElementById('theme-toggle');
+                    if(desktopBtn) {
+                        desktopBtn.click();
+                    }
+                });
+            }
+        });
+    </script>
+
+    <!-- Style inline list items created by wp_nav_menu -->
+    <style>
+        #mobile-menu ul li a {
+            display: block;
+            font-size: 1.25rem;
+            line-height: 1.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: inherit;
+            transition: color 0.3s;
+        }
+        #mobile-menu ul li a:hover {
+            color: #888;
+        }
+    </style>
 
     <div id="content" class="site-content flex-grow">

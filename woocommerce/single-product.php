@@ -23,7 +23,7 @@ get_header( 'shop' ); ?>
     ?>
 
     <!-- Full-width minimalist container for absolute cleanliness -->
-    <div class="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-12 py-16 md:py-24 transition-colors duration-500">
+    <div class="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-12 py-16 md:py-24 transition-colors duration-500 overflow-x-hidden w-full">
         <?php while ( have_posts() ) : ?>
             <?php the_post(); ?>
             <?php global $product; ?>
@@ -158,9 +158,10 @@ get_header( 'shop' ); ?>
                 </div>
 
                 <!-- Product Image Gallery (Right Side, Stretches to match text height perfectly) -->
-                <div class="w-full lg:w-1/2 flex justify-center lg:justify-start h-auto">
+                <!-- Added overflow-hidden on mobile to contain the heavy blur glows from expanding page width -->
+                <div class="w-full lg:w-1/2 flex justify-center lg:justify-start h-auto relative">
                     <!-- Added pt-8 lg:pt-16 to align the top of the image perfectly with the top of the text block (the rarity pill) -->
-                    <div class="group relative overflow-visible w-full max-w-md h-full flex flex-col pt-8 lg:pt-16">
+                    <div class="group relative w-full max-w-md h-full flex flex-col pt-8 lg:pt-16">
 
                         <!-- Rarity LED Glow Behind the Image (Massive ambience effect) -->
                         <?php
@@ -168,12 +169,13 @@ get_header( 'shop' ); ?>
                             if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) {
                                 $slug = $rareza_terms[0]->slug;
                                 // Increased opacity and blur spread for a much stronger, ethereal LED glow requested by user
-                                if ( $slug === 'nicho' ) $glow_class = 'bg-yellow-400 opacity-40 dark:opacity-30 animate-pulse-glow-gold blur-[64px]';
-                                elseif ( $slug === 'arabe' ) $glow_class = 'bg-purple-600 opacity-40 dark:opacity-30 animate-pulse-glow-purple blur-[64px]';
-                                elseif ( $slug === 'disenador' ) $glow_class = 'bg-blue-500 opacity-40 dark:opacity-30 animate-pulse-glow-blue blur-[64px]';
-                                else $glow_class = 'bg-green-500 opacity-40 dark:opacity-30 animate-pulse-glow-green blur-[64px]';
+                                if ( $slug === 'nicho' ) $glow_class = 'bg-yellow-400 opacity-40 dark:opacity-30 animate-pulse-glow-gold blur-[50px] md:blur-[64px]';
+                                elseif ( $slug === 'arabe' ) $glow_class = 'bg-purple-600 opacity-40 dark:opacity-30 animate-pulse-glow-purple blur-[50px] md:blur-[64px]';
+                                elseif ( $slug === 'disenador' ) $glow_class = 'bg-blue-500 opacity-40 dark:opacity-30 animate-pulse-glow-blue blur-[50px] md:blur-[64px]';
+                                else $glow_class = 'bg-green-500 opacity-40 dark:opacity-30 animate-pulse-glow-green blur-[50px] md:blur-[64px]';
                             }
-                            echo '<div class="absolute -inset-20 z-0 rounded-full transition-all duration-[2000ms] ' . esc_attr($glow_class) . ' pointer-events-none mix-blend-screen"></div>';
+                            // Reduced inset on mobile (-inset-10 instead of -inset-20) to prevent overflow
+                            echo '<div class="absolute -inset-10 md:-inset-20 z-0 rounded-full transition-all duration-[2000ms] ' . esc_attr($glow_class) . ' pointer-events-none mix-blend-screen"></div>';
                         ?>
 
                         <!-- Main Image (Enforced Max Height to prevent overwhelming the button) -->
