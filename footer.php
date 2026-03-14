@@ -47,7 +47,7 @@
 <div id="lhparfum-side-cart-overlay" class="fixed inset-0 bg-black/60 dark:bg-black/80 z-[60] hidden transition-opacity duration-500 opacity-0 cursor-pointer backdrop-blur-md"></div>
 
 <!-- Safely contained drawer layout. Avoids mt-[], mr-[] math that breaks desktop browsers -->
-<div id="lhparfum-side-cart" class="fixed top-0 right-0 bottom-0 w-full sm:w-[450px] h-full bg-white dark:bg-gray-900 z-[70] rounded-none sm:rounded-l-[2rem] transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col border-l border-gray-100 dark:border-gray-800">
+<div id="lhparfum-side-cart" class="fixed top-0 right-0 bottom-0 w-full sm:w-[450px] h-full bg-white dark:bg-gray-900 z-[70] rounded-none sm:rounded-l-[2rem] transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col border-l border-gray-100 dark:border-gray-800 transform-gpu will-change-transform">
     <!-- Header -->
     <div class="flex items-center justify-between px-8 py-6 border-b border-gray-100 dark:border-gray-800 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl z-20 shrink-0">
         <h2 class="text-lg md:text-xl font-black uppercase tracking-[0.25em] text-gray-900 dark:text-white"><?php esc_html_e( 'Tu Bolsa', 'bruiser-tech-lhparfum' ); ?></h2>
