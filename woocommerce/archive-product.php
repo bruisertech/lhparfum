@@ -35,7 +35,7 @@ get_header( 'shop' );
                         <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Presupuesto Máximo</h3>
                         <div class="flex flex-wrap gap-2">
                             <?php
-                            $max_val = isset( $_GET['max_price'] ) ? esc_attr( $_GET['max_price'] ) : '';
+                            $max_val = isset( $_GET['filter_precio_max'] ) ? esc_attr( $_GET['filter_precio_max'] ) : '';
                             $price_points = array( 100000, 200000, 300000, 400000 );
 
                             foreach ( $price_points as $price ) {
@@ -45,7 +45,7 @@ get_header( 'shop' );
                                     : 'bg-transparent text-gray-600 dark:text-gray-400 border-gray-300 dark:border-gray-700 hover:border-gray-500 dark:hover:border-gray-500';
 
                                 echo '<label class="cursor-pointer inline-block">';
-                                echo '<input type="radio" name="max_price" value="' . esc_attr( $price ) . '" class="sr-only" onchange="this.form.submit()" ' . checked( $is_active, true, false ) . '>';
+                                echo '<input type="radio" name="filter_precio_max" value="' . esc_attr( $price ) . '" class="sr-only" onchange="this.form.submit()" ' . checked( $is_active, true, false ) . '>';
                                 echo '<span class="inline-block px-3 py-1.5 rounded-full text-[10px] font-bold tracking-widest transition-all duration-300 border ' . esc_attr( $active_classes ) . '">';
                                 echo 'Max $' . number_format( $price, 0, ',', '.' );
                                 echo '</span>';
@@ -198,7 +198,7 @@ get_header( 'shop' );
                         <button type="submit" class="w-full bg-black dark:bg-white text-white dark:text-black px-4 py-2 text-xs font-bold uppercase tracking-widest mt-4">Aplicar Filtros</button>
                     </noscript>
 
-                    <?php if ( isset( $_GET['min_price'] ) || isset( $_GET['max_price'] ) || isset( $_GET['filter_genero'] ) || isset( $_GET['filter_rareza'] ) || isset( $_GET['filter_aroma'] ) || isset( $_GET['filter_marca'] ) ) : ?>
+                    <?php if ( isset( $_GET['min_price'] ) || isset( $_GET['filter_precio_max'] ) || isset( $_GET['filter_genero'] ) || isset( $_GET['filter_rareza'] ) || isset( $_GET['filter_aroma'] ) || isset( $_GET['filter_marca'] ) ) : ?>
                         <div class="pt-4 border-t border-gray-200 dark:border-gray-800">
                             <a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="block w-full text-center text-xs font-bold uppercase tracking-widest text-red-500 hover:text-red-700 transition-colors">
                                 Limpiar Filtros
