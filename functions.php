@@ -286,31 +286,11 @@ function bruiser_tech_lhparfum_product_query( $q ) {
             $q->set( 'tax_query', $tax_query );
         }
 
-        // Price Filter: The most robust way to filter by price without relying on WooCommerce active widgets
-        // is to query the wc_product_meta_lookup table directly and push the matching IDs to post__in.
+        // Price Filter: WooCommerce natively supports min_price and max_price query vars.
+        // We set it here so it applies internally without requiring custom database lookups.
         if ( isset( $_GET['max_price'] ) && is_numeric( $_GET['max_price'] ) ) {
-            global $wpdb;
             $max_price = floatval( wp_unslash( $_GET['max_price'] ) );
-
-            // We use min_price <= $max_price so we catch products whose base price fits the budget.
-            $product_ids = $wpdb->get_col( $wpdb->prepare( "
-                SELECT product_id
-                FROM {$wpdb->prefix}wc_product_meta_lookup
-                WHERE min_price <= %f
-            ", $max_price ) );
-
-            if ( empty( $product_ids ) ) {
-                $product_ids = array( 0 ); // Force empty result if no products match
-            }
-
-            // If there's already a post__in constraint (from other plugins), intersect it.
-            $existing_post_in = $q->get( 'post__in' );
-            if ( ! empty( $existing_post_in ) ) {
-                $product_ids = array_intersect( $existing_post_in, $product_ids );
-                if ( empty( $product_ids ) ) $product_ids = array( 0 );
-            }
-
-            $q->set( 'post__in', $product_ids );
+            $q->set( 'max_price', $max_price );
         }
     }
 }
