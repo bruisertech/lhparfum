@@ -29,7 +29,7 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
     ?>
 
     <!-- Free Shipping Progress Bar -->
-    <div class="mb-6 bg-white dark:bg-gray-800 p-4 rounded border border-gray-100 dark:border-gray-700 shadow-sm relative overflow-hidden">
+    <div class="mb-8 bg-white dark:bg-[#181818] p-5 rounded-2xl border border-gray-200/50 dark:border-gray-800/50 shadow-[0_4px_20px_rgba(0,0,0,0.03)] dark:shadow-none relative overflow-hidden">
         <?php if ( $amount_left > 0 ) : ?>
             <p class="text-xs text-center text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider mb-2">
                 Te faltan <span class="text-gray-900 dark:text-white font-bold"><?php echo wc_price( $amount_left ); ?></span> para <span class="text-black dark:text-white">Envío Gratis</span>
@@ -40,8 +40,8 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
             </p>
         <?php endif; ?>
 
-        <div class="w-full bg-gray-200 dark:bg-gray-700 h-1.5 rounded-full overflow-hidden">
-            <div class="bg-black dark:bg-white h-full rounded-full transition-all duration-1000 ease-out" style="width: <?php echo esc_attr( $progress_percentage ); ?>%;"></div>
+        <div class="w-full bg-gray-100 dark:bg-gray-800 h-2 rounded-full overflow-hidden mt-1 shadow-inner">
+            <div class="bg-black dark:bg-white h-full rounded-full transition-all duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)]" style="width: <?php echo esc_attr( $progress_percentage ); ?>%;"></div>
         </div>
 
         <?php if ( $amount_left > 0 ) : ?>
@@ -77,17 +77,33 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
                 }
 
                 // Default clean classes if no rareza specific bg needed
-                $card_class = $glow_class ? $glow_class : 'bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700';
+                $card_class = $glow_class ? $glow_class : 'bg-white dark:bg-[#1a1a1a] border-gray-200/60 dark:border-gray-800/60';
                 ?>
-                <li class="woocommerce-mini-cart-item <?php echo esc_attr( apply_filters( 'woocommerce_mini_cart_item_class', 'mini_cart_item', $cart_item, $cart_item_key ) ); ?> flex gap-4 p-4 rounded border shadow-sm relative <?php echo esc_attr($card_class); ?>">
+                <li class="woocommerce-mini-cart-item <?php echo esc_attr( apply_filters( 'woocommerce_mini_cart_item_class', 'mini_cart_item', $cart_item, $cart_item_key ) ); ?> flex gap-5 p-4 sm:p-5 rounded-2xl border shadow-[0_8px_30px_rgba(0,0,0,0.04)] dark:shadow-none relative <?php echo esc_attr($card_class); ?> transition-all duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)]">
 
-                    <!-- Remove Item (Bigger for mobile) -->
-                    <div class="absolute -top-3 -right-3 z-10">
+                    <!-- Rarity Pill Integrated (Top Left) -->
+                    <?php if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) :
+                        $term = $rareza_terms[0];
+                        $slug = $term->slug;
+                        $pill_classes = 'absolute -top-3 -left-3 inline-flex items-center justify-center px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-[0.25em] text-white shadow-md z-20';
+                        if ( $slug === 'nicho' ) $pill_classes .= ' bg-gradient-to-r from-yellow-400 to-yellow-600 animate-pulse-glow-gold';
+                        elseif ( $slug === 'arabe' ) $pill_classes .= ' bg-gradient-to-r from-purple-500 to-purple-800 animate-pulse-glow-purple';
+                        elseif ( $slug === 'disenador' ) $pill_classes .= ' bg-gradient-to-r from-blue-400 to-blue-700 animate-pulse-glow-blue';
+                        else $pill_classes .= ' bg-gradient-to-r from-emerald-400 to-emerald-700 animate-pulse-glow-green';
+                    ?>
+                        <div class="<?php echo esc_attr( $pill_classes ); ?>">
+                            <span class="relative z-10"><?php echo esc_html( $term->name ); ?></span>
+                            <div class="absolute inset-0 bg-white opacity-20 mix-blend-overlay"></div>
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- Remove Item (Sleek Circle) -->
+                    <div class="absolute -top-3 -right-3 z-20">
                         <?php
                         echo apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             'woocommerce_cart_item_remove_link',
                             sprintf(
-                                '<a href="%s" class="remove remove_from_cart_button bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-500 hover:text-red-500 hover:border-red-500 dark:hover:text-red-400 dark:hover:border-red-400 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold transition-colors shadow-md" aria-label="%s" data-product_id="%s" data-cart_item_key="%s" data-product_sku="%s" style="line-height:1;">&times;</a>',
+                                '<a href="%s" class="remove remove_from_cart_button bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 text-gray-400 hover:text-red-500 hover:border-red-200 dark:hover:text-red-400 dark:hover:border-red-900 rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold transition-all duration-300 shadow-md hover:scale-110" aria-label="%s" data-product_id="%s" data-cart_item_key="%s" data-product_sku="%s" style="line-height:1;">&times;</a>',
                                 esc_url( wc_get_cart_remove_url( $cart_item_key ) ),
                                 /* translators: %s is the product name */
                                 esc_attr( sprintf( __( 'Remove %s from cart', 'woocommerce' ), wp_strip_all_tags( $product_name ) ) ),
@@ -101,8 +117,8 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
                     </div>
 
                     <!-- Product Image Strict Aspect Ratio -->
-                    <div class="w-20 shrink-0">
-                        <div class="relative w-full aspect-[3/4] overflow-hidden mb-0 rounded shadow-sm">
+                    <div class="w-24 shrink-0">
+                        <div class="relative w-full aspect-[3/4] overflow-hidden mb-0 rounded-xl shadow-sm border border-black/5 dark:border-white/5">
                             <?php if ( empty( $product_permalink ) ) : ?>
                                 <?php echo $thumbnail; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                             <?php else : ?>
@@ -114,9 +130,16 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
                     </div>
 
                     <!-- Product Details -->
-                    <div class="flex-grow flex flex-col justify-between py-1">
+                    <div class="flex-grow flex flex-col justify-between py-1.5">
                         <div>
-                            <h3 class="text-sm font-bold uppercase tracking-wider text-gray-900 dark:text-gray-100 leading-tight">
+                            <!-- Brand (If exists, extra luxury detail) -->
+                            <?php
+                            $marca_terms = get_the_terms( $product_id, 'lh_marca' );
+                            if ( $marca_terms && ! is_wp_error( $marca_terms ) ) {
+                                echo '<div class="text-[9px] font-black uppercase tracking-[0.3em] text-gray-400 dark:text-gray-500 mb-1">' . esc_html( $marca_terms[0]->name ) . '</div>';
+                            }
+                            ?>
+                            <h3 class="text-sm font-black tracking-wide text-gray-900 dark:text-white leading-tight">
                                 <?php if ( empty( $product_permalink ) ) : ?>
                                     <?php echo wp_kses_post( $product_name ); ?>
                                 <?php else : ?>
@@ -133,22 +156,22 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
                         </div>
 
                         <!-- Quantity and Subtotal -->
-                        <div class="flex items-end justify-between mt-3">
+                        <div class="flex items-end justify-between mt-4">
 
-                            <!-- Custom Quantity Selector -->
-                            <div class="flex items-center border border-gray-300 dark:border-gray-600 rounded-sm overflow-hidden bg-white dark:bg-gray-900 h-8">
-                                <button type="button" class="lhparfum-qty-btn lhparfum-qty-minus w-8 h-full flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" data-cart_item_key="<?php echo esc_attr( $cart_item_key ); ?>" data-action="minus">
+                            <!-- Custom Quantity Selector (Rounded pill shape) -->
+                            <div class="flex items-center border border-gray-200 dark:border-gray-700 rounded-full overflow-hidden bg-white/50 dark:bg-black/20 backdrop-blur h-8 shadow-sm">
+                                <button type="button" class="lhparfum-qty-btn lhparfum-qty-minus w-8 h-full flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white transition-colors" data-cart_item_key="<?php echo esc_attr( $cart_item_key ); ?>" data-action="minus">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
                                 </button>
 
                                 <input type="number" class="lhparfum-qty-input w-8 h-full text-center text-xs font-bold bg-transparent border-none p-0 text-gray-900 dark:text-white appearance-none focus:ring-0 cursor-default pointer-events-none" value="<?php echo esc_attr( $cart_item['quantity'] ); ?>" min="0" max="<?php echo esc_attr( $_product->get_max_purchase_quantity() > 0 ? $_product->get_max_purchase_quantity() : '' ); ?>" step="1" readonly />
 
-                                <button type="button" class="lhparfum-qty-btn lhparfum-qty-plus w-8 h-full flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" data-cart_item_key="<?php echo esc_attr( $cart_item_key ); ?>" data-action="plus">
+                                <button type="button" class="lhparfum-qty-btn lhparfum-qty-plus w-8 h-full flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white transition-colors" data-cart_item_key="<?php echo esc_attr( $cart_item_key ); ?>" data-action="plus">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                                 </button>
                             </div>
 
-                            <div class="font-bold text-gray-900 dark:text-white text-base leading-none">
+                            <div class="font-bold text-gray-900 dark:text-white text-[15px] leading-none ml-2 text-right">
                                 <?php echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                             </div>
                         </div>
@@ -162,16 +185,16 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
         ?>
     </ul>
 
-    <div class="sticky bottom-0 bg-gray-50 dark:bg-gray-900/95 backdrop-blur pt-6 mt-6 border-t border-gray-200 dark:border-gray-800">
+    <div class="sticky bottom-0 left-0 right-0 bg-[#fcfcfc]/90 dark:bg-[#111111]/90 backdrop-blur-xl pt-6 pb-2 sm:pb-0 mt-8 border-t border-gray-200/60 dark:border-gray-800/60 z-30 -mx-6 sm:-mx-8 px-6 sm:px-8">
         <?php do_action( 'woocommerce_widget_shopping_cart_before_buttons' ); ?>
 
-        <div class="flex justify-between items-center mb-6">
-            <span class="text-sm font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400"><?php esc_html_e( 'Subtotal', 'woocommerce' ); ?>:</span>
-            <span class="text-xl font-extrabold text-gray-900 dark:text-white"><?php echo WC()->cart->get_cart_subtotal(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+        <div class="flex justify-between items-end mb-6">
+            <span class="text-xs font-bold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500"><?php esc_html_e( 'Subtotal', 'woocommerce' ); ?></span>
+            <span class="text-2xl font-black tracking-tight text-gray-900 dark:text-white leading-none"><?php echo WC()->cart->get_cart_subtotal(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
         </div>
 
         <div class="woocommerce-mini-cart__buttons buttons flex flex-col gap-3">
-            <a href="<?php echo esc_url( wc_get_checkout_url() ); ?>" class="button checkout wc-forward w-full text-center bg-black dark:bg-white text-white dark:text-black py-4 font-bold uppercase tracking-widest text-xs hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors rounded-sm shadow-lg shadow-black/10 dark:shadow-white/10"><?php esc_html_e( 'Pasar por caja', 'bruiser-tech-lhparfum' ); ?></a>
+            <a href="<?php echo esc_url( wc_get_checkout_url() ); ?>" class="button checkout wc-forward w-full text-center bg-black dark:bg-white text-white dark:text-black py-4 font-black uppercase tracking-[0.2em] text-[11px] hover:bg-gray-900 dark:hover:bg-gray-100 transition-all duration-300 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.15)] dark:shadow-[0_10px_30px_rgba(255,255,255,0.15)] hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"><?php esc_html_e( 'Pasar por caja', 'bruiser-tech-lhparfum' ); ?></a>
         </div>
 
         <?php do_action( 'woocommerce_widget_shopping_cart_after_buttons' ); ?>

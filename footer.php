@@ -44,19 +44,19 @@
 
 <!-- Side Cart (Drawer) -->
 <?php if ( class_exists( 'WooCommerce' ) ) : ?>
-<div id="lhparfum-side-cart-overlay" class="fixed inset-0 bg-black/50 z-[60] hidden transition-opacity duration-300 opacity-0 cursor-pointer backdrop-blur-sm"></div>
-<div id="lhparfum-side-cart" class="fixed top-0 right-0 w-full md:w-[450px] h-full bg-white dark:bg-gray-900 z-[70] transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-2xl flex flex-col">
+<div id="lhparfum-side-cart-overlay" class="fixed inset-0 bg-black/60 dark:bg-black/80 z-[60] hidden transition-opacity duration-500 opacity-0 cursor-pointer backdrop-blur-md"></div>
+<div id="lhparfum-side-cart" class="fixed top-0 right-0 w-[92%] sm:w-[450px] h-[98%] sm:h-full mt-[1%] sm:mt-0 mr-[4%] sm:mr-0 bg-white dark:bg-gray-900 z-[70] rounded-2xl sm:rounded-none sm:rounded-l-[2rem] transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden border border-gray-100 dark:border-gray-800">
     <!-- Header -->
-    <div class="flex items-center justify-between px-6 py-5 border-b border-gray-200 dark:border-gray-800">
-        <h2 class="text-lg font-bold uppercase tracking-widest text-gray-900 dark:text-white"><?php esc_html_e( 'Tu Bolsa', 'bruiser-tech-lhparfum' ); ?></h2>
-        <button id="lhparfum-close-cart" type="button" class="text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors p-2">
+    <div class="flex items-center justify-between px-8 py-6 border-b border-gray-100 dark:border-gray-800/60 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl z-20">
+        <h2 class="text-lg md:text-xl font-black uppercase tracking-[0.25em] text-gray-900 dark:text-white"><?php esc_html_e( 'Tu Bolsa', 'bruiser-tech-lhparfum' ); ?></h2>
+        <button id="lhparfum-close-cart" type="button" class="text-gray-400 hover:text-black dark:hover:text-white transition-colors p-2 bg-gray-100 dark:bg-gray-800 rounded-full hover:scale-105 active:scale-95">
             <span class="sr-only">Cerrar carrito</span>
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
     </div>
 
     <!-- Content (AJAX Fragments load here) -->
-    <div class="flex-grow overflow-y-auto overflow-x-hidden p-6 scrollbar-hide bg-gray-50 dark:bg-gray-900/50">
+    <div class="flex-grow overflow-y-auto overflow-x-hidden px-6 sm:px-8 py-6 scrollbar-hide bg-[#fcfcfc] dark:bg-[#111111] relative z-10">
         <div class="widget_shopping_cart_content h-full">
             <?php woocommerce_mini_cart(); ?>
         </div>
