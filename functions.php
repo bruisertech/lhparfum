@@ -92,12 +92,12 @@ use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 $myUpdateChecker = PucFactory::buildUpdateChecker(
     'https://github.com/bruisertech/lhparfum',
     __FILE__,
-    'bruiser-tech-lhparfum',
+    'lhparfum-main',
     1 // Check exactly every 1 hour as requested
 );
 
 // Optional: Set the branch that contains the stable release.
-$myUpdateChecker->setBranch('main');
+$myUpdateChecker->setBranch('lhparfum-main');
 
 // Set GitHub authentication if a token is defined in wp-config.php (required for private repos)
 if ( defined( 'LH_PARFUM_GITHUB_TOKEN' ) ) {
