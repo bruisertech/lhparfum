@@ -175,6 +175,23 @@ function bruiser_tech_lhparfum_custom_cart_button_text() {
 }
 
 /**
+ * WooCommerce AJAX Cart Fragments
+ */
+function bruiser_tech_lhparfum_cart_fragments( $fragments ) {
+    // Update Cart Count
+    ob_start();
+    ?>
+    <span class="lhparfum-cart-count absolute -top-1 -right-2 bg-black dark:bg-white text-white dark:text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
+        <?php echo wp_kses_data( WC()->cart->get_cart_contents_count() ); ?>
+    </span>
+    <?php
+    $fragments['span.lhparfum-cart-count'] = ob_get_clean();
+
+    return $fragments;
+}
+add_filter( 'woocommerce_add_to_cart_fragments', 'bruiser_tech_lhparfum_cart_fragments' );
+
+/**
  * Register Custom Taxonomies for Perfumes
  */
 function bruiser_tech_lhparfum_register_taxonomies() {

@@ -182,7 +182,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <!-- Mobile Menu Button -->
-                <div class="flex items-center md:hidden">
+                <div class="flex items-center md:hidden flex-1">
                     <button type="button" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white focus:outline-none" aria-controls="mobile-menu" aria-expanded="false">
                         <span class="sr-only">Abrir menú principal</span>
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -192,7 +192,7 @@
                 </div>
 
                 <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center justify-center md:justify-start flex-1 md:flex-none">
+                <div class="flex-shrink-0 flex items-center justify-center flex-1 md:flex-none">
                     <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class="block h-12 flex items-center">
                         <?php
                         if ( has_custom_logo() ) {
@@ -228,8 +228,8 @@
                     <?php endif; ?>
                 </nav>
 
-                <!-- Icons (Search, Cart, Dark Mode Toggle) -->
-                <div class="flex items-center space-x-4">
+                <!-- Icons (Search, Cart, Dark Mode Toggle) - Hidden on Mobile -->
+                <div class="hidden md:flex items-center space-x-4 flex-1 justify-end">
                     <!-- Dark Mode Toggle -->
                     <button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none rounded-lg text-sm p-2">
                         <span class="sr-only">Toggle dark mode</span>
@@ -244,17 +244,20 @@
                         </svg>
                     </button>
                     <?php if ( class_exists( 'WooCommerce' ) ) : ?>
-                        <a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white relative">
+                        <button type="button" class="lhparfum-side-cart-toggle text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white relative cursor-pointer">
                             <span class="sr-only">Carrito</span>
                             <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                             </svg>
-                            <span class="absolute -top-1 -right-2 bg-black text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                            <span class="lhparfum-cart-count absolute -top-1 -right-2 bg-black dark:bg-white text-white dark:text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
                                 <?php echo wp_kses_data( WC()->cart->get_cart_contents_count() ); ?>
                             </span>
-                        </a>
+                        </button>
                     <?php endif; ?>
                 </div>
+
+                <!-- Spacer for mobile to keep logo centered -->
+                <div class="flex-1 md:hidden"></div>
             </div>
         </div>
     </header><!-- #masthead -->
