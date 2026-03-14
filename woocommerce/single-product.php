@@ -257,9 +257,10 @@ get_header( 'shop' ); ?>
                 echo '</div>';
                 echo '</div>'; // End Header Flex
 
-                // Swiper.js integration
+                // Continuous Swiper.js integration
+                echo '<style>.lh-related-swiper .swiper-wrapper { transition-timing-function: linear !important; }</style>';
                 echo '<div class="relative w-full overflow-hidden">';
-                echo '<div class="swiper lh-related-swiper w-full pb-12">';
+                echo '<div class="swiper lh-related-swiper w-full">'; // Removed pb-12 here
                 echo '<div class="swiper-wrapper">';
 
                 while ( $related_products->have_posts() ) : $related_products->the_post();
@@ -285,7 +286,7 @@ get_header( 'shop' ); ?>
 
                     $formatted_taxonomies = implode(' &bull; ', $tax_string);
                     ?>
-                    <div class="swiper-slide w-[70vw] sm:w-[260px] md:w-[320px] h-auto">
+                    <div class="swiper-slide h-auto w-[240px] md:w-[280px] lg:w-[320px]">
                         <div class="group relative flex flex-col items-center text-center transition duration-300 bg-transparent h-full">
                             <!-- Image without pills, completely clean -->
                             <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden relative rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300 mb-3" style="aspect-ratio: 3/4; font-size: 0; line-height: 0;">
@@ -336,40 +337,41 @@ get_header( 'shop' ); ?>
                 ?>
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
-                        const relatedSwiper = new Swiper('.lh-related-swiper', {
-                            slidesPerView: 'auto',
-                            spaceBetween: 16,
-                            loop: true,
-                            grabCursor: true,
-                            speed: 800, // Smooth slide transition
-                            autoplay: {
-                                delay: 3000,
-                                disableOnInteraction: false,
-                                pauseOnMouseEnter: false // Handled manually below for slow down effect
-                            },
-                            navigation: {
-                                nextEl: '#lh-carousel-next',
-                                prevEl: '#lh-carousel-prev',
-                            },
-                            breakpoints: {
-                                640: { spaceBetween: 24 },
-                                1024: { spaceBetween: 32 }
+                        if (typeof Swiper !== 'undefined') {
+                            const relatedSwiper = new Swiper('.lh-related-swiper', {
+                                slidesPerView: 'auto',
+                                spaceBetween: 24,
+                                loop: true,
+                                freeMode: true,
+                                grabCursor: true,
+                                speed: 4000, // Continuous speed
+                                autoplay: {
+                                    delay: 0,
+                                    disableOnInteraction: false,
+                                    pauseOnMouseEnter: false
+                                },
+                                navigation: {
+                                    nextEl: '#lh-carousel-next',
+                                    prevEl: '#lh-carousel-prev',
+                                },
+                                breakpoints: {
+                                    640: { spaceBetween: 32 },
+                                    1024: { spaceBetween: 40 }
+                                }
+                            });
+
+                            const swiperContainer = document.querySelector('.lh-related-swiper');
+                            if (swiperContainer) {
+                                swiperContainer.addEventListener('mouseenter', () => {
+                                    relatedSwiper.params.speed = 12000;
+                                    relatedSwiper.setTransition(12000);
+                                });
+
+                                swiperContainer.addEventListener('mouseleave', () => {
+                                    relatedSwiper.params.speed = 4000;
+                                    relatedSwiper.setTransition(4000);
+                                });
                             }
-                        });
-
-                        const swiperContainer = document.querySelector('.lh-related-swiper');
-                        if (swiperContainer) {
-                            swiperContainer.addEventListener('mouseenter', () => {
-                                // Slow down on hover but do not stop completely
-                                relatedSwiper.params.autoplay.delay = 6000;
-                                relatedSwiper.autoplay.start();
-                            });
-
-                            swiperContainer.addEventListener('mouseleave', () => {
-                                // Resume normal speed on leave
-                                relatedSwiper.params.autoplay.delay = 3000;
-                                relatedSwiper.autoplay.start();
-                            });
                         }
                     });
                 </script>
