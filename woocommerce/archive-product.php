@@ -36,7 +36,7 @@ get_header( 'shop' );
                         <div class="flex flex-wrap gap-2">
                             <?php
                             $max_val = isset( $_GET['max_price'] ) ? esc_attr( $_GET['max_price'] ) : '';
-                            $price_points = array( 100000, 200000, 300000 );
+                            $price_points = array( 100000, 200000, 300000, 400000 );
 
                             foreach ( $price_points as $price ) {
                                 $is_active = ( $max_val == $price );
