@@ -77,19 +77,65 @@ get_header( 'shop' );
                         </div>
                     <?php endif; ?>
 
-                    <!-- Rareza Filter -->
+                    <!-- Rareza Filter (Elegant Glowing Pills) -->
                     <?php
                     $rarezas = get_terms( array( 'taxonomy' => 'lh_rareza', 'hide_empty' => false ) );
                     if ( ! empty( $rarezas ) && ! is_wp_error( $rarezas ) ) :
                         $current_rareza = isset( $_GET['filter_rareza'] ) && is_array( $_GET['filter_rareza'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_GET['filter_rareza'] ) ) : array();
                     ?>
                         <div>
-                            <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Rareza</h3>
-                            <ul class="space-y-3">
-                                <?php foreach ( $rarezas as $term ) : ?>
+                            <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-6">Rareza</h3>
+                            <div class="flex flex-col space-y-4">
+                                <?php foreach ( $rarezas as $term ) :
+                                    $slug = $term->slug;
+                                    $is_checked = in_array( $slug, $current_rareza );
+
+                                    // Base classes
+                                    $pill_classes = 'inline-flex items-center justify-center px-4 py-2.5 rounded-full text-[10px] md:text-[11px] font-bold uppercase tracking-[0.25em] transition-all duration-500 shadow-md relative overflow-hidden group/pill cursor-pointer hover:scale-105';
+
+                                    // Glow and background overrides based on rareza (matching single-product.php)
+                                    if ( $slug === 'nicho' ) {
+                                        $pill_classes .= ' text-white bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 animate-pulse-glow-gold border border-transparent';
+                                    } elseif ( $slug === 'arabe' ) {
+                                        $pill_classes .= ' text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-800 animate-pulse-glow-purple border border-transparent';
+                                    } elseif ( $slug === 'disenador' ) {
+                                        $pill_classes .= ' text-white bg-gradient-to-r from-blue-400 via-blue-500 to-blue-700 animate-pulse-glow-blue border border-transparent';
+                                    } else {
+                                        // Accesible
+                                        $pill_classes .= ' text-white bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-700 animate-pulse-glow-green border border-transparent';
+                                    }
+
+                                    // If not checked, we fade it out slightly to show it's inactive,
+                                    // but keep the pill design elegant.
+                                    if ( ! $is_checked ) {
+                                        $pill_classes .= ' opacity-50 hover:opacity-100 grayscale hover:grayscale-0';
+                                    }
+                                ?>
+                                    <label class="relative w-fit">
+                                        <input type="checkbox" name="filter_rareza[]" value="<?php echo esc_attr( $slug ); ?>" <?php checked( $is_checked ); ?> class="sr-only" onchange="this.form.submit()">
+                                        <div class="<?php echo esc_attr( $pill_classes ); ?>">
+                                            <span class="relative z-10 w-full text-center"><?php echo esc_html( $term->name ); ?></span>
+                                            <div class="absolute inset-0 bg-white opacity-20 mix-blend-overlay group-hover/pill:opacity-40 transition-opacity duration-300"></div>
+                                        </div>
+                                    </label>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- Marca Filter -->
+                    <?php
+                    $marcas = get_terms( array( 'taxonomy' => 'lh_marca', 'hide_empty' => false ) );
+                    if ( ! empty( $marcas ) && ! is_wp_error( $marcas ) ) :
+                        $current_marca = isset( $_GET['filter_marca'] ) && is_array( $_GET['filter_marca'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_GET['filter_marca'] ) ) : array();
+                    ?>
+                        <div>
+                            <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Marca</h3>
+                            <ul class="space-y-3 max-h-48 overflow-y-auto pr-2">
+                                <?php foreach ( $marcas as $term ) : ?>
                                     <li>
                                         <label class="flex items-center space-x-3 cursor-pointer group">
-                                            <input type="checkbox" name="filter_rareza[]" value="<?php echo esc_attr( $term->slug ); ?>" <?php checked( in_array( $term->slug, $current_rareza ) ); ?> class="form-checkbox h-4 w-4 text-black dark:text-white bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-sm focus:ring-black dark:focus:ring-white transition duration-150 ease-in-out cursor-pointer" onchange="this.form.submit()">
+                                            <input type="checkbox" name="filter_marca[]" value="<?php echo esc_attr( $term->slug ); ?>" <?php checked( in_array( $term->slug, $current_marca ) ); ?> class="form-checkbox h-4 w-4 text-black dark:text-white bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-sm focus:ring-black dark:focus:ring-white transition duration-150 ease-in-out cursor-pointer" onchange="this.form.submit()">
                                             <span class="text-sm text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white transition-colors">
                                                 <?php echo esc_html( $term->name ); ?>
                                             </span>
@@ -126,6 +172,14 @@ get_header( 'shop' );
                     <noscript>
                         <button type="submit" class="w-full bg-black dark:bg-white text-white dark:text-black px-4 py-2 text-xs font-bold uppercase tracking-widest mt-4">Aplicar Filtros</button>
                     </noscript>
+
+                    <?php if ( isset( $_GET['min_price'] ) || isset( $_GET['max_price'] ) || isset( $_GET['filter_genero'] ) || isset( $_GET['filter_rareza'] ) || isset( $_GET['filter_aroma'] ) || isset( $_GET['filter_marca'] ) ) : ?>
+                        <div class="pt-4 border-t border-gray-200 dark:border-gray-800">
+                            <a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="block w-full text-center text-xs font-bold uppercase tracking-widest text-red-500 hover:text-red-700 transition-colors">
+                                Limpiar Filtros
+                            </a>
+                        </div>
+                    <?php endif; ?>
                 </form>
             </div>
         </aside>
