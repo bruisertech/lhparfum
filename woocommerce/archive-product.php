@@ -405,7 +405,7 @@ get_header( 'shop' );
 
                 do_action( 'woocommerce_before_shop_loop' );
 
-                echo '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-8 pt-4">';
+                echo '<div id="lhparfum-product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-8 pt-4">';
 
                 if ( wc_get_loop_prop( 'total' ) ) {
                     while ( have_posts() ) {
@@ -510,7 +510,15 @@ get_header( 'shop' );
 
                 echo '</div>'; // End custom grid
 
+                // Elegant Loader for Infinite Scroll
+                echo '<div id="lhparfum-infinite-loader" class="hidden flex justify-center items-center py-16 w-full">';
+                echo '<div class="w-8 h-8 rounded-full border-2 border-t-black border-r-black border-b-gray-200 border-l-gray-200 dark:border-t-white dark:border-r-white dark:border-b-gray-800 dark:border-l-gray-800 animate-spin"></div>';
+                echo '</div>';
+
+                // Hide native pagination but keep it in DOM so JS can read the Next Page URL
+                echo '<div id="lhparfum-pagination" class="hidden">';
                 do_action( 'woocommerce_after_shop_loop' );
+                echo '</div>';
             } else {
                 // Elegant Spanish empty state
                 remove_action( 'woocommerce_no_products_found', 'wc_no_products_found', 10 );
@@ -524,6 +532,86 @@ get_header( 'shop' );
         </main>
     </div>
 </div>
+
+<!-- Infinite Scroll Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let isLoading = false;
+    let nextUrl = getNextUrl();
+    const grid = document.getElementById('lhparfum-product-grid');
+    const loader = document.getElementById('lhparfum-infinite-loader');
+
+    function getNextUrl() {
+        const nextLink = document.querySelector('#lhparfum-pagination a.next');
+        return nextLink ? nextLink.href : null;
+    }
+
+    function loadNextPage() {
+        if (!nextUrl || isLoading) return;
+
+        isLoading = true;
+        if(loader) loader.classList.remove('hidden');
+
+        fetch(nextUrl)
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newProducts = doc.querySelectorAll('#lhparfum-product-grid > .group');
+                const newPagination = doc.querySelector('#lhparfum-pagination');
+
+                if (newProducts.length > 0 && grid) {
+                    newProducts.forEach(product => {
+                        grid.appendChild(product);
+                    });
+                }
+
+                // Update pagination block so we can find the next 'Next' URL
+                const oldPagination = document.getElementById('lhparfum-pagination');
+                if (oldPagination && newPagination) {
+                    oldPagination.innerHTML = newPagination.innerHTML;
+                } else if (oldPagination) {
+                    oldPagination.innerHTML = '';
+                }
+
+                nextUrl = getNextUrl();
+
+                // Hide loader and reset flag
+                if(loader) loader.classList.add('hidden');
+                isLoading = false;
+
+                // If there's no next URL, we stop observing
+                if (!nextUrl && observer) {
+                    observer.disconnect();
+                }
+            })
+            .catch(error => {
+                console.error('Error loading more products:', error);
+                if(loader) loader.classList.add('hidden');
+                isLoading = false;
+            });
+    }
+
+    // Intersection Observer to detect when user scrolls to bottom of grid
+    let observer;
+    if (grid && nextUrl) {
+        observer = new IntersectionObserver((entries) => {
+            // Trigger load if the last element in the grid is intersecting (visible)
+            if (entries[0].isIntersecting && !isLoading) {
+                loadNextPage();
+            }
+        }, {
+            rootMargin: '0px 0px 400px 0px', // Start loading 400px before reaching the bottom
+            threshold: 0.1
+        });
+
+        // Setup a dummy element at the end of the grid to observe, or observe the loader itself
+        if(loader) {
+            observer.observe(loader);
+        }
+    }
+});
+</script>
 
 <?php
 get_footer( 'shop' );
