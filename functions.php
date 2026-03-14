@@ -92,7 +92,7 @@ use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 $myUpdateChecker = PucFactory::buildUpdateChecker(
     'https://github.com/bruisertech/lhparfum',
     __FILE__,
-    'bruiser-tech-lhparfum',
+    'lhparfum-main',
     1 // Check exactly every 1 hour as requested
 );
 
