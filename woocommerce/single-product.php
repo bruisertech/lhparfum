@@ -348,11 +348,8 @@ get_header( 'shop' ); ?>
                                 autoplay: {
                                     delay: 0,
                                     disableOnInteraction: false,
-                                    pauseOnMouseEnter: false
-                                },
-                                navigation: {
-                                    nextEl: '#lh-carousel-next',
-                                    prevEl: '#lh-carousel-prev',
+                                    pauseOnMouseEnter: false,
+                                    reverseDirection: false // Default forward direction
                                 },
                                 breakpoints: {
                                     640: { spaceBetween: 32 },
@@ -370,6 +367,28 @@ get_header( 'shop' ); ?>
                                 swiperContainer.addEventListener('mouseleave', () => {
                                     relatedSwiper.params.speed = 4000;
                                     relatedSwiper.setTransition(4000);
+                                });
+                            }
+
+                            // Custom arrow functionality: Change scroll direction
+                            const prevBtn = document.getElementById('lh-carousel-prev');
+                            const nextBtn = document.getElementById('lh-carousel-next');
+
+                            if (prevBtn) {
+                                prevBtn.addEventListener('click', (e) => {
+                                    e.preventDefault();
+                                    relatedSwiper.params.autoplay.reverseDirection = true;
+                                    relatedSwiper.autoplay.stop();
+                                    relatedSwiper.autoplay.start();
+                                });
+                            }
+
+                            if (nextBtn) {
+                                nextBtn.addEventListener('click', (e) => {
+                                    e.preventDefault();
+                                    relatedSwiper.params.autoplay.reverseDirection = false;
+                                    relatedSwiper.autoplay.stop();
+                                    relatedSwiper.autoplay.start();
                                 });
                             }
                         }
