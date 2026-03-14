@@ -72,8 +72,8 @@
         .dark ::-webkit-scrollbar-thumb { background: #4b5563; }
         .dark ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
 
-        /* Force restrict custom logo output from WP */
-        .site-header img.custom-logo { max-height: 48px !important; width: auto !important; object-fit: contain; }
+        /* Force restrict custom logo output from WP (58px allows 3px top/bottom in a 64px header) */
+        .site-header img.custom-logo { max-height: 58px !important; width: auto !important; object-fit: contain; margin: 0 auto; display: block; }
 
         /* Force WooCommerce Add to Cart to look like our Luxury Button */
         .custom-add-to-cart-wrapper form.cart { display: flex; flex-direction: column; gap: 1.5rem; width: 100%; max-width: 400px; align-items: center; }
@@ -179,77 +179,77 @@
 
     <!-- Main Navigation Header -->
     <header id="masthead" class="site-header border-b border-gray-200 dark:border-gray-800 sticky top-0 bg-white dark:bg-gray-900 z-50 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div class="flex justify-between h-16 items-center">
-                <!-- Mobile Menu Button -->
-                <div class="flex items-center md:hidden flex-1">
-                    <button type="button" id="mobile-menu-toggle" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white focus:outline-none" aria-controls="mobile-menu" aria-expanded="false">
-                        <span class="sr-only">Abrir menú principal</span>
-                        <svg class="h-6 w-6 transition-transform duration-300" id="hamburger-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                        <svg class="h-6 w-6 hidden transition-transform duration-300" id="close-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
+                <!-- Left Section: Dark Mode Toggle + Hamburger (Mobile) -->
+                <div class="flex items-center space-x-2 md:space-x-4 flex-1">
+
+                    <!-- Dark Mode Toggle (Desktop & Mobile, Far Left) -->
+                    <button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none rounded-lg text-sm p-2">
+                        <span class="sr-only">Toggle dark mode</span>
+                        <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                        <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
                     </button>
+
+                    <!-- Mobile Menu Button -->
+                    <div class="flex items-center md:hidden">
+                        <button type="button" id="mobile-menu-toggle" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white focus:outline-none p-2" aria-controls="mobile-menu" aria-expanded="false">
+                            <span class="sr-only">Abrir menú principal</span>
+                            <svg class="h-6 w-6 transition-transform duration-300" id="hamburger-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                            <svg class="h-6 w-6 hidden transition-transform duration-300" id="close-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Desktop Navigation (Shifted slightly to accommodate absolute logo) -->
+                    <nav id="site-navigation" class="hidden md:flex md:space-x-8 md:items-center main-navigation ml-4">
+                        <?php
+                        wp_nav_menu( array(
+                            'theme_location' => 'menu-1',
+                            'menu_id'        => 'primary-menu',
+                            'container'      => false,
+                            'menu_class'     => 'flex space-x-6 lg:space-x-8 text-xs lg:text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300',
+                            'fallback_cb'    => false,
+                        ) );
+                        ?>
+                        <!-- Fallback if menu not set -->
+                        <?php if ( ! has_nav_menu( 'menu-1' ) ) : ?>
+                            <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="text-xs lg:text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Inicio</a>
+                            <a href="<?php echo esc_url( home_url( '/colecciones/' ) ); ?>" class="text-xs lg:text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Colecciones</a>
+                            <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/tienda/' ) ); ?>" class="text-xs lg:text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Tienda</a>
+                        <?php endif; ?>
+                    </nav>
                 </div>
 
-                <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center justify-center flex-1 md:flex-none">
-                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class="block h-12 flex items-center">
+                <!-- Absolutely Centered Massive Logo (Leaves 3px top/bottom in 64px header = 58px tall) -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center h-[58px] z-10 w-48 pointer-events-auto top-1/2 -translate-y-1/2">
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class="block h-full flex items-center justify-center w-full">
                         <?php
                         if ( has_custom_logo() ) {
-                            // Ensure the custom logo doesn't blow up the header by forcing height limits
-                            the_custom_logo();
+                            the_custom_logo(); // Will be restricted to 58px by CSS
                         } else {
-                            // Default to the generated transparent logos
-                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-black.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-12 max-h-12 w-auto object-contain block dark:hidden">';
-                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-white.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-12 max-h-12 w-auto object-contain hidden dark:block">';
+                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-black.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-[58px] max-h-[58px] w-auto object-contain block dark:hidden">';
+                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-white.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-[58px] max-h-[58px] w-auto object-contain hidden dark:block">';
                         }
                         ?>
                     </a>
                 </div>
 
-                <!-- Desktop Navigation -->
-                <nav id="site-navigation" class="hidden md:flex md:space-x-8 md:items-center main-navigation">
-                    <?php
-                    wp_nav_menu( array(
-                        'theme_location' => 'menu-1',
-                        'menu_id'        => 'primary-menu',
-                        'container'      => false,
-                        'menu_class'     => 'flex space-x-8 text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300',
-                        'fallback_cb'    => false,
-                    ) );
-                    ?>
-                    <!-- Fallback if menu not set -->
-                    <?php if ( ! has_nav_menu( 'menu-1' ) ) : ?>
-                        <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Inicio</a>
-                        <a href="<?php echo esc_url( home_url( '/colecciones/' ) ); ?>" class="text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Colecciones</a>
-                        <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/tienda/' ) ); ?>" class="text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Tienda</a>
-                        <a href="<?php echo esc_url( home_url( '/sobre-nosotros/' ) ); ?>" class="text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Sobre Nosotros</a>
-                        <a href="<?php echo esc_url( home_url( '/contacto/' ) ); ?>" class="text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Contacto</a>
-                    <?php endif; ?>
-                </nav>
-
-                <!-- Icons (Search, Cart, Dark Mode Toggle) - Hidden on Mobile -->
+                <!-- Icons (Search, Cart) - Hidden on Mobile, aligned right -->
                 <div class="hidden md:flex items-center space-x-4 flex-1 justify-end">
-                    <!-- Dark Mode Toggle -->
-                    <button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none rounded-lg text-sm p-2">
-                        <span class="sr-only">Toggle dark mode</span>
-                        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-                        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-                    </button>
-
                     <button class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
                         <span class="sr-only">Buscar</span>
-                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </button>
                     <?php if ( class_exists( 'WooCommerce' ) ) : ?>
                         <button type="button" class="lhparfum-side-cart-toggle text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white relative cursor-pointer">
                             <span class="sr-only">Carrito</span>
-                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                             </svg>
                             <span class="lhparfum-cart-count absolute -top-1 -right-2 bg-black dark:bg-white text-white dark:text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
@@ -258,9 +258,6 @@
                         </button>
                     <?php endif; ?>
                 </div>
-
-                <!-- Spacer for mobile to keep logo centered -->
-                <div class="flex-1 md:hidden"></div>
             </div>
         </div>
     </header><!-- #masthead -->
@@ -286,13 +283,6 @@
                 <a href="<?php echo esc_url( home_url( '/contacto/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-gray-900 dark:text-gray-100 hover:text-gray-500 transition-colors">Contacto</a>
             <?php endif; ?>
 
-            <div class="pt-8 border-t border-gray-200 dark:border-gray-800 flex items-center justify-between">
-                <span class="text-sm font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">Modo Oscuro</span>
-                <button id="mobile-theme-toggle" type="button" class="w-12 h-6 rounded-full bg-gray-300 dark:bg-gray-600 relative transition-colors focus:outline-none">
-                    <span class="sr-only">Toggle dark mode</span>
-                    <span class="absolute left-1 top-1 w-4 h-4 rounded-full bg-white transition-transform transform dark:translate-x-6"></span>
-                </button>
-            </div>
         </nav>
     </div>
 
@@ -322,17 +312,6 @@
                 });
             }
 
-            // Mobile theme toggle logic
-            const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
-            if(mobileThemeToggle) {
-                mobileThemeToggle.addEventListener('click', function() {
-                    // Re-use desktop logic by triggering a click on it, or run logic directly
-                    const desktopBtn = document.getElementById('theme-toggle');
-                    if(desktopBtn) {
-                        desktopBtn.click();
-                    }
-                });
-            }
         });
     </script>
 

@@ -1,13 +1,13 @@
     </div><!-- #content -->
 
     <!-- Main Footer Area -->
-    <footer id="colophon" class="site-footer bg-gray-900 text-white pt-8 pb-24 md:pb-8 mt-auto flex flex-col items-center justify-center text-center">
-        <div class="text-sm text-gray-400">
+    <footer id="colophon" class="site-footer bg-white dark:bg-gray-900 text-gray-600 dark:text-white border-t border-gray-100 dark:border-gray-800 pt-8 pb-24 md:pb-8 mt-auto flex flex-col items-center justify-center text-center transition-colors duration-300">
+        <div class="text-sm text-gray-500 dark:text-gray-400">
             <p class="mb-2">&copy; <?php echo date('Y'); ?> <?php echo esc_html( get_theme_mod( 'lhparfum_footer_copyright', 'LHPARFUM. Todos los derechos reservados.' ) ); ?></p>
             <p>
                 <?php
                 /* translators: %s: CMS name, i.e. WordPress. */
-                printf( esc_html__( 'Desarrollado por %s', 'bruiser-tech-lhparfum' ), '<a href="https://instagram.com/bruiser.tech" target="_blank" class="text-white hover:underline font-medium tracking-wide">Bruiser Tech</a>' );
+                printf( esc_html__( 'Desarrollado por %s', 'bruiser-tech-lhparfum' ), '<a href="https://instagram.com/bruiser.tech" target="_blank" class="text-gray-900 dark:text-white hover:underline font-medium tracking-wide transition-colors">Bruiser Tech</a>' );
                 ?>
             </p>
         </div>
