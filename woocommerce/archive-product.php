@@ -196,10 +196,20 @@ get_header( 'shop' );
                 </button>
             </div>
 
+            <?php
+            // Remove WooCommerce default count and ordering hooks before shop loop to avoid duplicates
+            remove_action( 'woocommerce_before_shop_loop', 'woocommerce_result_count', 20 );
+            remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30 );
+
+            // Get total products count
+            $total_products = wc_get_loop_prop( 'total' );
+            $results_text = $total_products === 1 ? '1 Resultado' : $total_products . ' Resultados';
+            ?>
+
             <div class="flex justify-between items-center mb-8 pb-4 border-b border-gray-100 dark:border-gray-800">
-                <span class="text-sm text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider">Mostrando Resultados</span>
+                <span class="text-sm text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider"><?php echo esc_html( $results_text ); ?></span>
                 <div class="flex items-center space-x-2">
-                    <span class="text-sm text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider mr-2">Ordenar por:</span>
+                    <span class="text-sm text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider mr-2 hidden sm:inline">Ordenar por:</span>
                     <?php woocommerce_catalog_ordering(); ?>
                 </div>
             </div>
@@ -276,11 +286,11 @@ get_header( 'shop' );
                                 <div class="absolute inset-0 <?php echo esc_attr( $glow_class ); ?> rounded-sm -z-10 group-hover:scale-110 transition-transform duration-700 pointer-events-none"></div>
                             <?php endif; ?>
 
-                            <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden relative rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300 mb-3 z-10" style="aspect-ratio: 3/4; font-size: 0; line-height: 0;">
+                            <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden relative rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300 z-10" style="aspect-ratio: 3/4; font-size: 0; line-height: 0;">
                                 <?php echo $rareza_html; ?>
                                 <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out block m-0 p-0' ) ); ?>
                             </a>
-                            <div class="pt-2 flex flex-col justify-start flex-grow w-full px-2 items-center text-center z-10">
+                            <div class="pt-3 flex flex-col justify-start flex-grow w-full px-2 items-center text-center z-10">
 
                                 <!-- Elegant Taxonomies -->
                                 <?php if ( ! empty( $formatted_taxonomies ) ) : ?>
