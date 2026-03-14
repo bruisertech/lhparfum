@@ -257,11 +257,17 @@ get_header( 'shop' ); ?>
                 echo '</div>';
                 echo '</div>'; // End Header Flex
 
-                // Continuous Swiper.js integration
-                echo '<style>.lh-related-swiper .swiper-wrapper { transition-timing-function: linear !important; }</style>';
+                // Continuous Splide.js integration (with AutoScroll extension)
+                // Hiding pagination and native arrows since we handle them manually
+                echo '<style>
+                    .splide__pagination, .splide__arrows { display: none !important; }
+                    .splide__slide { height: auto !important; }
+                </style>';
+
                 echo '<div class="relative w-full overflow-hidden">';
-                echo '<div class="swiper lh-related-swiper w-full">'; // Removed pb-12 here
-                echo '<div class="swiper-wrapper">';
+                echo '<div class="splide lh-related-splide w-full">';
+                echo '<div class="splide__track">';
+                echo '<ul class="splide__list">';
 
                 while ( $related_products->have_posts() ) : $related_products->the_post();
                     global $product;
@@ -285,8 +291,15 @@ get_header( 'shop' ); ?>
                     }
 
                     $formatted_taxonomies = implode(' &bull; ', $tax_string);
+
+                    $carousel_btn_bg = 'bg-gray-900 dark:bg-white text-white dark:text-black';
+                    if ( $c_slug === 'nicho' ) $carousel_btn_bg = 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-white shadow-md hover:shadow-lg hover:shadow-yellow-500/20';
+                    elseif ( $c_slug === 'arabe' ) $carousel_btn_bg = 'bg-gradient-to-r from-purple-500 to-purple-800 text-white shadow-md hover:shadow-lg hover:shadow-purple-500/20';
+                    elseif ( $c_slug === 'disenador' ) $carousel_btn_bg = 'bg-gradient-to-r from-blue-400 to-blue-700 text-white shadow-md hover:shadow-lg hover:shadow-blue-500/20';
+                    elseif ( $c_slug === 'accesible' ) $carousel_btn_bg = 'bg-gradient-to-r from-emerald-400 to-emerald-700 text-white shadow-md hover:shadow-lg hover:shadow-emerald-500/20';
+
                     ?>
-                    <div class="swiper-slide h-auto w-[240px] md:w-[280px] lg:w-[320px]">
+                    <li class="splide__slide w-[240px] md:w-[280px] lg:w-[320px] px-3">
                         <div class="group relative flex flex-col items-center text-center transition duration-300 bg-transparent h-full">
                             <!-- Image without pills, completely clean -->
                             <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden relative rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300 mb-3" style="aspect-ratio: 3/4; font-size: 0; line-height: 0;">
@@ -314,83 +327,96 @@ get_header( 'shop' ); ?>
                                 </div>
 
                                 <!-- Dynamic Button -->
-                                <?php
-                                    $carousel_btn_bg = 'bg-gray-900 dark:bg-white text-white dark:text-black';
-                                    if ( $c_slug === 'nicho' ) $carousel_btn_bg = 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-white shadow-md hover:shadow-lg hover:shadow-yellow-500/20';
-                                    elseif ( $c_slug === 'arabe' ) $carousel_btn_bg = 'bg-gradient-to-r from-purple-500 to-purple-800 text-white shadow-md hover:shadow-lg hover:shadow-purple-500/20';
-                                    elseif ( $c_slug === 'disenador' ) $carousel_btn_bg = 'bg-gradient-to-r from-blue-400 to-blue-700 text-white shadow-md hover:shadow-lg hover:shadow-blue-500/20';
-                                    elseif ( $c_slug === 'accesible' ) $carousel_btn_bg = 'bg-gradient-to-r from-emerald-400 to-emerald-700 text-white shadow-md hover:shadow-lg hover:shadow-emerald-500/20';
-                                ?>
                                 <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>" class="inline-block px-5 py-2.5 w-full max-w-[85%] text-[8px] font-black uppercase tracking-[0.2em] rounded-sm transition-all duration-300 transform group-hover:scale-105 <?php echo esc_attr($carousel_btn_bg); ?>">
                                     Adquirir fragancia
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </li>
                     <?php
                 endwhile;
-
-                echo '</div></div></div></div>'; // End wrappers
                 wp_reset_postdata();
 
-                // Swiper Initialization
+                echo '</ul></div></div></div></div>'; // End wrappers
+
+                // Splide.js Initialization Script
                 ?>
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
-                        if (typeof Swiper !== 'undefined') {
-                            const relatedSwiper = new Swiper('.lh-related-swiper', {
-                                slidesPerView: 'auto',
-                                spaceBetween: 24,
-                                loop: true,
-                                freeMode: true,
-                                grabCursor: true,
-                                speed: 4000, // Continuous speed
-                                autoplay: {
-                                    delay: 0,
-                                    disableOnInteraction: false,
-                                    pauseOnMouseEnter: false,
-                                    reverseDirection: false // Default forward direction
-                                },
+                        if (typeof Splide !== 'undefined') {
+                            const splideElement = document.querySelector('.lh-related-splide');
+                            if (!splideElement) return;
+
+                            // Default positive speed for continuous scrolling
+                            const NORMAL_SPEED = 1;
+                            const SLOW_SPEED = 0.3; // Much slower on hover
+
+                            const splide = new Splide( '.lh-related-splide', {
+                                type   : 'loop',
+                                drag   : 'free',
+                                focus  : 'center',
+                                perPage: 4, // Number of items visible at a time
+                                gap    : 0,
+                                autoWidth: true,
+                                arrows : false,
+                                pagination: false,
                                 breakpoints: {
-                                    640: { spaceBetween: 32 },
-                                    1024: { spaceBetween: 40 }
-                                }
-                            });
+                                    1024: { perPage: 3 },
+                                    768: { perPage: 2 },
+                                    640: { perPage: 1 }
+                                },
+                                autoScroll: {
+                                    speed: NORMAL_SPEED,
+                                    pauseOnHover: false,
+                                    pauseOnFocus: false,
+                                },
+                            } );
 
-                            const swiperContainer = document.querySelector('.lh-related-swiper');
-                            if (swiperContainer) {
-                                swiperContainer.addEventListener('mouseenter', () => {
-                                    relatedSwiper.params.speed = 12000;
-                                    relatedSwiper.setTransition(12000);
-                                });
+                            splide.mount( window.splide.Extensions );
 
-                                swiperContainer.addEventListener('mouseleave', () => {
-                                    relatedSwiper.params.speed = 4000;
-                                    relatedSwiper.setTransition(4000);
-                                });
-                            }
-
-                            // Custom arrow functionality: Change scroll direction
+                            // Direction control via Custom Arrows
                             const prevBtn = document.getElementById('lh-carousel-prev');
                             const nextBtn = document.getElementById('lh-carousel-next');
+
+                            let currentDirectionMultiplier = 1; // 1 for normal (left), -1 for reverse (right)
+                            let currentAbsoluteSpeed = NORMAL_SPEED; // Either NORMAL_SPEED or SLOW_SPEED
+
+                            const updateSpeed = () => {
+                                splide.Components.AutoScroll.play();
+                                // By multiplying absolute speed with direction, we handle hover and direction uniformly
+                                splide.options = {
+                                    autoScroll: {
+                                        speed: currentAbsoluteSpeed * currentDirectionMultiplier,
+                                    }
+                                };
+                            };
 
                             if (prevBtn) {
                                 prevBtn.addEventListener('click', (e) => {
                                     e.preventDefault();
-                                    relatedSwiper.params.autoplay.reverseDirection = true;
-                                    relatedSwiper.autoplay.stop();
-                                    relatedSwiper.autoplay.start();
+                                    currentDirectionMultiplier = -1; // Scroll right
+                                    updateSpeed();
                                 });
                             }
 
                             if (nextBtn) {
                                 nextBtn.addEventListener('click', (e) => {
                                     e.preventDefault();
-                                    relatedSwiper.params.autoplay.reverseDirection = false;
-                                    relatedSwiper.autoplay.stop();
-                                    relatedSwiper.autoplay.start();
+                                    currentDirectionMultiplier = 1; // Scroll left
+                                    updateSpeed();
                                 });
                             }
+
+                            // Smooth hover slowdown
+                            splideElement.addEventListener('mouseenter', () => {
+                                currentAbsoluteSpeed = SLOW_SPEED;
+                                updateSpeed();
+                            });
+
+                            splideElement.addEventListener('mouseleave', () => {
+                                currentAbsoluteSpeed = NORMAL_SPEED;
+                                updateSpeed();
+                            });
                         }
                     });
                 </script>
