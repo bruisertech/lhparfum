@@ -297,7 +297,7 @@ get_header( 'shop' );
                                 <div class="absolute inset-0 <?php echo esc_attr( $glow_class ); ?> rounded-sm -z-10 group-hover:scale-110 transition-transform duration-700 pointer-events-none"></div>
                             <?php endif; ?>
 
-                            <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden relative rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300 z-10" style="aspect-ratio: 3/4; font-size: 0; line-height: 0;">
+                            <a href="<?php echo esc_url( $link ); ?>" class="block w-full aspect-[3/4] relative overflow-hidden rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300 z-10">
                                 <?php echo $rareza_html; ?>
                                 <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out block m-0 p-0' ) ); ?>
                             </a>
