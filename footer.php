@@ -77,18 +77,40 @@
     </a>
 
     <!-- Cart -->
-    <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_cart_url() ) : '#'; ?>" class="flex flex-col items-center justify-center w-full h-full text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white group relative">
+    <button type="button" class="lhparfum-side-cart-toggle flex flex-col items-center justify-center w-full h-full text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white group relative cursor-pointer">
         <div class="relative">
             <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
             <?php if ( class_exists( 'WooCommerce' ) && isset(WC()->cart) && WC()->cart ) : ?>
-                <span class="absolute -top-1 -right-2 bg-black dark:bg-white text-white dark:text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
+                <span class="lhparfum-cart-count absolute -top-1 -right-2 bg-black dark:bg-white text-white dark:text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
                     <?php echo wp_kses_data( WC()->cart->get_cart_contents_count() ); ?>
                 </span>
             <?php endif; ?>
         </div>
         <span class="text-[10px] font-medium uppercase tracking-wider mt-1">Bolsa</span>
-    </a>
+    </button>
 </div>
+
+<!-- Side Cart (Drawer) -->
+<?php if ( class_exists( 'WooCommerce' ) ) : ?>
+<div id="lhparfum-side-cart-overlay" class="fixed inset-0 bg-black/50 z-[60] hidden transition-opacity duration-300 opacity-0 cursor-pointer backdrop-blur-sm"></div>
+<div id="lhparfum-side-cart" class="fixed top-0 right-0 w-full md:w-[450px] h-full bg-white dark:bg-gray-900 z-[70] transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-2xl flex flex-col">
+    <!-- Header -->
+    <div class="flex items-center justify-between px-6 py-5 border-b border-gray-200 dark:border-gray-800">
+        <h2 class="text-lg font-bold uppercase tracking-widest text-gray-900 dark:text-white"><?php esc_html_e( 'Tu Bolsa', 'bruiser-tech-lhparfum' ); ?></h2>
+        <button id="lhparfum-close-cart" type="button" class="text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors p-2">
+            <span class="sr-only">Cerrar carrito</span>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+    </div>
+
+    <!-- Content (AJAX Fragments load here) -->
+    <div class="flex-grow overflow-y-auto overflow-x-hidden p-6 scrollbar-hide bg-gray-50 dark:bg-gray-900/50">
+        <div class="widget_shopping_cart_content h-full">
+            <?php woocommerce_mini_cart(); ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -133,6 +155,46 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Ensure body transitions immediately to prevent visual tearing
         document.body.classList.add('transition-colors', 'duration-300');
+    });
+
+    // Side Cart UI Logic
+    const cartToggles = document.querySelectorAll('.lhparfum-side-cart-toggle');
+    const closeCartBtn = document.getElementById('lhparfum-close-cart');
+    const cartOverlay = document.getElementById('lhparfum-side-cart-overlay');
+    const sideCart = document.getElementById('lhparfum-side-cart');
+
+    function openSideCart(e) {
+        if(e) e.preventDefault();
+        cartOverlay.classList.remove('hidden');
+        // small timeout to allow display:block to apply before animating opacity
+        setTimeout(() => {
+            cartOverlay.classList.remove('opacity-0');
+            sideCart.classList.remove('translate-x-full');
+            document.body.classList.add('overflow-hidden'); // Prevent background scrolling
+        }, 10);
+    }
+
+    function closeSideCart(e) {
+        if(e) e.preventDefault();
+        cartOverlay.classList.add('opacity-0');
+        sideCart.classList.add('translate-x-full');
+        document.body.classList.remove('overflow-hidden');
+        setTimeout(() => {
+            cartOverlay.classList.add('hidden');
+        }, 300); // match transition duration
+    }
+
+    if (sideCart) {
+        cartToggles.forEach(toggle => {
+            toggle.addEventListener('click', openSideCart);
+        });
+        closeCartBtn.addEventListener('click', closeSideCart);
+        cartOverlay.addEventListener('click', closeSideCart);
+    }
+
+    // Optional: Open side cart when item added via AJAX (WooCommerce triggers this event)
+    jQuery(document.body).on('added_to_cart', function() {
+        openSideCart();
     });
 });
 </script>
