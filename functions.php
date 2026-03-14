@@ -136,6 +136,9 @@ function lhparfum_handle_force_sync() {
     if ( isset( $_GET['lhparfum_sync'], $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'lhparfum_sync_action' ) && current_user_can( 'update_themes' ) ) {
         global $myUpdateChecker;
         if ( isset( $myUpdateChecker ) ) {
+            // Force PUC to clear its own internal update cache state
+            delete_site_transient( $myUpdateChecker->getUniqueName('update') );
+
             $myUpdateChecker->checkForUpdates();
 
             // Force WordPress to clear its update cache
