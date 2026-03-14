@@ -8,8 +8,8 @@
     <!-- Load Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Load Alex Brush Font for Scent Families -->
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+    <!-- Load Caveat Font for Scent Families (Sober handwritten style) -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
 
     <!-- Load Tailwind via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>

@@ -170,8 +170,8 @@ get_header( 'shop' );
                                     <li>
                                         <label class="block cursor-pointer group relative">
                                             <input type="checkbox" name="filter_marca[]" value="<?php echo esc_attr( $term->slug ); ?>" <?php checked( $is_checked ); ?> class="sr-only peer" onchange="this.form.submit()">
-                                            <!-- High Fashion Serif Typography -->
-                                            <span class="inline-block text-base md:text-lg font-serif uppercase tracking-[0.2em] transition-all duration-500 <?php echo $is_checked ? 'text-black dark:text-white font-black scale-105 origin-left' : 'text-gray-500 dark:text-gray-400 font-medium hover:text-gray-800 dark:hover:text-gray-200'; ?>">
+                                            <!-- High Fashion Serif Typography (Slightly smaller as requested) -->
+                                            <span class="inline-block text-sm md:text-base font-serif uppercase tracking-[0.2em] transition-all duration-500 <?php echo $is_checked ? 'text-black dark:text-white font-black scale-105 origin-left' : 'text-gray-500 dark:text-gray-400 font-medium hover:text-gray-800 dark:hover:text-gray-200'; ?>">
                                                 <?php echo esc_html( $term->name ); ?>
                                             </span>
                                             <!-- Elegant Underline Animation -->
@@ -199,8 +199,8 @@ get_header( 'shop' );
                                         <label class="flex items-center cursor-pointer group w-full justify-between">
                                             <input type="checkbox" name="filter_aroma[]" value="<?php echo esc_attr( $term->slug ); ?>" <?php checked( $is_checked ); ?> class="sr-only peer" onchange="this.form.submit()">
 
-                                            <!-- Handwritten Font injected from header.php -->
-                                            <span class="font-['Alex_Brush',_cursive] text-3xl leading-none capitalize transition-all duration-700 <?php echo $is_checked ? 'text-black dark:text-white transform scale-110 drop-shadow-sm origin-left' : 'text-gray-400 dark:text-gray-500 hover:text-gray-800 dark:hover:text-gray-300'; ?>">
+                                            <!-- Sober Handwritten Font injected from header.php -->
+                                            <span class="font-['Caveat',_cursive] text-2xl leading-none capitalize transition-all duration-700 <?php echo $is_checked ? 'text-black dark:text-white transform scale-105 drop-shadow-sm origin-left' : 'text-gray-400 dark:text-gray-500 hover:text-gray-800 dark:hover:text-gray-300'; ?>">
                                                 <?php echo esc_html( $term->name ); ?>
                                             </span>
 
@@ -328,7 +328,7 @@ get_header( 'shop' );
                                     ?>
                                         <label class="cursor-pointer block text-center">
                                             <input type="checkbox" name="filter_marca[]" value="<?php echo esc_attr( $term->slug ); ?>" <?php checked( $is_checked ); ?> class="sr-only" onchange="document.getElementById('mobile-filter-form').submit()">
-                                            <span class="font-serif uppercase tracking-[0.2em] text-sm <?php echo $is_checked ? 'text-black dark:text-white font-black underline' : 'text-gray-500 dark:text-gray-400'; ?>"><?php echo esc_html( $term->name ); ?></span>
+                                            <span class="font-serif uppercase tracking-[0.2em] text-xs <?php echo $is_checked ? 'text-black dark:text-white font-black underline' : 'text-gray-500 dark:text-gray-400'; ?>"><?php echo esc_html( $term->name ); ?></span>
                                         </label>
                                     <?php endforeach; ?>
                                 </div>
@@ -350,7 +350,7 @@ get_header( 'shop' );
                                     ?>
                                         <label class="cursor-pointer flex items-center justify-center w-full">
                                             <input type="checkbox" name="filter_aroma[]" value="<?php echo esc_attr( $term->slug ); ?>" <?php checked( $is_checked ); ?> class="sr-only" onchange="document.getElementById('mobile-filter-form').submit()">
-                                            <span class="font-['Alex_Brush',_cursive] text-2xl capitalize leading-none <?php echo $is_checked ? 'text-black dark:text-white font-bold scale-110' : 'text-gray-400 dark:text-gray-500'; ?>"><?php echo esc_html( $term->name ); ?></span>
+                                            <span class="font-['Caveat',_cursive] text-xl capitalize leading-none <?php echo $is_checked ? 'text-black dark:text-white font-bold scale-105' : 'text-gray-400 dark:text-gray-500'; ?>"><?php echo esc_html( $term->name ); ?></span>
                                         </label>
                                     <?php endforeach; ?>
                                 </div>
