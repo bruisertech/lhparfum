@@ -79,7 +79,7 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
                 // Default clean classes if no rareza specific bg needed
                 $card_class = $glow_class ? $glow_class : 'bg-white dark:bg-[#1a1a1a] border-gray-200/60 dark:border-gray-800/60';
                 ?>
-                <li class="woocommerce-mini-cart-item <?php echo esc_attr( apply_filters( 'woocommerce_mini_cart_item_class', 'mini_cart_item', $cart_item, $cart_item_key ) ); ?> flex gap-5 p-4 sm:p-5 rounded-2xl border shadow-[0_8px_30px_rgba(0,0,0,0.04)] dark:shadow-none relative <?php echo esc_attr($card_class); ?> transition-all duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)]">
+                <li class="woocommerce-mini-cart-item <?php echo esc_attr( apply_filters( 'woocommerce_mini_cart_item_class', 'mini_cart_item', $cart_item, $cart_item_key ) ); ?> flex gap-5 p-4 sm:p-5 rounded-2xl border shadow-[0_8px_30px_rgba(0,0,0,0.04)] dark:shadow-none relative <?php echo esc_attr($card_class); ?> transition-shadow duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] transform-gpu will-change-transform">
 
                     <!-- Rarity Pill Integrated (Top Left) -->
                     <?php if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) :
@@ -93,7 +93,8 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
                     ?>
                         <div class="<?php echo esc_attr( $pill_classes ); ?>">
                             <span class="relative z-10"><?php echo esc_html( $term->name ); ?></span>
-                            <div class="absolute inset-0 bg-white opacity-20 mix-blend-overlay"></div>
+                            <!-- Removed mix-blend-overlay to fix Chrome graphical tearing glitch -->
+                            <div class="absolute inset-0 bg-white opacity-20"></div>
                         </div>
                     <?php endif; ?>
 
@@ -103,7 +104,7 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
                         echo apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             'woocommerce_cart_item_remove_link',
                             sprintf(
-                                '<a href="%s" class="remove remove_from_cart_button bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 text-gray-400 hover:text-red-500 hover:border-red-200 dark:hover:text-red-400 dark:hover:border-red-900 rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold transition-all duration-300 shadow-md hover:scale-110" aria-label="%s" data-product_id="%s" data-cart_item_key="%s" data-product_sku="%s" style="line-height:1;">&times;</a>',
+                                '<a href="%s" class="remove remove_from_cart_button bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 text-gray-400 hover:text-red-500 hover:border-red-200 dark:hover:text-red-400 dark:hover:border-red-900 rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold transition-transform duration-300 shadow-md hover:scale-110 transform-gpu" aria-label="%s" data-product_id="%s" data-cart_item_key="%s" data-product_sku="%s" style="line-height:1;">&times;</a>',
                                 esc_url( wc_get_cart_remove_url( $cart_item_key ) ),
                                 /* translators: %s is the product name */
                                 esc_attr( sprintf( __( 'Remove %s from cart', 'woocommerce' ), wp_strip_all_tags( $product_name ) ) ),
@@ -159,14 +160,15 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
                         <div class="flex items-end justify-between mt-4">
 
                             <!-- Custom Quantity Selector (Rounded pill shape) -->
-                            <div class="flex items-center border border-gray-200 dark:border-gray-700 rounded-full overflow-hidden bg-white/50 dark:bg-black/20 backdrop-blur h-8 shadow-sm">
-                                <button type="button" class="lhparfum-qty-btn lhparfum-qty-minus w-8 h-full flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white transition-colors" data-cart_item_key="<?php echo esc_attr( $cart_item_key ); ?>" data-action="minus">
+                            <!-- Replaced backdrop-blur with solid bg to fix Chrome tearing -->
+                            <div class="flex items-center border border-gray-200 dark:border-gray-700 rounded-full overflow-hidden bg-gray-50 dark:bg-gray-900 h-8 shadow-sm transform-gpu">
+                                <button type="button" class="lhparfum-qty-btn lhparfum-qty-minus w-8 h-full flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white transition-colors" data-cart_item_key="<?php echo esc_attr( $cart_item_key ); ?>" data-action="minus">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
                                 </button>
 
                                 <input type="number" class="lhparfum-qty-input w-8 h-full text-center text-xs font-bold bg-transparent border-none p-0 text-gray-900 dark:text-white appearance-none focus:ring-0 cursor-default pointer-events-none" value="<?php echo esc_attr( $cart_item['quantity'] ); ?>" min="0" max="<?php echo esc_attr( $_product->get_max_purchase_quantity() > 0 ? $_product->get_max_purchase_quantity() : '' ); ?>" step="1" readonly />
 
-                                <button type="button" class="lhparfum-qty-btn lhparfum-qty-plus w-8 h-full flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white transition-colors" data-cart_item_key="<?php echo esc_attr( $cart_item_key ); ?>" data-action="plus">
+                                <button type="button" class="lhparfum-qty-btn lhparfum-qty-plus w-8 h-full flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white transition-colors" data-cart_item_key="<?php echo esc_attr( $cart_item_key ); ?>" data-action="plus">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                                 </button>
                             </div>
@@ -194,7 +196,8 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
         </div>
 
         <div class="woocommerce-mini-cart__buttons buttons flex flex-col gap-3">
-            <a href="<?php echo esc_url( wc_get_checkout_url() ); ?>" class="button checkout wc-forward w-full text-center bg-black dark:bg-white text-white dark:text-black py-4 font-black uppercase tracking-[0.2em] text-[11px] hover:bg-gray-900 dark:hover:bg-gray-100 transition-all duration-300 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.15)] dark:shadow-[0_10px_30px_rgba(255,255,255,0.15)] hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"><?php esc_html_e( 'Pasar por caja', 'bruiser-tech-lhparfum' ); ?></a>
+            <!-- Removed transition-all and translateY to stop Chrome layout thrashing -->
+            <a href="<?php echo esc_url( wc_get_checkout_url() ); ?>" class="button checkout wc-forward w-full text-center bg-black dark:bg-white text-white dark:text-black py-4 font-black uppercase tracking-[0.2em] text-[11px] hover:bg-gray-900 dark:hover:bg-gray-200 transition-colors duration-300 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.15)] dark:shadow-[0_10px_30px_rgba(255,255,255,0.15)] transform-gpu"><?php esc_html_e( 'Pasar por caja', 'bruiser-tech-lhparfum' ); ?></a>
         </div>
 
         <?php do_action( 'woocommerce_widget_shopping_cart_after_buttons' ); ?>
