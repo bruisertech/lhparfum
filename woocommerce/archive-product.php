@@ -55,7 +55,7 @@ get_header( 'shop' );
                         </div>
                     </div>
 
-                    <!-- Genero Filter -->
+                    <!-- Genero Filter (Elegant Bubbles with Icons) -->
                     <?php
                     $generos = get_terms( array( 'taxonomy' => 'lh_genero', 'hide_empty' => false ) );
                     if ( ! empty( $generos ) && ! is_wp_error( $generos ) ) :
@@ -63,18 +63,35 @@ get_header( 'shop' );
                     ?>
                         <div>
                             <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Género</h3>
-                            <ul class="space-y-3">
-                                <?php foreach ( $generos as $term ) : ?>
-                                    <li>
-                                        <label class="flex items-center space-x-3 cursor-pointer group">
-                                            <input type="checkbox" name="filter_genero[]" value="<?php echo esc_attr( $term->slug ); ?>" <?php checked( in_array( $term->slug, $current_genero ) ); ?> class="form-checkbox h-4 w-4 text-black dark:text-white bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-sm focus:ring-black dark:focus:ring-white transition duration-150 ease-in-out cursor-pointer" onchange="this.form.submit()">
-                                            <span class="text-sm text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white transition-colors">
-                                                <?php echo esc_html( $term->name ); ?>
-                                            </span>
-                                        </label>
-                                    </li>
+                            <div class="flex flex-wrap gap-3">
+                                <?php foreach ( $generos as $term ) :
+                                    $is_checked = in_array( $term->slug, $current_genero );
+                                    $active_classes = $is_checked
+                                        ? 'bg-black text-white dark:bg-white dark:text-black border-black dark:border-white shadow-md shadow-gray-400/20'
+                                        : 'bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500';
+
+                                    // Assign elegant SVGs based on common slugs (femenino, masculino, unisex)
+                                    $icon = '';
+                                    $slug = strtolower($term->slug);
+                                    if ( strpos($slug, 'femenin') !== false || strpos($slug, 'mujer') !== false ) {
+                                        $icon = '<svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v6m-3-3h6m-3-7a5 5 0 100-10 5 5 0 000 10z"></path></svg>';
+                                    } elseif ( strpos($slug, 'masculin') !== false || strpos($slug, 'hombr') !== false ) {
+                                        $icon = '<svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>'; // Stylized arrow for masculine (or standard Mars symbol: M12 14a5 5 0 100-10 5 5 0 000 10z m4-9l5-5 m0 0v5 m0-5h-5)
+                                        $icon = '<svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8a5 5 0 10-10 0 5 5 0 0010 0zm4-4l-5 5m0-5h5v5"></path></svg>';
+                                    } else {
+                                        // Unisex / Both
+                                        $icon = '<svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>';
+                                    }
+                                ?>
+                                    <label class="cursor-pointer inline-flex items-center group">
+                                        <input type="checkbox" name="filter_genero[]" value="<?php echo esc_attr( $term->slug ); ?>" <?php checked( $is_checked ); ?> class="sr-only" onchange="this.form.submit()">
+                                        <span class="inline-flex items-center px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all duration-300 border <?php echo esc_attr( $active_classes ); ?> group-hover:scale-105">
+                                            <?php echo $icon; ?>
+                                            <?php echo esc_html( $term->name ); ?>
+                                        </span>
+                                    </label>
                                 <?php endforeach; ?>
-                            </ul>
+                            </div>
                         </div>
                     <?php endif; ?>
 
@@ -124,7 +141,7 @@ get_header( 'shop' );
                         </div>
                     <?php endif; ?>
 
-                    <!-- Marca Filter -->
+                    <!-- Marca Filter (Elegant Typography & Custom Dynamic Checkbox) -->
                     <?php
                     $marcas = get_terms( array( 'taxonomy' => 'lh_marca', 'hide_empty' => false ) );
                     if ( ! empty( $marcas ) && ! is_wp_error( $marcas ) ) :
@@ -132,12 +149,19 @@ get_header( 'shop' );
                     ?>
                         <div>
                             <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Marca</h3>
-                            <ul class="space-y-3 max-h-48 overflow-y-auto pr-2">
-                                <?php foreach ( $marcas as $term ) : ?>
+                            <ul class="space-y-4 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
+                                <?php foreach ( $marcas as $term ) :
+                                    $is_checked = in_array( $term->slug, $current_marca );
+                                ?>
                                     <li>
-                                        <label class="flex items-center space-x-3 cursor-pointer group">
-                                            <input type="checkbox" name="filter_marca[]" value="<?php echo esc_attr( $term->slug ); ?>" <?php checked( in_array( $term->slug, $current_marca ) ); ?> class="form-checkbox h-4 w-4 text-black dark:text-white bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-sm focus:ring-black dark:focus:ring-white transition duration-150 ease-in-out cursor-pointer" onchange="this.form.submit()">
-                                            <span class="text-sm text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white transition-colors">
+                                        <label class="flex items-center cursor-pointer group">
+                                            <input type="checkbox" name="filter_marca[]" value="<?php echo esc_attr( $term->slug ); ?>" <?php checked( $is_checked ); ?> class="sr-only peer" onchange="this.form.submit()">
+                                            <!-- Custom Elegant Checkbox -->
+                                            <div class="w-4 h-4 border border-gray-300 dark:border-gray-600 rounded-sm mr-4 flex items-center justify-center transition-all duration-300 group-hover:border-black dark:group-hover:border-white peer-checked:bg-black peer-checked:border-black dark:peer-checked:bg-white dark:peer-checked:border-white">
+                                                <svg class="w-2.5 h-2.5 text-white dark:text-black opacity-0 peer-checked:opacity-100 transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                            </div>
+                                            <!-- Imposing Typography for Brand -->
+                                            <span class="text-base font-serif font-bold uppercase tracking-[0.15em] text-gray-800 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white transition-colors <?php echo $is_checked ? 'text-black dark:text-white' : ''; ?>">
                                                 <?php echo esc_html( $term->name ); ?>
                                             </span>
                                         </label>
