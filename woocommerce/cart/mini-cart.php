@@ -118,8 +118,9 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
                     </div>
 
                     <!-- Product Image Strict Aspect Ratio -->
+                    <!-- We use Tailwind's arbitrary child selectors [&_img]: to strictly force the image to fill the container, overriding any native inline width/height attributes WooCommerce might spit out via the thumbnail filter -->
                     <div class="w-24 shrink-0">
-                        <div class="relative w-full aspect-[3/4] overflow-hidden mb-0 rounded-xl shadow-sm border border-black/5 dark:border-white/5">
+                        <div class="relative w-full aspect-[3/4] overflow-hidden mb-0 rounded-xl shadow-sm border border-black/5 dark:border-white/5 [&_img]:absolute [&_img]:inset-0 [&_img]:w-full [&_img]:h-full [&_img]:object-cover [&_img]:object-center">
                             <?php if ( empty( $product_permalink ) ) : ?>
                                 <?php echo $thumbnail; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                             <?php else : ?>
