@@ -37,7 +37,7 @@ get_header( 'shop' ); ?>
                 }
             ?>
 
-            <div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'flex flex-col lg:flex-row gap-4 lg:gap-24 items-start lg:items-center w-full', $product ); ?>>
+            <div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'flex flex-col lg:flex-row gap-0 lg:gap-24 items-start lg:items-center w-full', $product ); ?>>
 
                 <?php $rareza_terms = get_the_terms( $product->get_id(), 'lh_rareza' ); ?>
 
@@ -45,7 +45,8 @@ get_header( 'shop' ); ?>
 
                 <!-- Product Info & Add to Cart (Right-aligned on Desktop, Center on Mobile) -->
                 <!-- We place it FIRST in DOM for screen readers and SEO, but use flex-order on mobile to put image on top -->
-                <div class="w-full lg:w-1/2 flex flex-col items-center text-center lg:items-end lg:text-right pt-2 lg:pt-32 max-w-xl mx-auto lg:mx-0 order-2 lg:order-1 lg:pl-12">
+                <!-- Negative top margin (-mt-4) on mobile to pull it tight to the image -->
+                <div class="w-full lg:w-1/2 flex flex-col items-center text-center lg:items-end lg:text-right -mt-8 lg:mt-0 pt-0 lg:pt-32 max-w-xl mx-auto lg:mx-0 order-2 lg:order-1 lg:pl-12 relative z-20">
 
                     <!-- Delicate Rarity Pill -->
                     <div class="mb-6 flex justify-center lg:justify-end w-full">
@@ -161,11 +162,11 @@ get_header( 'shop' ); ?>
 
                 <!-- Product Image Gallery (Right Side on Desktop, Top on Mobile) -->
                 <!-- Strictly constrained aspect ratio container to ensure perfect mobile rendering -->
-                <div class="w-full lg:w-1/2 flex justify-center lg:justify-start h-auto relative order-1 lg:order-2">
+                <div class="w-full lg:w-1/2 flex justify-center lg:justify-start h-auto relative order-1 lg:order-2 z-10">
 
                     <!-- We use an explicit aspect ratio wrapper to guarantee the image never collapses to 0 height in flex/grid mobile layouts -->
                     <!-- Moved ml-auto back for desktop to stick to the left and removed mt-8 to bring it closer to text -->
-                    <div class="relative w-full max-w-sm md:max-w-md aspect-[3/4] lg:aspect-auto lg:h-[700px] flex flex-col group overflow-visible z-10 mx-auto lg:ml-0 lg:mt-0 pt-4 lg:pt-16">
+                    <div class="relative w-full max-w-sm md:max-w-md aspect-[3/4] lg:aspect-auto lg:h-[700px] flex flex-col group overflow-visible z-10 mx-auto lg:ml-0 lg:mt-0 pt-0 lg:pt-16 pb-8 lg:pb-0">
 
                         <!-- Rarity LED Glow Behind the Image (Massive ambience effect) -->
                         <?php
