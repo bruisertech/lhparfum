@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
         $input.val(currentVal);
 
         const $cartContent = jQuery('.widget_shopping_cart_content');
-        $cartContent.css('opacity', '0.5');
+        $cartContent.css({'opacity': '0.5', 'pointer-events': 'none'});
 
         jQuery.ajax({
             type: 'POST',
@@ -189,13 +189,30 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Trigger WooCommerce fragment refresh to redraw the cart UI
                     jQuery(document.body).trigger('wc_fragment_refresh');
                 } else {
-                    $cartContent.css('opacity', '1');
+                    $cartContent.css({'opacity': '1', 'pointer-events': 'auto'});
                 }
             },
             error: function() {
-                $cartContent.css('opacity', '1');
+                $cartContent.css({'opacity': '1', 'pointer-events': 'auto'});
             }
         });
+    });
+
+    // Reset Sidecart opacity and interactions when WooCommerce finishes loading fragments
+    jQuery(document.body).on('wc_fragments_refreshed wc_fragments_loaded', function() {
+        const $cartContent = jQuery('.widget_shopping_cart_content');
+        if ($cartContent.length) {
+            $cartContent.css({'opacity': '1', 'pointer-events': 'auto'});
+        }
+    });
+
+    // Failsafe: if AJAX hangs, unlock the cart after 4 seconds
+    jQuery(document).ajaxComplete(function(event, xhr, settings) {
+        if(settings.data && settings.data.includes('action=lhparfum_update_mini_cart')) {
+            setTimeout(function() {
+                jQuery('.widget_shopping_cart_content').css({'opacity': '1', 'pointer-events': 'auto'});
+            }, 3000);
+        }
     });
 });
 </script>
