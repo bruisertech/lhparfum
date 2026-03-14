@@ -297,10 +297,11 @@ get_header( 'shop' );
                                 <div class="absolute inset-0 <?php echo esc_attr( $glow_class ); ?> rounded-sm -z-10 group-hover:scale-110 transition-transform duration-700 pointer-events-none"></div>
                             <?php endif; ?>
 
-                            <a href="<?php echo esc_url( $link ); ?>" class="block w-full aspect-[3/4] relative overflow-hidden rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300 z-10">
+                            <div class="relative w-full aspect-[3/4] overflow-hidden rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300 mb-0 z-10">
+                                <a href="<?php echo esc_url( $link ); ?>" class="absolute inset-0 z-20" aria-label="<?php the_title_attribute(); ?>"></a>
                                 <?php echo $rareza_html; ?>
-                                <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out block m-0 p-0' ) ); ?>
-                            </a>
+                                <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 block m-0 p-0' ) ); ?>
+                            </div>
                             <div class="pt-3 flex flex-col justify-start flex-grow w-full px-2 items-center text-center z-10">
 
                                 <!-- Elegant Taxonomies -->

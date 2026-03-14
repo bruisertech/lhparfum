@@ -286,31 +286,24 @@ function bruiser_tech_lhparfum_product_query( $q ) {
             $q->set( 'tax_query', $tax_query );
         }
 
-        // Price Filter: The most robust way to filter by price without relying on WooCommerce active widgets
-        // is to query the wc_product_meta_lookup table directly and push the matching IDs to post__in.
+        // Price Filter: use WooCommerce's native meta query generator to safely
+        // filter by max price using postmeta without relying on the lookup table.
         if ( isset( $_GET['max_price'] ) && is_numeric( $_GET['max_price'] ) ) {
-            global $wpdb;
             $max_price = floatval( wp_unslash( $_GET['max_price'] ) );
 
-            // We use min_price <= $max_price so we catch products whose base price fits the budget.
-            $product_ids = $wpdb->get_col( $wpdb->prepare( "
-                SELECT product_id
-                FROM {$wpdb->prefix}wc_product_meta_lookup
-                WHERE min_price <= %f
-            ", $max_price ) );
-
-            if ( empty( $product_ids ) ) {
-                $product_ids = array( 0 ); // Force empty result if no products match
+            $meta_query = $q->get( 'meta_query' );
+            if ( ! is_array( $meta_query ) ) {
+                $meta_query = array();
             }
 
-            // If there's already a post__in constraint (from other plugins), intersect it.
-            $existing_post_in = $q->get( 'post__in' );
-            if ( ! empty( $existing_post_in ) ) {
-                $product_ids = array_intersect( $existing_post_in, $product_ids );
-                if ( empty( $product_ids ) ) $product_ids = array( 0 );
-            }
+            // wc_get_min_max_price_meta_query returns a properly formatted meta query array
+            $price_meta_query = wc_get_min_max_price_meta_query( array(
+                'min_price' => '',
+                'max_price' => $max_price,
+            ) );
 
-            $q->set( 'post__in', $product_ids );
+            $meta_query[] = $price_meta_query;
+            $q->set( 'meta_query', $meta_query );
         }
     }
 }
