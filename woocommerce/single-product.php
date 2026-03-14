@@ -257,9 +257,10 @@ get_header( 'shop' ); ?>
                 echo '</div>';
                 echo '</div>'; // End Header Flex
 
-                // Simple, robust scrolling track. Removed all duplication loops. Let CSS do the scrolling naturally.
-                echo '<div class="relative w-full -mx-4 px-4 overflow-hidden">';
-                echo '<div id="lh-carousel-track" class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide pb-8 gap-4">';
+                // Swiper.js integration
+                echo '<div class="relative w-full overflow-hidden">';
+                echo '<div class="swiper lh-related-swiper w-full pb-12">';
+                echo '<div class="swiper-wrapper">';
 
                 while ( $related_products->have_posts() ) : $related_products->the_post();
                     global $product;
@@ -284,7 +285,7 @@ get_header( 'shop' ); ?>
 
                     $formatted_taxonomies = implode(' &bull; ', $tax_string);
                     ?>
-                    <div class="inline-block flex-none w-[70vw] sm:w-64 md:w-80 snap-start">
+                    <div class="swiper-slide w-[70vw] sm:w-[260px] md:w-[320px] h-auto">
                         <div class="group relative flex flex-col items-center text-center transition duration-300 bg-transparent h-full">
                             <!-- Image without pills, completely clean -->
                             <a href="<?php echo esc_url( $link ); ?>" class="block w-full overflow-hidden relative rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300 mb-3" style="aspect-ratio: 3/4; font-size: 0; line-height: 0;">
@@ -328,71 +329,47 @@ get_header( 'shop' ); ?>
                     <?php
                 endwhile;
 
-                echo '</div></div></div>'; // End track and wrappers
+                echo '</div></div></div></div>'; // End wrappers
                 wp_reset_postdata();
 
-                // Simple, robust JS for arrows and simple slow auto-scroll via interval (no requestAnimationFrame conflicts)
+                // Swiper Initialization
                 ?>
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
-                        const track = document.getElementById('lh-carousel-track');
-                        const prevBtn = document.getElementById('lh-carousel-prev');
-                        const nextBtn = document.getElementById('lh-carousel-next');
-
-                        if(!track) return;
-
-                        let autoInterval;
-
-                        // Very simple interval that acts like a human clicking "next" slowly
-                        const startAuto = () => {
-                            clearInterval(autoInterval);
-                            autoInterval = setInterval(() => {
-                                if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 10) {
-                                    track.scrollTo({ left: 0, behavior: 'smooth' });
-                                } else {
-                                    const firstItem = track.querySelector('.inline-block');
-                                    const scrollAmt = firstItem ? firstItem.offsetWidth + 16 : 300;
-                                    track.scrollBy({ left: scrollAmt, behavior: 'smooth' });
-                                }
-                            }, 4500);
-                        };
-
-                        const stopAuto = () => { clearInterval(autoInterval); };
-
-                        // Start
-                        startAuto();
-
-                        // Stop on any manual interaction
-                        ['mouseenter', 'touchstart', 'scroll'].forEach(evt => {
-                            track.addEventListener(evt, () => {
-                                stopAuto();
-                                // Resume after 5 seconds of no interaction
-                                clearTimeout(track.resumeTimer);
-                                track.resumeTimer = setTimeout(startAuto, 5000);
-                            }, {passive: true});
+                        const relatedSwiper = new Swiper('.lh-related-swiper', {
+                            slidesPerView: 'auto',
+                            spaceBetween: 16,
+                            loop: true,
+                            grabCursor: true,
+                            speed: 800, // Smooth slide transition
+                            autoplay: {
+                                delay: 3000,
+                                disableOnInteraction: false,
+                                pauseOnMouseEnter: false // Handled manually below for slow down effect
+                            },
+                            navigation: {
+                                nextEl: '#lh-carousel-next',
+                                prevEl: '#lh-carousel-prev',
+                            },
+                            breakpoints: {
+                                640: { spaceBetween: 24 },
+                                1024: { spaceBetween: 32 }
+                            }
                         });
 
-                        if(prevBtn && nextBtn) {
-                            const getScrollAmount = () => {
-                                const firstItem = track.querySelector('.inline-block');
-                                return firstItem ? firstItem.offsetWidth + 16 : 300; // include gap
-                            };
-
-                            prevBtn.addEventListener('click', (e) => {
-                                e.preventDefault();
-                                track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+                        const swiperContainer = document.querySelector('.lh-related-swiper');
+                        if (swiperContainer) {
+                            swiperContainer.addEventListener('mouseenter', () => {
+                                // Slow down on hover but do not stop completely
+                                relatedSwiper.params.autoplay.delay = 6000;
+                                relatedSwiper.autoplay.start();
                             });
 
-                            nextBtn.addEventListener('click', (e) => {
-                                e.preventDefault();
-                                track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+                            swiperContainer.addEventListener('mouseleave', () => {
+                                // Resume normal speed on leave
+                                relatedSwiper.params.autoplay.delay = 3000;
+                                relatedSwiper.autoplay.start();
                             });
-
-                            // Stop auto if they hover arrows
-                            prevBtn.addEventListener('mouseenter', stopAuto);
-                            nextBtn.addEventListener('mouseenter', stopAuto);
-                            prevBtn.addEventListener('mouseleave', startAuto);
-                            nextBtn.addEventListener('mouseleave', startAuto);
                         }
                     });
                 </script>
