@@ -111,7 +111,7 @@ get_header( 'shop' ); ?>
                     </div>
 
                     <!-- Price & Gender -->
-                    <div class="text-2xl md:text-3xl font-light text-gray-900 dark:text-white mb-8 flex items-center justify-center lg:justify-end w-full">
+                    <div class="text-2xl md:text-3xl font-light text-gray-900 dark:text-white mb-4 flex items-center justify-center lg:justify-end w-full">
                         <?php echo $product->get_price_html(); ?>
                         <?php
                             $genero_terms = get_the_terms( $product->get_id(), 'lh_genero' );
@@ -124,6 +124,16 @@ get_header( 'shop' ); ?>
                             }
                         ?>
                     </div>
+
+                    <!-- Short Description (Discreet & Elegant) -->
+                    <?php if ( has_excerpt() ) : ?>
+                        <div class="text-xs md:text-sm italic font-serif text-[#999999] dark:text-[#777777] leading-relaxed mb-8 w-full max-w-sm mx-auto lg:mx-0 lg:ml-auto text-center lg:text-right tracking-wide">
+                            <?php the_excerpt(); ?>
+                        </div>
+                    <?php else : ?>
+                        <!-- Maintain spacing if no short description -->
+                        <div class="mb-8"></div>
+                    <?php endif; ?>
 
                     <!-- Description (Clean & Minimal) -->
                     <div class="text-sm md:text-lg text-[#555555] dark:text-[#bbbbbb] mb-10 leading-relaxed font-normal w-full text-center lg:text-right">
