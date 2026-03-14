@@ -302,9 +302,10 @@ get_header( 'shop' ); ?>
                     <li class="splide__slide w-[240px] md:w-[280px] lg:w-[320px] px-3">
                         <div class="group relative flex flex-col items-center text-center transition duration-300 bg-transparent h-full">
                             <!-- Image without pills, completely clean -->
-                            <a href="<?php echo esc_url( $link ); ?>" class="block w-full aspect-[3/4] relative overflow-hidden rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300 mb-3">
-                                <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out block m-0 p-0' ) ); ?>
-                            </a>
+                            <div class="relative w-full aspect-[3/4] overflow-hidden rounded-sm shadow-md group-hover:shadow-xl transition-shadow duration-300 mb-0">
+                                <a href="<?php echo esc_url( $link ); ?>" class="absolute inset-0 z-20" aria-label="<?php the_title_attribute(); ?>"></a>
+                                <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 block m-0 p-0' ) ); ?>
+                            </div>
 
                             <div class="flex flex-col justify-start w-full px-1 items-center text-center">
                                 <!-- Elegant, unified taxonomy string -->
