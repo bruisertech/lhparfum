@@ -271,7 +271,18 @@ function bruiser_tech_lhparfum_product_query( $q ) {
             );
         }
 
+        // Marca Filter
+        if ( isset( $_GET['filter_marca'] ) && is_array( $_GET['filter_marca'] ) ) {
+            $tax_query[] = array(
+                'taxonomy' => 'lh_marca',
+                'field'    => 'slug',
+                'terms'    => array_map( 'sanitize_text_field', wp_unslash( $_GET['filter_marca'] ) ),
+            );
+        }
+
         if ( ! empty( $tax_query ) ) {
+            // Need relation AND if we have multiple taxonomies being filtered
+            $tax_query['relation'] = 'AND';
             $q->set( 'tax_query', $tax_query );
         }
 
