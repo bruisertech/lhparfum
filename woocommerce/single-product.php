@@ -37,15 +37,18 @@ get_header( 'shop' ); ?>
                 }
             ?>
 
-            <div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'flex flex-col-reverse lg:flex-row gap-16 lg:gap-24 items-center lg:items-stretch', $product ); ?>>
+            <div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'flex flex-col lg:flex-row gap-8 lg:gap-16 items-start w-full', $product ); ?>>
 
                 <?php $rareza_terms = get_the_terms( $product->get_id(), 'lh_rareza' ); ?>
 
-                <!-- Product Info & Add to Cart (Left Side Now, Right-Aligned on Desktop, Centered on Mobile) -->
-                <div class="w-full lg:w-1/2 flex flex-col items-center text-center lg:items-end lg:text-right pt-8 lg:pt-32 max-w-xl lg:pl-12 mx-auto lg:mx-0">
+                <!-- App-like Mobile First Layout -->
+
+                <!-- Product Info & Add to Cart (Left Side on Desktop, Bottom on Mobile) -->
+                <!-- We place it FIRST in DOM for screen readers and SEO, but use flex-order on mobile to put image on top -->
+                <div class="w-full lg:w-1/2 flex flex-col items-center text-center lg:items-start lg:text-left pt-6 lg:pt-24 max-w-xl mx-auto lg:mx-0 order-2 lg:order-1">
 
                     <!-- Delicate Rarity Pill -->
-                    <div class="mb-6 flex justify-center lg:justify-end w-full">
+                    <div class="mb-6 flex justify-center lg:justify-start w-full">
                         <?php
                             if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) {
                                 $term = $rareza_terms[0];
@@ -85,18 +88,18 @@ get_header( 'shop' ); ?>
                     ?>
 
                     <!-- Title -->
-                    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-4 leading-tight w-full">
+                    <h1 class="text-3xl md:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-4 leading-tight w-full">
                         <?php the_title(); ?>
                     </h1>
 
                     <!-- Aroma (Protagonismo Elegante) -->
-                    <div class="mb-8 w-full flex justify-center lg:justify-end">
+                    <div class="mb-6 w-full flex justify-center lg:justify-start">
                         <?php
                             $aroma_terms = get_the_terms( $product->get_id(), 'lh_aroma' );
                             if ( $aroma_terms && ! is_wp_error( $aroma_terms ) ) {
                                 $term = $aroma_terms[0];
                                 $term_link = get_term_link( $term );
-                                echo '<div class="text-lg md:text-xl font-light italic font-serif text-[#777777] dark:text-[#aaaaaa] tracking-wide inline-block border-b border-[#eeeeee] dark:border-[#222222] pb-4">';
+                                echo '<div class="text-base md:text-xl font-light italic font-serif text-[#777777] dark:text-[#aaaaaa] tracking-wide inline-block border-b border-[#eeeeee] dark:border-[#222222] pb-4">';
                                 echo 'Familia Olfativa: ';
                                 echo '<a href="' . esc_url( $term_link ) . '" class="font-semibold text-gray-800 dark:text-gray-200 not-italic uppercase tracking-[0.15em] text-sm ml-2 hover:text-black dark:hover:text-white hover:underline transition-colors">';
                                 echo esc_html( $term->name );
@@ -107,7 +110,7 @@ get_header( 'shop' ); ?>
                     </div>
 
                     <!-- Price & Gender -->
-                    <div class="text-2xl md:text-3xl font-light text-gray-900 dark:text-white mb-8 flex items-center justify-center lg:justify-end w-full">
+                    <div class="text-2xl md:text-3xl font-light text-gray-900 dark:text-white mb-8 flex items-center justify-center lg:justify-start w-full">
                         <?php echo $product->get_price_html(); ?>
                         <?php
                             $genero_terms = get_the_terms( $product->get_id(), 'lh_genero' );
@@ -122,7 +125,7 @@ get_header( 'shop' ); ?>
                     </div>
 
                     <!-- Description (Clean & Minimal) -->
-                    <div class="text-base md:text-lg text-[#555555] dark:text-[#bbbbbb] mb-12 leading-relaxed font-normal w-full">
+                    <div class="text-sm md:text-lg text-[#555555] dark:text-[#bbbbbb] mb-10 leading-relaxed font-normal w-full text-center lg:text-left">
                         <?php the_content(); ?>
                     </div>
 
@@ -147,21 +150,21 @@ get_header( 'shop' ); ?>
                             }
                         }
                     ?>
-                    <div class="mb-16 w-full flex justify-center lg:justify-end custom-add-to-cart-wrapper <?php echo esc_attr($btn_glow_class . ' ' . $btn_color_override); ?>">
+                    <div class="mb-12 w-full flex justify-center lg:justify-start custom-add-to-cart-wrapper <?php echo esc_attr($btn_glow_class . ' ' . $btn_color_override); ?> sticky bottom-0 z-30 lg:static bg-white/90 dark:bg-gray-900/90 lg:bg-transparent backdrop-blur-md lg:backdrop-blur-none p-4 lg:p-0 border-t border-gray-100 dark:border-gray-800 lg:border-none shadow-[0_-10px_40px_rgba(0,0,0,0.05)] lg:shadow-none">
                         <?php
-                            // Force WooCommerce to output the standard add to cart logic (for variables, quantity, etc)
-                            // But we will style it via CSS to match the LED aesthetic.
+                            // Styles applied in header.php make this span 100% width on mobile, taking up the prominent bottom space.
                             do_action( 'woocommerce_' . $product->get_type() . '_add_to_cart' );
                         ?>
                     </div>
 
                 </div>
 
-                <!-- Product Image Gallery (Right Side, Stretches to match text height perfectly) -->
-                <!-- Added overflow-hidden on mobile to contain the heavy blur glows from expanding page width -->
-                <div class="w-full lg:w-1/2 flex justify-center lg:justify-start h-auto relative">
-                    <!-- Added pt-8 lg:pt-16 to align the top of the image perfectly with the top of the text block (the rarity pill) -->
-                    <div class="group relative w-full max-w-md h-full flex flex-col pt-8 lg:pt-16">
+                <!-- Product Image Gallery (Right Side on Desktop, Top on Mobile) -->
+                <!-- Strictly constrained aspect ratio container to ensure perfect mobile rendering -->
+                <div class="w-full lg:w-1/2 flex justify-center lg:justify-end h-auto relative order-1 lg:order-2">
+
+                    <!-- We use an explicit aspect ratio wrapper to guarantee the image never collapses to 0 height in flex/grid mobile layouts -->
+                    <div class="relative w-full max-w-sm md:max-w-md aspect-[3/4] lg:aspect-auto lg:h-[700px] flex flex-col group overflow-visible z-10 mx-auto lg:mr-0 lg:mt-8">
 
                         <!-- Rarity LED Glow Behind the Image (Massive ambience effect) -->
                         <?php
@@ -169,36 +172,35 @@ get_header( 'shop' ); ?>
                             if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) {
                                 $slug = $rareza_terms[0]->slug;
                                 // Increased opacity and blur spread for a much stronger, ethereal LED glow requested by user
-                                if ( $slug === 'nicho' ) $glow_class = 'bg-yellow-400 opacity-40 dark:opacity-30 animate-pulse-glow-gold blur-[50px] md:blur-[64px]';
-                                elseif ( $slug === 'arabe' ) $glow_class = 'bg-purple-600 opacity-40 dark:opacity-30 animate-pulse-glow-purple blur-[50px] md:blur-[64px]';
-                                elseif ( $slug === 'disenador' ) $glow_class = 'bg-blue-500 opacity-40 dark:opacity-30 animate-pulse-glow-blue blur-[50px] md:blur-[64px]';
-                                else $glow_class = 'bg-green-500 opacity-40 dark:opacity-30 animate-pulse-glow-green blur-[50px] md:blur-[64px]';
+                                if ( $slug === 'nicho' ) $glow_class = 'bg-yellow-400 opacity-40 dark:opacity-30 animate-pulse-glow-gold blur-[40px] md:blur-[64px]';
+                                elseif ( $slug === 'arabe' ) $glow_class = 'bg-purple-600 opacity-40 dark:opacity-30 animate-pulse-glow-purple blur-[40px] md:blur-[64px]';
+                                elseif ( $slug === 'disenador' ) $glow_class = 'bg-blue-500 opacity-40 dark:opacity-30 animate-pulse-glow-blue blur-[40px] md:blur-[64px]';
+                                else $glow_class = 'bg-green-500 opacity-40 dark:opacity-30 animate-pulse-glow-green blur-[40px] md:blur-[64px]';
                             }
-                            // Reduced inset on mobile (-inset-10 instead of -inset-20) to prevent overflow
-                            echo '<div class="absolute -inset-10 md:-inset-20 z-0 rounded-full transition-all duration-[2000ms] ' . esc_attr($glow_class) . ' pointer-events-none mix-blend-screen"></div>';
+                            // Tighter inset on mobile to prevent horizontal bleed
+                            echo '<div class="absolute -inset-6 md:-inset-20 z-0 rounded-full transition-all duration-[2000ms] ' . esc_attr($glow_class) . ' pointer-events-none mix-blend-screen"></div>';
                         ?>
 
-                        <!-- Main Image (Enforced Max Height to prevent overwhelming the button) -->
-                        <div class="relative z-10 bg-transparent p-0 transition-transform duration-[1500ms] ease-out group-hover:scale-[1.02] overflow-hidden rounded-sm flex-grow w-full h-full max-h-[600px] self-start lg:ml-auto">
+                        <!-- Main Image strictly forced to fit container with object-cover on mobile, object-contain on desktop -->
+                        <div class="relative z-10 w-full h-full bg-transparent overflow-hidden rounded-md flex-grow lg:ml-auto transition-transform duration-[1500ms] ease-out group-hover:scale-[1.02]">
                             <?php
                                 $image_id  = $product->get_image_id();
                                 $image_url = wp_get_attachment_image_url( $image_id, 'full' );
                                 if ( $image_url ) {
-                                    // Use object-contain or cover with a max-height to ensure the image does not bleed past the add-to-cart boundary
-                                    echo '<img src="' . esc_url( $image_url ) . '" alt="' . esc_attr( $product->get_name() ) . '" class="absolute inset-0 w-full h-full object-cover lg:object-contain object-top shadow-none drop-shadow-2xl mix-blend-multiply dark:mix-blend-normal">';
+                                    echo '<img src="' . esc_url( $image_url ) . '" alt="' . esc_attr( $product->get_name() ) . '" class="absolute inset-0 w-full h-full object-cover lg:object-contain object-center shadow-none drop-shadow-2xl mix-blend-multiply dark:mix-blend-normal">';
                                 } else {
                                     echo wc_placeholder_img( 'woocommerce_single' );
                                 }
                             ?>
                         </div>
 
-                        <!-- Mini Thumbnails (Minimalist dots or floating small squares) -->
+                        <!-- Mini Thumbnails -->
                         <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-20">
                            <?php
                            $attachment_ids = $product->get_gallery_image_ids();
                            if ( $attachment_ids ) {
                                foreach ( $attachment_ids as $attachment_id ) {
-                                   echo '<div class="w-16 h-16 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-sm overflow-hidden flex-shrink-0 cursor-pointer hover:border-black dark:hover:border-white transition-all duration-300 shadow-lg">';
+                                   echo '<div class="w-12 h-12 md:w-16 md:h-16 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-sm overflow-hidden flex-shrink-0 cursor-pointer hover:border-black dark:hover:border-white transition-all duration-300 shadow-lg">';
                                    echo wp_get_attachment_image( $attachment_id, 'thumbnail', false, array( 'class' => 'w-full h-full object-cover mix-blend-multiply dark:mix-blend-normal' ) );
                                    echo '</div>';
                                }
