@@ -97,7 +97,7 @@ $myUpdateChecker = PucFactory::buildUpdateChecker(
 );
 
 // Optional: Set the branch that contains the stable release.
-$myUpdateChecker->setBranch('main');
+$myUpdateChecker->setBranch('lhparfum-main');
 
 // Set GitHub authentication if a token is defined in wp-config.php (required for private repos)
 if ( defined( 'LH_PARFUM_GITHUB_TOKEN' ) ) {
