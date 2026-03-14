@@ -17,6 +17,40 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 
 <?php if ( ! WC()->cart->is_empty() ) : ?>
 
+    <?php
+    // Calculate Free Shipping Progress
+    $free_shipping_threshold = 200000;
+    $current_subtotal = WC()->cart->get_subtotal();
+    $amount_left = $free_shipping_threshold - $current_subtotal;
+    $progress_percentage = ( $current_subtotal / $free_shipping_threshold ) * 100;
+    if ( $progress_percentage > 100 ) {
+        $progress_percentage = 100;
+    }
+    ?>
+
+    <!-- Free Shipping Progress Bar -->
+    <div class="mb-6 bg-white dark:bg-gray-800 p-4 rounded border border-gray-100 dark:border-gray-700 shadow-sm relative overflow-hidden">
+        <?php if ( $amount_left > 0 ) : ?>
+            <p class="text-xs text-center text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider mb-2">
+                Te faltan <span class="text-gray-900 dark:text-white font-bold"><?php echo wc_price( $amount_left ); ?></span> para <span class="text-black dark:text-white">Envío Gratis</span>
+            </p>
+        <?php else : ?>
+            <p class="text-xs text-center text-green-600 dark:text-green-400 font-bold uppercase tracking-wider mb-2">
+                ¡Tienes Envío Gratis!
+            </p>
+        <?php endif; ?>
+
+        <div class="w-full bg-gray-200 dark:bg-gray-700 h-1.5 rounded-full overflow-hidden">
+            <div class="bg-black dark:bg-white h-full rounded-full transition-all duration-1000 ease-out" style="width: <?php echo esc_attr( $progress_percentage ); ?>%;"></div>
+        </div>
+
+        <?php if ( $amount_left > 0 ) : ?>
+            <div class="text-center mt-2">
+                <a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors underline decoration-1 underline-offset-2">Ir a la tienda</a>
+            </div>
+        <?php endif; ?>
+    </div>
+
     <ul class="woocommerce-mini-cart cart_list product_list_widget flex flex-col gap-6 w-full <?php echo esc_attr( $args['list_class'] ?? '' ); ?>">
         <?php
         do_action( 'woocommerce_before_mini_cart_contents' );
@@ -47,13 +81,13 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
                 ?>
                 <li class="woocommerce-mini-cart-item <?php echo esc_attr( apply_filters( 'woocommerce_mini_cart_item_class', 'mini_cart_item', $cart_item, $cart_item_key ) ); ?> flex gap-4 p-4 rounded border shadow-sm relative <?php echo esc_attr($card_class); ?>">
 
-                    <!-- Remove Item -->
-                    <div class="absolute -top-2 -right-2 z-10">
+                    <!-- Remove Item (Bigger for mobile) -->
+                    <div class="absolute -top-3 -right-3 z-10">
                         <?php
                         echo apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             'woocommerce_cart_item_remove_link',
                             sprintf(
-                                '<a href="%s" class="remove remove_from_cart_button bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-500 hover:text-red-500 hover:border-red-500 dark:hover:text-red-400 dark:hover:border-red-400 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold transition-colors shadow-sm" aria-label="%s" data-product_id="%s" data-cart_item_key="%s" data-product_sku="%s">&times;</a>',
+                                '<a href="%s" class="remove remove_from_cart_button bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-500 hover:text-red-500 hover:border-red-500 dark:hover:text-red-400 dark:hover:border-red-400 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold transition-colors shadow-md" aria-label="%s" data-product_id="%s" data-cart_item_key="%s" data-product_sku="%s" style="line-height:1;">&times;</a>',
                                 esc_url( wc_get_cart_remove_url( $cart_item_key ) ),
                                 /* translators: %s is the product name */
                                 esc_attr( sprintf( __( 'Remove %s from cart', 'woocommerce' ), wp_strip_all_tags( $product_name ) ) ),
@@ -99,11 +133,22 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
                         </div>
 
                         <!-- Quantity and Subtotal -->
-                        <div class="flex items-center justify-between mt-3">
-                            <div class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-widest font-semibold">
-                                Cnt: <span class="text-gray-900 dark:text-white font-bold text-sm ml-1"><?php echo esc_html( $cart_item['quantity'] ); ?></span>
+                        <div class="flex items-end justify-between mt-3">
+
+                            <!-- Custom Quantity Selector -->
+                            <div class="flex items-center border border-gray-300 dark:border-gray-600 rounded-sm overflow-hidden bg-white dark:bg-gray-900 h-8">
+                                <button type="button" class="lhparfum-qty-btn lhparfum-qty-minus w-8 h-full flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" data-cart_item_key="<?php echo esc_attr( $cart_item_key ); ?>" data-action="minus">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+                                </button>
+
+                                <input type="number" class="lhparfum-qty-input w-8 h-full text-center text-xs font-bold bg-transparent border-none p-0 text-gray-900 dark:text-white appearance-none focus:ring-0 cursor-default pointer-events-none" value="<?php echo esc_attr( $cart_item['quantity'] ); ?>" min="0" max="<?php echo esc_attr( $_product->get_max_purchase_quantity() > 0 ? $_product->get_max_purchase_quantity() : '' ); ?>" step="1" readonly />
+
+                                <button type="button" class="lhparfum-qty-btn lhparfum-qty-plus w-8 h-full flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" data-cart_item_key="<?php echo esc_attr( $cart_item_key ); ?>" data-action="plus">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                                </button>
                             </div>
-                            <div class="font-bold text-gray-900 dark:text-white text-base">
+
+                            <div class="font-bold text-gray-900 dark:text-white text-base leading-none">
                                 <?php echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                             </div>
                         </div>

@@ -60,6 +60,14 @@ add_action( 'after_setup_theme', 'bruiser_tech_lhparfum_setup' );
  */
 function bruiser_tech_lhparfum_scripts() {
     wp_enqueue_style( 'bruiser-tech-lhparfum-style', get_stylesheet_uri(), array(), '1.0.0' );
+
+    // Enqueue localized script for AJAX cart updates
+    wp_register_script( 'lhparfum-cart-ajax', '', array('jquery'), '', true );
+    wp_enqueue_script( 'lhparfum-cart-ajax' );
+    wp_localize_script( 'lhparfum-cart-ajax', 'lhparfum_ajax', array(
+        'ajax_url' => admin_url( 'admin-ajax.php' ),
+        'nonce'    => wp_create_nonce( 'lhparfum_cart_update' )
+    ) );
 }
 add_action( 'wp_enqueue_scripts', 'bruiser_tech_lhparfum_scripts' );
 
@@ -190,6 +198,32 @@ function bruiser_tech_lhparfum_cart_fragments( $fragments ) {
     return $fragments;
 }
 add_filter( 'woocommerce_add_to_cart_fragments', 'bruiser_tech_lhparfum_cart_fragments' );
+
+/**
+ * AJAX Update Cart Quantity in Mini Cart
+ */
+function bruiser_tech_lhparfum_update_mini_cart_qty() {
+    check_ajax_referer( 'lhparfum_cart_update', 'nonce' );
+
+    if ( isset( $_POST['cart_item_key'] ) && isset( $_POST['qty'] ) ) {
+        $cart_item_key = sanitize_text_field( wp_unslash( $_POST['cart_item_key'] ) );
+        $qty           = max( 0, intval( wp_unslash( $_POST['qty'] ) ) );
+
+        if ( $qty === 0 ) {
+            WC()->cart->remove_cart_item( $cart_item_key );
+        } else {
+            WC()->cart->set_quantity( $cart_item_key, $qty );
+        }
+
+        // Calculate totals so they're ready for fragment refresh
+        WC()->cart->calculate_totals();
+
+        wp_send_json_success();
+    }
+    wp_send_json_error();
+}
+add_action( 'wp_ajax_lhparfum_update_mini_cart', 'bruiser_tech_lhparfum_update_mini_cart_qty' );
+add_action( 'wp_ajax_nopriv_lhparfum_update_mini_cart', 'bruiser_tech_lhparfum_update_mini_cart_qty' );
 
 /**
  * Register Custom Taxonomies for Perfumes
