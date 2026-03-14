@@ -38,6 +38,20 @@ get_header( 'shop' );
                             $max_val = isset( $_GET['filter_precio_max'] ) ? esc_attr( $_GET['filter_precio_max'] ) : '';
                             $price_points = array( 100000, 200000, 300000, 400000 );
 
+                            // Empty/Reset Option
+                            $is_empty_active = empty( $max_val );
+                            $empty_active_classes = $is_empty_active
+                                ? 'bg-black text-white dark:bg-white dark:text-black border-black dark:border-white shadow-md'
+                                : 'bg-transparent text-gray-600 dark:text-gray-400 border-gray-300 dark:border-gray-700 hover:border-gray-500 dark:hover:border-gray-500';
+
+                            echo '<label class="cursor-pointer inline-block">';
+                            echo '<input type="radio" name="filter_precio_max" value="" class="sr-only" onchange="this.form.submit()" ' . checked( $is_empty_active, true, false ) . '>';
+                            echo '<span class="inline-block px-3 py-1.5 rounded-full text-[10px] font-bold tracking-widest transition-all duration-300 border ' . esc_attr( $empty_active_classes ) . '">';
+                            echo 'Sin límite';
+                            echo '</span>';
+                            echo '</label>';
+
+                            // Price points
                             foreach ( $price_points as $price ) {
                                 $is_active = ( $max_val == $price );
                                 $active_classes = $is_active
@@ -232,6 +246,15 @@ get_header( 'shop' );
                                     <?php
                                     $max_val = isset( $_GET['filter_precio_max'] ) ? esc_attr( $_GET['filter_precio_max'] ) : '';
                                     $price_points = array( 100000, 200000, 300000, 400000 );
+
+                                    // Empty option mobile
+                                    $is_empty_active = empty( $max_val );
+                                    $empty_active_classes = $is_empty_active ? 'font-black text-black dark:text-white underline' : 'text-gray-600 dark:text-gray-400';
+                                    echo '<label class="cursor-pointer text-xs uppercase tracking-widest hover:text-black dark:hover:text-white ' . esc_attr( $empty_active_classes ) . '">';
+                                    echo '<input type="radio" name="filter_precio_max" value="" class="sr-only" onchange="document.getElementById(\'mobile-filter-form\').submit()" ' . checked( $is_empty_active, true, false ) . '>';
+                                    echo 'Sin límite';
+                                    echo '</label>';
+
                                     foreach ( $price_points as $price ) {
                                         $is_active = ( $max_val == $price );
                                         $active_classes = $is_active ? 'font-black text-black dark:text-white underline' : 'text-gray-600 dark:text-gray-400';
