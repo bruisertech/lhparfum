@@ -71,7 +71,7 @@ get_header( 'shop' );
 
                     <!-- Genero Filter (Elegant Bubbles with Icons) -->
                     <?php
-                    $generos = get_terms( array( 'taxonomy' => 'lh_genero', 'hide_empty' => false ) );
+                    $generos = get_terms( array( 'taxonomy' => 'lh_genero', 'hide_empty' => true ) );
                     if ( ! empty( $generos ) && ! is_wp_error( $generos ) ) :
                         $current_genero = isset( $_GET['filter_genero'] ) && is_array( $_GET['filter_genero'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_GET['filter_genero'] ) ) : array();
                     ?>
@@ -111,7 +111,7 @@ get_header( 'shop' );
 
                     <!-- Rareza Filter (Elegant Glowing Pills) -->
                     <?php
-                    $rarezas = get_terms( array( 'taxonomy' => 'lh_rareza', 'hide_empty' => false ) );
+                    $rarezas = get_terms( array( 'taxonomy' => 'lh_rareza', 'hide_empty' => true ) );
                     if ( ! empty( $rarezas ) && ! is_wp_error( $rarezas ) ) :
                         $current_rareza = isset( $_GET['filter_rareza'] ) && is_array( $_GET['filter_rareza'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_GET['filter_rareza'] ) ) : array();
                     ?>
@@ -157,7 +157,7 @@ get_header( 'shop' );
 
                     <!-- Marca Filter (Elegant Editorial Typography without Checkbox) -->
                     <?php
-                    $marcas = get_terms( array( 'taxonomy' => 'lh_marca', 'hide_empty' => false ) );
+                    $marcas = get_terms( array( 'taxonomy' => 'lh_marca', 'hide_empty' => true ) );
                     if ( ! empty( $marcas ) && ! is_wp_error( $marcas ) ) :
                         $current_marca = isset( $_GET['filter_marca'] ) && is_array( $_GET['filter_marca'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_GET['filter_marca'] ) ) : array();
                     ?>
@@ -185,7 +185,7 @@ get_header( 'shop' );
 
                     <!-- Aroma Filter (Handwritten Cursive Style) -->
                     <?php
-                    $aromas = get_terms( array( 'taxonomy' => 'lh_aroma', 'hide_empty' => false ) );
+                    $aromas = get_terms( array( 'taxonomy' => 'lh_aroma', 'hide_empty' => true ) );
                     if ( ! empty( $aromas ) && ! is_wp_error( $aromas ) ) :
                         $current_aroma = isset( $_GET['filter_aroma'] ) && is_array( $_GET['filter_aroma'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_GET['filter_aroma'] ) ) : array();
                     ?>
@@ -557,10 +557,12 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(html => {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
-                const newProducts = doc.querySelectorAll('#lhparfum-product-grid > .group');
+                const newGrid = doc.getElementById('lhparfum-product-grid');
                 const newPagination = doc.querySelector('#lhparfum-pagination');
 
-                if (newProducts.length > 0 && grid) {
+                if (newGrid && grid) {
+                    // Extract all child elements from the newly fetched grid and append them
+                    const newProducts = Array.from(newGrid.children);
                     newProducts.forEach(product => {
                         grid.appendChild(product);
                     });
