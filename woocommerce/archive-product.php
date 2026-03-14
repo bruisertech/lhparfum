@@ -216,14 +216,161 @@ get_header( 'shop' );
 
         <!-- Product Grid -->
         <main class="w-full md:w-3/4 lg:w-4/5">
-            <!-- Mobile Filter Toggle -->
-            <div class="md:hidden mb-6 flex justify-between items-center border-b border-gray-200 dark:border-gray-800 pb-4">
-                <span class="text-sm font-bold uppercase tracking-widest text-gray-900 dark:text-white">Filtros</span>
-                <button type="button" class="text-gray-500 dark:text-gray-400 text-sm flex items-center" onclick="alert('Por favor, navega en escritorio para una experiencia completa de filtrado.')">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
-                    Mostrar
-                </button>
+            <!-- Mobile Filters Bar (Dropdowns) -->
+            <div class="md:hidden mb-8 relative z-30">
+                <form method="GET" action="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" id="mobile-filter-form">
+                    <div class="flex flex-wrap justify-center gap-2">
+
+                        <!-- Precio Mobile Dropdown -->
+                        <div class="relative group/dropdown">
+                            <button type="button" class="flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-full text-[10px] font-bold uppercase tracking-widest text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none" onclick="toggleDropdown('dropdown-precio')">
+                                Precio
+                                <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div id="dropdown-precio" class="hidden absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-48 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-xl rounded-md py-4 px-4 z-40">
+                                <div class="flex flex-col gap-3">
+                                    <?php
+                                    $max_val = isset( $_GET['filter_precio_max'] ) ? esc_attr( $_GET['filter_precio_max'] ) : '';
+                                    $price_points = array( 100000, 200000, 300000, 400000 );
+                                    foreach ( $price_points as $price ) {
+                                        $is_active = ( $max_val == $price );
+                                        $active_classes = $is_active ? 'font-black text-black dark:text-white underline' : 'text-gray-600 dark:text-gray-400';
+                                        echo '<label class="cursor-pointer text-xs uppercase tracking-widest hover:text-black dark:hover:text-white ' . esc_attr( $active_classes ) . '">';
+                                        echo '<input type="radio" name="filter_precio_max" value="' . esc_attr( $price ) . '" class="sr-only" onchange="document.getElementById(\'mobile-filter-form\').submit()" ' . checked( $is_active, true, false ) . '>';
+                                        echo 'Max $' . number_format( $price, 0, ',', '.');
+                                        echo '</label>';
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Genero Mobile Dropdown -->
+                        <?php if ( ! empty( $generos ) && ! is_wp_error( $generos ) ) : ?>
+                        <div class="relative group/dropdown">
+                            <button type="button" class="flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-full text-[10px] font-bold uppercase tracking-widest text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none" onclick="toggleDropdown('dropdown-genero')">
+                                Género
+                                <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div id="dropdown-genero" class="hidden absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-48 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-xl rounded-md py-4 px-4 z-40">
+                                <div class="flex flex-col gap-4">
+                                    <?php foreach ( $generos as $term ) :
+                                        $is_checked = in_array( $term->slug, $current_genero );
+                                    ?>
+                                        <label class="cursor-pointer text-xs font-bold uppercase tracking-widest flex items-center group">
+                                            <input type="checkbox" name="filter_genero[]" value="<?php echo esc_attr( $term->slug ); ?>" <?php checked( $is_checked ); ?> class="sr-only" onchange="document.getElementById('mobile-filter-form').submit()">
+                                            <span class="w-3 h-3 rounded-full border border-black dark:border-white mr-2 flex items-center justify-center <?php echo $is_checked ? 'bg-black dark:bg-white' : ''; ?>"></span>
+                                            <span class="<?php echo $is_checked ? 'text-black dark:text-white' : 'text-gray-500 dark:text-gray-400'; ?>"><?php echo esc_html( $term->name ); ?></span>
+                                        </label>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
+                        <!-- Rareza Mobile Dropdown -->
+                        <?php if ( ! empty( $rarezas ) && ! is_wp_error( $rarezas ) ) : ?>
+                        <div class="relative group/dropdown">
+                            <button type="button" class="flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-full text-[10px] font-bold uppercase tracking-widest text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none" onclick="toggleDropdown('dropdown-rareza')">
+                                Rareza
+                                <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div id="dropdown-rareza" class="hidden absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-48 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-xl rounded-md py-4 px-4 z-40">
+                                <div class="flex flex-col gap-4">
+                                    <?php foreach ( $rarezas as $term ) :
+                                        $is_checked = in_array( $term->slug, $current_rareza );
+                                    ?>
+                                        <label class="cursor-pointer text-xs font-bold uppercase tracking-[0.15em] flex items-center group">
+                                            <input type="checkbox" name="filter_rareza[]" value="<?php echo esc_attr( $term->slug ); ?>" <?php checked( $is_checked ); ?> class="sr-only" onchange="document.getElementById('mobile-filter-form').submit()">
+                                            <span class="w-3 h-3 rounded-full border border-black dark:border-white mr-2 flex items-center justify-center <?php echo $is_checked ? 'bg-black dark:bg-white' : ''; ?>"></span>
+                                            <span class="<?php echo $is_checked ? 'text-black dark:text-white' : 'text-gray-500 dark:text-gray-400'; ?>"><?php echo esc_html( $term->name ); ?></span>
+                                        </label>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
+                        <!-- Marca Mobile Dropdown -->
+                        <?php if ( ! empty( $marcas ) && ! is_wp_error( $marcas ) ) : ?>
+                        <div class="relative group/dropdown">
+                            <button type="button" class="flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-full text-[10px] font-bold uppercase tracking-widest text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none" onclick="toggleDropdown('dropdown-marca')">
+                                Marca
+                                <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div id="dropdown-marca" class="hidden absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-56 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-xl rounded-md py-4 px-4 z-40">
+                                <div class="flex flex-col gap-4 max-h-48 overflow-y-auto">
+                                    <?php foreach ( $marcas as $term ) :
+                                        $is_checked = in_array( $term->slug, $current_marca );
+                                    ?>
+                                        <label class="cursor-pointer block text-center">
+                                            <input type="checkbox" name="filter_marca[]" value="<?php echo esc_attr( $term->slug ); ?>" <?php checked( $is_checked ); ?> class="sr-only" onchange="document.getElementById('mobile-filter-form').submit()">
+                                            <span class="font-serif uppercase tracking-[0.2em] text-sm <?php echo $is_checked ? 'text-black dark:text-white font-black underline' : 'text-gray-500 dark:text-gray-400'; ?>"><?php echo esc_html( $term->name ); ?></span>
+                                        </label>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
+                        <!-- Aroma Mobile Dropdown -->
+                        <?php if ( ! empty( $aromas ) && ! is_wp_error( $aromas ) ) : ?>
+                        <div class="relative group/dropdown">
+                            <button type="button" class="flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-full text-[10px] font-bold uppercase tracking-widest text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none" onclick="toggleDropdown('dropdown-aroma')">
+                                Aroma
+                                <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div id="dropdown-aroma" class="hidden absolute top-full right-0 mt-2 w-56 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-xl rounded-md py-4 px-4 z-40">
+                                <div class="flex flex-col gap-5 max-h-48 overflow-y-auto items-center">
+                                    <?php foreach ( $aromas as $term ) :
+                                        $is_checked = in_array( $term->slug, $current_aroma );
+                                    ?>
+                                        <label class="cursor-pointer flex items-center justify-center w-full">
+                                            <input type="checkbox" name="filter_aroma[]" value="<?php echo esc_attr( $term->slug ); ?>" <?php checked( $is_checked ); ?> class="sr-only" onchange="document.getElementById('mobile-filter-form').submit()">
+                                            <span class="font-['Alex_Brush',_cursive] text-2xl capitalize leading-none <?php echo $is_checked ? 'text-black dark:text-white font-bold scale-110' : 'text-gray-400 dark:text-gray-500'; ?>"><?php echo esc_html( $term->name ); ?></span>
+                                        </label>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
+                        <?php if ( isset( $_GET['min_price'] ) || isset( $_GET['filter_precio_max'] ) || isset( $_GET['filter_genero'] ) || isset( $_GET['filter_rareza'] ) || isset( $_GET['filter_aroma'] ) || isset( $_GET['filter_marca'] ) ) : ?>
+                            <a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="flex items-center px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-red-500 hover:text-red-700">
+                                Limpiar
+                            </a>
+                        <?php endif; ?>
+
+                    </div>
+                </form>
             </div>
+
+            <script>
+            function toggleDropdown(id) {
+                // Close all other dropdowns
+                const dropdowns = ['dropdown-precio', 'dropdown-genero', 'dropdown-rareza', 'dropdown-marca', 'dropdown-aroma'];
+                dropdowns.forEach(did => {
+                    if (did !== id) {
+                        const el = document.getElementById(did);
+                        if(el) el.classList.add('hidden');
+                    }
+                });
+                // Toggle clicked dropdown
+                const el = document.getElementById(id);
+                if (el) el.classList.toggle('hidden');
+            }
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.group\\/dropdown')) {
+                    const dropdowns = ['dropdown-precio', 'dropdown-genero', 'dropdown-rareza', 'dropdown-marca', 'dropdown-aroma'];
+                    dropdowns.forEach(id => {
+                        const el = document.getElementById(id);
+                        if(el) el.classList.add('hidden');
+                    });
+                }
+            });
+            </script>
 
             <?php
             // Remove WooCommerce default count and ordering hooks before shop loop to avoid duplicates
