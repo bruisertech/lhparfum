@@ -286,23 +286,24 @@ function bruiser_tech_lhparfum_product_query( $q ) {
             $q->set( 'tax_query', $tax_query );
         }
 
-        // Price Filter: use WooCommerce's native meta query generator to safely
-        // filter by max price using postmeta without relying on the lookup table.
-        if ( isset( $_GET['max_price'] ) && is_numeric( $_GET['max_price'] ) ) {
-            $max_price = floatval( wp_unslash( $_GET['max_price'] ) );
+        // Price Filter (Bypass native `max_price` query var to avoid broken wc_product_meta_lookup table)
+        if ( isset( $_GET['filter_precio_max'] ) && is_numeric( $_GET['filter_precio_max'] ) ) {
+            $max_price = floatval( wp_unslash( $_GET['filter_precio_max'] ) );
 
             $meta_query = $q->get( 'meta_query' );
             if ( ! is_array( $meta_query ) ) {
                 $meta_query = array();
             }
 
-            // wc_get_min_max_price_meta_query returns a properly formatted meta query array
-            $price_meta_query = wc_get_min_max_price_meta_query( array(
-                'min_price' => '',
-                'max_price' => $max_price,
-            ) );
+            // Force a direct check against the actual price meta since we only use simple fixed prices.
+            // This cleanly bypasses WooCommerce's interception routines that rely on broken tables.
+            $meta_query[] = array(
+                'key'     => '_price',
+                'value'   => $max_price,
+                'compare' => '<=',
+                'type'    => 'NUMERIC',
+            );
 
-            $meta_query[] = $price_meta_query;
             $q->set( 'meta_query', $meta_query );
         }
     }
