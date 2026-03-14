@@ -198,28 +198,15 @@ get_header( 'shop' );
 
             <?php
             // Remove WooCommerce default count and ordering hooks before shop loop to avoid duplicates
+            // We are removing the ordering and count entirely for a cleaner luxury aesthetic
             remove_action( 'woocommerce_before_shop_loop', 'woocommerce_result_count', 20 );
             remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30 );
 
-            // Get total products count
-            $total_products = wc_get_loop_prop( 'total' );
-            $results_text = $total_products === 1 ? '1 Resultado' : $total_products . ' Resultados';
-            ?>
-
-            <div class="flex justify-between items-center mb-8 pb-4 border-b border-gray-100 dark:border-gray-800">
-                <span class="text-sm text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider"><?php echo esc_html( $results_text ); ?></span>
-                <div class="flex items-center space-x-2">
-                    <span class="text-sm text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider mr-2 hidden sm:inline">Ordenar por:</span>
-                    <?php woocommerce_catalog_ordering(); ?>
-                </div>
-            </div>
-
-            <?php
             if ( woocommerce_product_loop() ) {
 
                 do_action( 'woocommerce_before_shop_loop' );
 
-                echo '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-8">';
+                echo '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-8 pt-4">';
 
                 if ( wc_get_loop_prop( 'total' ) ) {
                     while ( have_posts() ) {
@@ -325,7 +312,13 @@ get_header( 'shop' );
 
                 do_action( 'woocommerce_after_shop_loop' );
             } else {
-                do_action( 'woocommerce_no_products_found' );
+                // Elegant Spanish empty state
+                remove_action( 'woocommerce_no_products_found', 'wc_no_products_found', 10 );
+                echo '<div class="text-center py-32 flex flex-col items-center justify-center">';
+                echo '<svg class="w-16 h-16 text-gray-300 dark:text-gray-700 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>';
+                echo '<p class="text-sm md:text-base font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 max-w-md mx-auto leading-relaxed">No se encontraron fragancias con los criterios seleccionados.</p>';
+                echo '<a href="' . esc_url( wc_get_page_permalink( 'shop' ) ) . '" class="mt-8 inline-block border-b-2 border-black dark:border-white pb-1 text-xs font-bold uppercase tracking-[0.2em] text-black dark:text-white hover:text-gray-500 dark:hover:text-gray-400 transition-colors">Explorar Colección</a>';
+                echo '</div>';
             }
             ?>
         </main>
