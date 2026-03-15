@@ -236,7 +236,7 @@
             padding: 1.5rem !important;
             margin-bottom: 2rem !important;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);
-            backdrop-filter: blur(8px);
+            /* Removed backdrop-filter to prevent Chrome GPU crashes when nested inside sticky glassmorphism sidebar */
         }
 
         .dark #payment ul.payment_methods {
@@ -277,25 +277,7 @@
         /* Remove default WooCommerce triangle pointer on payment box */
         #payment div.payment_box::before { display: none !important; }
 
-        /* Animated Glowing Place Order Button */
-        @keyframes gradientPulse {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes shadowPulse {
-            0% { box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); }
-            50% { box-shadow: 0 0 40px rgba(0, 0, 0, 0.4); transform: translateY(-2px); }
-            100% { box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); }
-        }
-
-        .dark @keyframes shadowPulseDark {
-            0% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.2); }
-            50% { box-shadow: 0 0 40px rgba(255, 255, 255, 0.4); transform: translateY(-2px); }
-            100% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.2); }
-        }
-
+        /* Place Order Button - Stripped of infinite animations to fix Chrome GPU crashes */
         #place_order {
             width: 100% !important;
             border-radius: 9999px !important; /* full pill */
@@ -305,23 +287,30 @@
             text-transform: uppercase !important;
             letter-spacing: 0.25em !important;
             color: #fff !important;
-            background: linear-gradient(270deg, #000, #333, #000) !important;
-            background-size: 200% 200% !important;
-            animation: gradientPulse 3s ease infinite, shadowPulse 3s ease-in-out infinite !important;
+            background: #000 !important;
             border: none !important;
             cursor: pointer;
-            transition: transform 0.2s ease !important;
+            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
         .dark #place_order {
             color: #000 !important;
-            background: linear-gradient(270deg, #fff, #ddd, #fff) !important;
-            background-size: 200% 200% !important;
-            animation: gradientPulse 3s ease infinite, shadowPulseDark 3s ease-in-out infinite !important;
+            background: #fff !important;
+            box-shadow: 0 10px 20px rgba(255,255,255,0.1);
+        }
+
+        #place_order:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .dark #place_order:hover {
+            box-shadow: 0 15px 30px rgba(255,255,255,0.2);
         }
 
         #place_order:active {
-            transform: scale(0.98) !important;
+            transform: scale(0.98) translateY(0) !important;
         }
     </style>
 
