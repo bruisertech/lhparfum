@@ -511,9 +511,12 @@ get_header( 'shop' );
                 echo '</div>'; // End custom grid
 
                 // Elegant Loader for Infinite Scroll
-                echo '<div id="lhparfum-infinite-loader" class="hidden flex justify-center items-center py-16 w-full">';
+                echo '<div id="lhparfum-infinite-loader" class="hidden flex justify-center items-center py-8 md:py-16 w-full">';
                 echo '<div class="w-8 h-8 rounded-full border-2 border-t-black border-r-black border-b-gray-200 border-l-gray-200 dark:border-t-white dark:border-r-white dark:border-b-gray-800 dark:border-l-gray-800 animate-spin"></div>';
                 echo '</div>';
+
+                // Transparent, always-rendered trigger for the IntersectionObserver
+                echo '<div id="lhparfum-scroll-trigger" class="w-full h-1 mt-4"></div>';
 
                 // Hide native pagination but keep it in DOM so JS can read the Next Page URL
                 echo '<div id="lhparfum-pagination" class="hidden">';
@@ -540,6 +543,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let nextUrl = getNextUrl();
     const grid = document.getElementById('lhparfum-product-grid');
     const loader = document.getElementById('lhparfum-infinite-loader');
+    const trigger = document.getElementById('lhparfum-scroll-trigger');
 
     function getNextUrl() {
         const nextLink = document.querySelector('#lhparfum-pagination a.next');
@@ -607,9 +611,9 @@ document.addEventListener('DOMContentLoaded', function() {
             threshold: 0.1
         });
 
-        // Setup a dummy element at the end of the grid to observe, or observe the loader itself
-        if(loader) {
-            observer.observe(loader);
+        // Observe the transparent trigger, because hidden elements (like the loader) never trigger intersections
+        if(trigger) {
+            observer.observe(trigger);
         }
     }
 });
