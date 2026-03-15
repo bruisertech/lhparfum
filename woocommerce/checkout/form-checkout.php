@@ -183,8 +183,10 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                         <?php endif; ?>
 
                         <!-- Image with forced tailwind aspect ratio classes -->
-                        <div class="w-full h-full rounded-3xl overflow-hidden [&_img]:absolute [&_img]:inset-0 [&_img]:w-full [&_img]:h-full [&_img]:object-cover [&_img]:object-center transition-transform duration-[1500ms] group-hover:scale-105">
-                            <?php echo $product->get_image( 'woocommerce_thumbnail' ); ?>
+                        <div class="w-full h-full rounded-3xl overflow-hidden transition-transform duration-[1500ms] group-hover:scale-105">
+                            <!-- Sibling structure: <a> and <img> must be absolute siblings -->
+                            <a href="<?php echo esc_url( $product->get_permalink() ); ?>" class="absolute inset-0 z-10 w-full h-full"></a>
+                            <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover' ) ); ?>
                         </div>
                     </div>
 
@@ -211,7 +213,7 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                         <!-- Dynamic Button (Pill shaped for App feel) -->
                         <!-- Note: Add to cart via AJAX from here is tricky during checkout processing, so we open in blank or let WooCommerce handle it. Best is let it standard redirect to cart/checkout -->
                         <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>" data-quantity="1" class="inline-block px-6 py-3 w-full max-w-[90%] text-[9px] font-black uppercase tracking-[0.25em] rounded-full transition-all duration-300 transform group-hover:scale-105 group-hover:-translate-y-1 <?php echo esc_attr($carousel_btn_bg); ?> add_to_cart_button ajax_add_to_cart" data-product_id="<?php echo esc_attr($product->get_id()); ?>" data-product_sku="<?php echo esc_attr($product->get_sku()); ?>">
-                            Añadir a la orden
+                            Adquirir fragancia
                         </a>
                     </div>
                 </div>
