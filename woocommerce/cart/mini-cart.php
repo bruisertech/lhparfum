@@ -79,7 +79,7 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
                 // Default clean classes if no rareza specific bg needed
                 $card_class = $glow_class ? $glow_class : 'bg-white dark:bg-[#1a1a1a] border-gray-200/60 dark:border-gray-800/60';
                 ?>
-                <li class="woocommerce-mini-cart-item <?php echo esc_attr( apply_filters( 'woocommerce_mini_cart_item_class', 'mini_cart_item', $cart_item, $cart_item_key ) ); ?> flex gap-5 p-4 sm:p-5 rounded-2xl border shadow-[0_8px_30px_rgba(0,0,0,0.04)] dark:shadow-none relative <?php echo esc_attr($card_class); ?> transition-shadow duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] transform-gpu will-change-transform">
+                <li class="woocommerce-mini-cart-item <?php echo esc_attr( apply_filters( 'woocommerce_mini_cart_item_class', 'mini_cart_item', $cart_item, $cart_item_key ) ); ?> grid grid-cols-[6rem_1fr] gap-5 p-4 sm:p-5 rounded-2xl border shadow-[0_8px_30px_rgba(0,0,0,0.04)] dark:shadow-none relative <?php echo esc_attr($card_class); ?> transition-shadow duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] transform-gpu will-change-transform">
 
                     <!-- Rarity Pill Integrated (Top Left) -->
                     <?php if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) :
@@ -119,7 +119,7 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 
                     <!-- Product Image Strict Aspect Ratio -->
                     <!-- Sibling structure: <a> and <img> must be absolute siblings to prevent layout collapse -->
-                    <div class="w-24 min-w-[6rem] shrink-0">
+                    <div class="w-full">
                         <div class="relative w-full aspect-[3/4] overflow-hidden mb-0 rounded-xl shadow-sm border border-black/5 dark:border-white/5 bg-gray-100 dark:bg-gray-800">
                             <?php if ( ! empty( $product_permalink ) ) : ?>
                                 <a href="<?php echo esc_url( $product_permalink ); ?>" class="absolute inset-0 z-10 w-full h-full"></a>
@@ -129,7 +129,7 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
                     </div>
 
                     <!-- Product Details -->
-                    <div class="flex-grow flex flex-col justify-between py-1.5">
+                    <div class="flex flex-col justify-between py-1.5 min-w-0">
                         <div>
                             <!-- Brand (If exists, extra luxury detail) -->
                             <?php
