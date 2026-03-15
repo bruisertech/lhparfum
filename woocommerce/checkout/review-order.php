@@ -36,16 +36,16 @@ defined( 'ABSPATH' ) || exit;
 
                     if ( $slug === 'nicho' ) {
                         $pill_classes .= ' bg-gradient-to-r from-yellow-400 to-yellow-600 animate-pulse-glow-gold';
-                        $glow_class = 'bg-yellow-400 opacity-20 blur-xl animate-pulse-glow-gold';
+                        $glow_class = 'bg-yellow-400 opacity-20 blur-xl';
                     } elseif ( $slug === 'arabe' ) {
                         $pill_classes .= ' bg-gradient-to-r from-purple-500 to-purple-800 animate-pulse-glow-purple';
-                        $glow_class = 'bg-purple-600 opacity-20 blur-xl animate-pulse-glow-purple';
+                        $glow_class = 'bg-purple-600 opacity-20 blur-xl';
                     } elseif ( $slug === 'disenador' ) {
                         $pill_classes .= ' bg-gradient-to-r from-blue-400 to-blue-700 animate-pulse-glow-blue';
-                        $glow_class = 'bg-blue-500 opacity-20 blur-xl animate-pulse-glow-blue';
+                        $glow_class = 'bg-blue-500 opacity-20 blur-xl';
                     } else {
                         $pill_classes .= ' bg-gradient-to-r from-emerald-400 to-emerald-700 animate-pulse-glow-green';
-                        $glow_class = 'bg-emerald-500 opacity-20 blur-xl animate-pulse-glow-green';
+                        $glow_class = 'bg-emerald-500 opacity-20 blur-xl';
                     }
 
                     $pill_html = '<div class="' . esc_attr( $pill_classes ) . '">';
@@ -54,12 +54,12 @@ defined( 'ABSPATH' ) || exit;
                     $pill_html .= '</div>';
                 }
                 ?>
-                <div class="<?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?> flex gap-5 p-4 rounded-3xl border border-gray-100 dark:border-gray-800 bg-white/50 dark:bg-[#181818]/50 shadow-sm relative group items-center transition-shadow duration-300 hover:shadow-md">
+                <div class="<?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?> flex gap-5 p-4 rounded-3xl border border-gray-100 dark:border-gray-800 bg-white/50 dark:bg-[#181818]/50 shadow-sm relative group items-center transition-shadow duration-300 hover:shadow-md transform-gpu">
 
                     <!-- Thumbnail with Rarity Pill -->
                     <div class="w-20 md:w-24 shrink-0 relative z-10">
                         <?php if ( $glow_class ) : ?>
-                            <div class="absolute inset-0 <?php echo esc_attr( $glow_class ); ?> rounded-2xl -z-10 group-hover:scale-110 transition-transform duration-700 pointer-events-none"></div>
+                            <div class="absolute inset-0 <?php echo esc_attr( $glow_class ); ?> rounded-2xl -z-10 group-hover:scale-110 transition-transform duration-700 pointer-events-none transform-gpu"></div>
                         <?php endif; ?>
 
                         <div class="relative w-full aspect-[3/4] overflow-hidden rounded-2xl shadow-sm border border-black/5 dark:border-white/5 bg-white dark:bg-gray-900 [&_img]:absolute [&_img]:inset-0 [&_img]:w-full [&_img]:h-full [&_img]:object-cover [&_img]:object-center">
