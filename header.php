@@ -222,6 +222,107 @@
         .woocommerce-checkout .form-row {
             margin-bottom: 1.5rem;
         }
+
+        /* Luxury Checkout Payment Section */
+        #payment {
+            background: transparent !important;
+            border-radius: 0 !important;
+        }
+
+        #payment ul.payment_methods {
+            background-color: rgba(0, 0, 0, 0.02) !important;
+            border: 1px solid rgba(0, 0, 0, 0.05) !important;
+            border-radius: 1.5rem !important;
+            padding: 1.5rem !important;
+            margin-bottom: 2rem !important;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);
+            backdrop-filter: blur(8px);
+        }
+
+        .dark #payment ul.payment_methods {
+            background-color: rgba(255, 255, 255, 0.05) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        #payment ul.payment_methods li {
+            font-size: 0.875rem;
+            font-weight: 800;
+            color: #111;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .dark #payment ul.payment_methods li {
+            color: #fff;
+        }
+
+        #payment div.payment_box {
+            background-color: rgba(0, 0, 0, 0.05) !important;
+            border-radius: 1rem !important;
+            padding: 1rem 1.5rem !important;
+            font-size: 0.75rem !important;
+            color: #555 !important;
+            line-height: 1.6 !important;
+            font-weight: 500 !important;
+            position: relative;
+            margin-top: 1rem !important;
+        }
+
+        .dark #payment div.payment_box {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            color: #ccc !important;
+        }
+
+        /* Remove default WooCommerce triangle pointer on payment box */
+        #payment div.payment_box::before { display: none !important; }
+
+        /* Animated Glowing Place Order Button */
+        @keyframes gradientPulse {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes shadowPulse {
+            0% { box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); }
+            50% { box-shadow: 0 0 40px rgba(0, 0, 0, 0.4); transform: translateY(-2px); }
+            100% { box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); }
+        }
+
+        .dark @keyframes shadowPulseDark {
+            0% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.2); }
+            50% { box-shadow: 0 0 40px rgba(255, 255, 255, 0.4); transform: translateY(-2px); }
+            100% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.2); }
+        }
+
+        #place_order {
+            width: 100% !important;
+            border-radius: 9999px !important; /* full pill */
+            padding: 1.25rem !important;
+            font-size: 0.75rem !important;
+            font-weight: 900 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.25em !important;
+            color: #fff !important;
+            background: linear-gradient(270deg, #000, #333, #000) !important;
+            background-size: 200% 200% !important;
+            animation: gradientPulse 3s ease infinite, shadowPulse 3s ease-in-out infinite !important;
+            border: none !important;
+            cursor: pointer;
+            transition: transform 0.2s ease !important;
+        }
+
+        .dark #place_order {
+            color: #000 !important;
+            background: linear-gradient(270deg, #fff, #ddd, #fff) !important;
+            background-size: 200% 200% !important;
+            animation: gradientPulse 3s ease infinite, shadowPulseDark 3s ease-in-out infinite !important;
+        }
+
+        #place_order:active {
+            transform: scale(0.98) !important;
+        }
     </style>
 
     <!-- Dark Mode Init Script -->
