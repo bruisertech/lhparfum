@@ -79,7 +79,7 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
                 // Default clean classes if no rareza specific bg needed
                 $card_class = $glow_class ? $glow_class : 'bg-white dark:bg-[#1a1a1a] border-gray-200/60 dark:border-gray-800/60';
                 ?>
-                <li class="woocommerce-mini-cart-item <?php echo esc_attr( apply_filters( 'woocommerce_mini_cart_item_class', 'mini_cart_item', $cart_item, $cart_item_key ) ); ?> grid grid-cols-[6rem_1fr] gap-5 p-4 sm:p-5 rounded-2xl border shadow-[0_8px_30px_rgba(0,0,0,0.04)] dark:shadow-none relative <?php echo esc_attr($card_class); ?> transition-shadow duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] transform-gpu will-change-transform">
+                <li class="woocommerce-mini-cart-item <?php echo esc_attr( apply_filters( 'woocommerce_mini_cart_item_class', 'mini_cart_item', $cart_item, $cart_item_key ) ); ?> flex gap-5 p-4 sm:p-5 rounded-2xl border shadow-[0_8px_30px_rgba(0,0,0,0.04)] dark:shadow-none relative <?php echo esc_attr($card_class); ?> transition-shadow duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] transform-gpu will-change-transform">
 
                     <!-- Rarity Pill Integrated (Top Left) -->
                     <?php if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) :
@@ -119,7 +119,8 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 
                     <!-- Product Image Strict Aspect Ratio -->
                     <!-- Sibling structure: <a> and <img> must be absolute siblings to prevent layout collapse -->
-                    <div class="w-full">
+                    <!-- Flex constraints explicitly set on the wrapper to prevent Safari from shrinking the image -->
+                    <div class="flex-none" style="flex: 0 0 96px; width: 96px; min-width: 96px; max-width: 96px; display: block;">
                         <div class="relative w-full aspect-[3/4] overflow-hidden mb-0 rounded-xl shadow-sm border border-black/5 dark:border-white/5 bg-gray-100 dark:bg-gray-800">
                             <?php if ( ! empty( $product_permalink ) ) : ?>
                                 <a href="<?php echo esc_url( $product_permalink ); ?>" class="absolute inset-0 z-10 w-full h-full"></a>
@@ -129,7 +130,7 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
                     </div>
 
                     <!-- Product Details -->
-                    <div class="flex flex-col justify-between py-1.5 min-w-0">
+                    <div class="flex flex-col justify-between py-1.5 flex-grow min-w-0">
                         <div>
                             <!-- Brand (If exists, extra luxury detail) -->
                             <?php
@@ -185,6 +186,50 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
         ?>
     </ul>
 
+    <?php
+    // Find the highest priced item in the cart to determine the button rarity color
+    $highest_price = 0;
+    $highest_rarity = '';
+
+    foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+        $_product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+        $product_id = apply_filters( 'woocommerce_cart_item_product_id', $cart_item['product_id'], $cart_item, $cart_item_key );
+
+        $price = floatval( $_product->get_price() );
+        if ( $price > $highest_price ) {
+            $highest_price = $price;
+            $rareza_terms = get_the_terms( $product_id, 'lh_rareza' );
+            if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) {
+                $highest_rarity = $rareza_terms[0]->slug;
+            }
+        }
+    }
+
+    $btn_glow_class = '';
+    $btn_bg_class = 'bg-black dark:bg-white text-white dark:text-black hover:bg-gray-900 dark:hover:bg-gray-200'; // Default
+
+    // We recreate the same CSS effects used in header.php for the custom-add-to-cart-wrapper
+    if ( $highest_rarity === 'nicho' ) {
+        $btn_glow_class = 'animate-pulse-glow-gold';
+        $btn_bg_class = 'text-white border-0';
+        $btn_bg_style = 'background: linear-gradient(to right, #fbbf24, #d97706);';
+    } elseif ( $highest_rarity === 'arabe' ) {
+        $btn_glow_class = 'animate-pulse-glow-purple';
+        $btn_bg_class = 'text-white border-0';
+        $btn_bg_style = 'background: linear-gradient(to right, #a855f7, #7e22ce);';
+    } elseif ( $highest_rarity === 'disenador' ) {
+        $btn_glow_class = 'animate-pulse-glow-blue';
+        $btn_bg_class = 'text-white border-0';
+        $btn_bg_style = 'background: linear-gradient(to right, #60a5fa, #1d4ed8);';
+    } elseif ( $highest_rarity === 'accesible' ) {
+        $btn_glow_class = 'animate-pulse-glow-green';
+        $btn_bg_class = 'text-white border-0';
+        $btn_bg_style = 'background: linear-gradient(to right, #34d399, #047857);';
+    } else {
+        $btn_bg_style = '';
+    }
+    ?>
+
     <div class="sticky bottom-0 left-0 right-0 bg-[#fcfcfc]/90 dark:bg-[#111111]/90 backdrop-blur-xl pt-6 pb-2 sm:pb-0 mt-8 border-t border-gray-200/60 dark:border-gray-800/60 z-30 -mx-6 sm:-mx-8 px-6 sm:px-8">
         <?php do_action( 'woocommerce_widget_shopping_cart_before_buttons' ); ?>
 
@@ -194,8 +239,8 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
         </div>
 
         <div class="woocommerce-mini-cart__buttons buttons flex flex-col gap-3">
-            <!-- Removed transition-all and translateY to stop Chrome layout thrashing -->
-            <a href="<?php echo esc_url( wc_get_checkout_url() ); ?>" class="button checkout wc-forward w-full text-center bg-black dark:bg-white text-white dark:text-black py-4 font-black uppercase tracking-[0.2em] text-[11px] hover:bg-gray-900 dark:hover:bg-gray-200 transition-colors duration-300 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.15)] dark:shadow-[0_10px_30px_rgba(255,255,255,0.15)] transform-gpu"><?php esc_html_e( 'Pasar por caja', 'bruiser-tech-lhparfum' ); ?></a>
+            <!-- Luxury glow button, overriding checkout text to Adquirir fragancia as requested -->
+            <a href="<?php echo esc_url( wc_get_checkout_url() ); ?>" class="button checkout wc-forward w-full text-center py-4 font-black uppercase tracking-[0.2em] text-[11px] transition-colors duration-300 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.15)] dark:shadow-[0_10px_30px_rgba(255,255,255,0.15)] transform-gpu <?php echo esc_attr($btn_bg_class . ' ' . $btn_glow_class); ?>" style="<?php echo esc_attr($btn_bg_style); ?>"><?php esc_html_e( 'Adquirir fragancia', 'bruiser-tech-lhparfum' ); ?></a>
         </div>
 
         <?php do_action( 'woocommerce_widget_shopping_cart_after_buttons' ); ?>
