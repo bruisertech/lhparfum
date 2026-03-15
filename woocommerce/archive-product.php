@@ -598,23 +598,19 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    // Intersection Observer to detect when user scrolls to bottom of grid
-    let observer;
+    // Robust Window Scroll Listener as fallback to IntersectionObserver quirks
     if (grid && nextUrl) {
-        observer = new IntersectionObserver((entries) => {
-            // Trigger load if the last element in the grid is intersecting (visible)
-            if (entries[0].isIntersecting && !isLoading) {
+        window.addEventListener('scroll', function() {
+            if (isLoading || !nextUrl) return;
+
+            // Check if we are close to the bottom of the document (within 800px)
+            const scrollPosition = window.innerHeight + window.scrollY;
+            const bottomPosition = document.body.offsetHeight - 800;
+
+            if (scrollPosition >= bottomPosition) {
                 loadNextPage();
             }
-        }, {
-            rootMargin: '0px 0px 400px 0px', // Start loading 400px before reaching the bottom
-            threshold: 0.1
         });
-
-        // Observe the transparent trigger, because hidden elements (like the loader) never trigger intersections
-        if(trigger) {
-            observer.observe(trigger);
-        }
     }
 });
 </script>
