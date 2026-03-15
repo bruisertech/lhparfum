@@ -62,15 +62,14 @@ defined( 'ABSPATH' ) || exit;
                             <div class="absolute inset-0 <?php echo esc_attr( $glow_class ); ?> rounded-2xl -z-10 group-hover:scale-110 transition-transform duration-700 pointer-events-none transform-gpu"></div>
                         <?php endif; ?>
 
-                        <div class="relative w-full aspect-[3/4] overflow-hidden rounded-2xl shadow-sm border border-black/5 dark:border-white/5 bg-white dark:bg-gray-900 [&_img]:absolute [&_img]:inset-0 [&_img]:w-full [&_img]:h-full [&_img]:object-cover [&_img]:object-center">
+                        <div class="relative w-full aspect-[3/4] overflow-hidden rounded-2xl shadow-sm border border-black/5 dark:border-white/5 bg-white dark:bg-gray-900">
                             <?php echo $pill_html; ?>
+                            <?php if ( $product_permalink ) : ?>
+                                <a href="<?php echo esc_url( $product_permalink ); ?>" class="absolute inset-0 z-10 w-full h-full"></a>
+                            <?php endif; ?>
                             <?php
-                            $thumbnail = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key );
-                            if ( ! $product_permalink ) {
-                                echo $thumbnail; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                            } else {
-                                printf( '<a href="%s">%s</a>', esc_url( $product_permalink ), $thumbnail ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                            }
+                            $thumbnail = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image( 'woocommerce_thumbnail', array( 'class' => 'absolute inset-0 w-full h-full object-cover' ) ), $cart_item, $cart_item_key );
+                            echo $thumbnail; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             ?>
                         </div>
                     </div>
