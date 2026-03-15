@@ -152,6 +152,76 @@
         .animate-slide-left:hover {
             animation-play-state: paused;
         }
+
+        /* Luxury Checkout Transparent Bubble Inputs */
+        .woocommerce-checkout input[type="text"],
+        .woocommerce-checkout input[type="email"],
+        .woocommerce-checkout input[type="tel"],
+        .woocommerce-checkout input[type="password"],
+        .woocommerce-checkout textarea,
+        .woocommerce-checkout select,
+        .woocommerce-checkout .select2-selection {
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 1.5rem; /* rounded-3xl */
+            padding: 1rem 1.5rem; /* py-4 px-6 */
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500;
+            color: #111;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+            outline: none;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);
+        }
+
+        .dark .woocommerce-checkout input[type="text"],
+        .dark .woocommerce-checkout input[type="email"],
+        .dark .woocommerce-checkout input[type="tel"],
+        .dark .woocommerce-checkout input[type="password"],
+        .dark .woocommerce-checkout textarea,
+        .dark .woocommerce-checkout select,
+        .dark .woocommerce-checkout .select2-selection {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .woocommerce-checkout input:focus,
+        .woocommerce-checkout textarea:focus,
+        .woocommerce-checkout select:focus {
+            background-color: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 0 4px rgba(0,0,0,0.05);
+        }
+
+        .dark .woocommerce-checkout input:focus,
+        .dark .woocommerce-checkout textarea:focus,
+        .dark .woocommerce-checkout select:focus {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 0 4px rgba(255,255,255,0.1);
+        }
+
+        .woocommerce-checkout label {
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: #888;
+            margin-bottom: 0.5rem;
+            margin-left: 1rem;
+        }
+
+        .dark .woocommerce-checkout label {
+            color: #aaa;
+        }
+
+        .woocommerce-checkout .form-row {
+            margin-bottom: 1.5rem;
+        }
     </style>
 
     <!-- Dark Mode Init Script -->

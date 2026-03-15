@@ -183,6 +183,18 @@ function bruiser_tech_lhparfum_custom_cart_button_text() {
 }
 
 /**
+ * Custom Checkout Field Labels & Coupons
+ */
+add_filter( 'woocommerce_checkout_coupon_message', 'bruiser_tech_lhparfum_rename_coupon_message' );
+function bruiser_tech_lhparfum_rename_coupon_message() {
+    return '¿Tienes un código de descuento? <a href="#" class="showcoupon text-black dark:text-white underline font-bold">Haz clic aquí para introducir tu código</a>';
+}
+
+// Move coupon form from top of checkout to order summary area
+remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form', 10 );
+add_action( 'woocommerce_review_order_before_payment', 'woocommerce_checkout_coupon_form', 10 );
+
+/**
  * Redirect Cart Page to Checkout to force luxury "Side Cart Only" experience
  */
 function bruiser_tech_lhparfum_redirect_cart_to_checkout() {
