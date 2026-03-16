@@ -237,12 +237,12 @@ get_header( 'shop' ); ?>
                         <span class="w-12 h-12 rounded-full border border-[#dddddd] dark:border-[#333333] flex items-center justify-center text-black dark:text-white">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </span>
-                        <span>Cruelty Free</span>
+                        <span>Sistematización ecofriendly<br><span class="text-[9px] md:text-[10px] text-[#aaaaaa] mt-1 block">LH Ecosystem</span></span>
                     </div>
                     <div class="text-[10px] md:text-xs text-[#888888] dark:text-[#777777] font-semibold tracking-widest uppercase flex flex-col items-center text-center space-y-4">
                         <span class="w-12 h-12 rounded-full border border-[#dddddd] dark:border-[#333333] flex items-center justify-center text-black dark:text-white">
-                            <!-- Temperature / Snowflake Icon for storage -->
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 13l4 4L19 7"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 2v20M17 5l-5 5-5-5m10 14l-5-5-5 5" opacity="0.3"></path></svg>
+                            <!-- Box Icon for LH Integrity storage -->
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7.523A2.5 2.5 0 0 0 18.525 5.5l-5.05-2.525a2.5 2.5 0 0 0-2.23 0L6.195 5.5A2.5 2.5 0 0 0 4.71 7.523L4 12l.71 4.477a2.5 2.5 0 0 0 1.485 2.023l5.05 2.525a2.5 2.5 0 0 0 2.23 0l5.05-2.525a2.5 2.5 0 0 0 1.485-2.023L20 12l-.71-4.477ZM12 12v9.5M12 12l8-4.5M12 12 4 7.5"></path></svg>
                         </span>
                         <span>Almacenado en ambiente adecuado<br><span class="text-[9px] md:text-[10px] text-[#aaaaaa] mt-1 block">LH Integrity</span></span>
                     </div>
