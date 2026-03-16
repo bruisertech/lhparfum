@@ -334,7 +334,7 @@
 
     <!-- Top Banner (Optional, replicating Dossier's style) -->
     <div class="bg-gray-100 dark:bg-gray-800 text-center py-2 text-xs font-medium tracking-wide text-gray-900 dark:text-gray-100">
-        Hasta 20% de descuento + envío GRATIS. <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/tienda/' ) ); ?>" class="underline">Comprar ahora</a>
+        Envíos gratis por compras a partir de $250.000 COP <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/tienda/' ) ); ?>" class="underline">Explorar</a>
     </div>
 
     <!-- Main Navigation Header -->
