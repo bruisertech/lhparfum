@@ -119,9 +119,9 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 
                     <!-- Product Image Strict Aspect Ratio -->
                     <!-- Sibling structure: <a> and <img> must be absolute siblings to prevent layout collapse -->
-                    <!-- Rigid width and shrink-0 to prevent collapsing on WebKit/iOS -->
-                    <div class="w-24 min-w-[6rem] max-w-[6rem] shrink-0 block">
-                        <div class="relative w-full aspect-[3/4] overflow-hidden mb-0 rounded-xl shadow-sm border border-black/5 dark:border-white/5 bg-gray-100 dark:bg-gray-800">
+                    <!-- Rigid width and shrink-0 to prevent collapsing on WebKit/iOS. Explicit inline styles added for bulletproof Safari fix. -->
+                    <div class="w-24 min-w-[6rem] max-w-[6rem] shrink-0 block" style="width: 96px; height: 128px; flex-shrink: 0; flex-basis: 96px;">
+                        <div class="relative w-full aspect-[3/4] overflow-hidden mb-0 rounded-xl shadow-sm border border-black/5 dark:border-white/5 bg-gray-100 dark:bg-gray-800" style="height: 100%;">
                             <?php if ( ! empty( $product_permalink ) ) : ?>
                                 <a href="<?php echo esc_url( $product_permalink ); ?>" class="absolute inset-0 z-10 w-full h-full block"></a>
                             <?php endif; ?>
