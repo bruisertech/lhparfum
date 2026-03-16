@@ -119,18 +119,18 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 
                     <!-- Product Image Strict Aspect Ratio -->
                     <!-- Sibling structure: <a> and <img> must be absolute siblings to prevent layout collapse -->
-                    <!-- Flex constraints explicitly set on the wrapper to prevent Safari from shrinking the image -->
-                    <div class="flex-none" style="flex: 0 0 96px; width: 96px; min-width: 96px; max-width: 96px; display: block;">
+                    <!-- Rigid width and shrink-0 to prevent collapsing on WebKit/iOS -->
+                    <div class="w-24 min-w-[6rem] max-w-[6rem] shrink-0 block">
                         <div class="relative w-full aspect-[3/4] overflow-hidden mb-0 rounded-xl shadow-sm border border-black/5 dark:border-white/5 bg-gray-100 dark:bg-gray-800">
                             <?php if ( ! empty( $product_permalink ) ) : ?>
-                                <a href="<?php echo esc_url( $product_permalink ); ?>" class="absolute inset-0 z-10 w-full h-full"></a>
+                                <a href="<?php echo esc_url( $product_permalink ); ?>" class="absolute inset-0 z-10 w-full h-full block"></a>
                             <?php endif; ?>
-                            <?php echo $thumbnail; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                            <?php echo str_replace('class="', 'class="absolute inset-0 w-full h-full object-cover ', $thumbnail); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                         </div>
                     </div>
 
                     <!-- Product Details -->
-                    <div class="flex flex-col justify-between py-1.5 flex-grow min-w-0">
+                    <div class="flex flex-col justify-between py-1.5 flex-1 min-w-0">
                         <div>
                             <!-- Brand (If exists, extra luxury detail) -->
                             <?php
