@@ -19,7 +19,7 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 
     <?php
     // Calculate Free Shipping Progress
-    $free_shipping_threshold = 200000;
+    $free_shipping_threshold = 250000;
     $current_subtotal = WC()->cart->get_subtotal();
     $amount_left = $free_shipping_threshold - $current_subtotal;
     $progress_percentage = ( $current_subtotal / $free_shipping_threshold ) * 100;
