@@ -1,13 +1,13 @@
     </div><!-- #content -->
 
     <!-- Main Footer Area -->
-    <footer id="colophon" class="site-footer bg-white dark:bg-gray-900 text-gray-600 dark:text-white border-t border-gray-100 dark:border-gray-800 pt-8 pb-24 md:pb-8 mt-auto flex flex-col items-center justify-center text-center transition-colors duration-300">
-        <div class="text-sm text-gray-500 dark:text-gray-400">
-            <p class="mb-2">&copy; <?php echo date('Y'); ?> <?php echo esc_html( get_theme_mod( 'lhparfum_footer_copyright', 'LHPARFUM. Todos los derechos reservados.' ) ); ?></p>
+    <footer id="colophon" class="site-footer bg-gray-900 text-white border-t border-gray-800 pt-8 pb-24 md:pb-8 mt-auto flex flex-col items-center justify-center text-center transition-colors duration-300">
+        <div class="text-sm text-gray-400">
+            <p class="mb-2">©️ 2026 LH Parfum. Todos los derechos reservados.</p>
             <p>
                 <?php
                 /* translators: %s: CMS name, i.e. WordPress. */
-                printf( esc_html__( 'Desarrollado por %s', 'bruiser-tech-lhparfum' ), '<a href="https://instagram.com/bruiser.tech" target="_blank" class="text-gray-900 dark:text-white hover:underline font-medium tracking-wide transition-colors">Bruiser Tech</a>' );
+                printf( esc_html__( 'Desarrollado por %s', 'bruiser-tech-lhparfum' ), '<a href="https://instagram.com/bruiser.tech" target="_blank" class="text-white hover:underline font-medium tracking-wide transition-colors">Bruiser Tech</a>' );
                 ?>
             </p>
         </div>
@@ -15,30 +15,30 @@
 </div><!-- #page -->
 
 <!-- Mobile Bottom Navigation Bar -->
-<div class="fixed bottom-0 left-0 z-50 w-full h-16 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 md:hidden flex justify-around items-center px-4 shadow-lg transition-colors duration-300">
+<div class="fixed bottom-0 left-0 z-50 w-full h-16 bg-[#600470] dark:bg-gray-900 border-t border-[#600470]/20 dark:border-gray-800 md:hidden flex justify-around items-center px-4 shadow-lg transition-colors duration-300">
     <!-- Home -->
-    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="flex flex-col items-center justify-center w-full h-full text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white group">
+    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="flex flex-col items-center justify-center w-full h-full text-white/70 dark:text-gray-400 hover:text-white dark:hover:text-white group">
         <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-        <span class="text-[10px] font-medium uppercase tracking-wider">Inicio</span>
+        <span class="text-[10px] font-medium uppercase tracking-wider text-white">Inicio</span>
     </a>
 
     <!-- Shop -->
-    <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : '#'; ?>" class="flex flex-col items-center justify-center w-full h-full text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white group">
+    <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : '#'; ?>" class="flex flex-col items-center justify-center w-full h-full text-white/70 dark:text-gray-400 hover:text-white dark:hover:text-white group">
         <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V10C19 8.89543 18.1046 8 17 8H15M19 21H5M19 21H21M5 21V10C5 8.89543 5.89543 8 7 8H9M5 21H3M9 8H15M9 8V5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V8M9 21H15M9 21V16C9 14.8954 9.89543 14 11 14H13C14.1046 14 15 14.8954 15 16V21"></path></svg>
-        <span class="text-[10px] font-medium uppercase tracking-wider">Tienda</span>
+        <span class="text-[10px] font-medium uppercase tracking-wider text-white">Tienda</span>
     </a>
 
     <!-- Cart -->
-    <button type="button" class="lhparfum-side-cart-toggle flex flex-col items-center justify-center w-full h-full text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white group relative cursor-pointer">
+    <button type="button" class="lhparfum-side-cart-toggle flex flex-col items-center justify-center w-full h-full text-white/70 dark:text-gray-400 hover:text-white dark:hover:text-white group relative cursor-pointer">
         <div class="relative">
-            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+            <svg class="w-6 h-6 mb-1 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
             <?php if ( class_exists( 'WooCommerce' ) && isset(WC()->cart) && WC()->cart ) : ?>
-                <span class="lhparfum-cart-count absolute -top-1 -right-2 bg-black dark:bg-white text-white dark:text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
+                <span class="lhparfum-cart-count absolute -top-1 -right-2 bg-white dark:bg-white text-[#600470] dark:text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
                     <?php echo wp_kses_data( WC()->cart->get_cart_contents_count() ); ?>
                 </span>
             <?php endif; ?>
         </div>
-        <span class="text-[10px] font-medium uppercase tracking-wider mt-1">Bolsa</span>
+        <span class="text-[10px] font-medium uppercase tracking-wider mt-1 text-white">Bolsa</span>
     </button>
 </div>
 

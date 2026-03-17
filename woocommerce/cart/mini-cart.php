@@ -210,29 +210,8 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
     $btn_text = $cart_item_count > 1 ? 'Adquirir fragancias' : 'Adquirir fragancia';
 
     $btn_glow_class = '';
-    $btn_bg_class = 'bg-black dark:bg-white text-white dark:text-black hover:bg-gray-900 dark:hover:bg-gray-200'; // Default neutral
-
-    // We recreate the same CSS effects used in header.php for the custom-add-to-cart-wrapper
-    // Notice we apply !text-white to force white text over the gradient colored background ignoring dark mode inheritance
-    if ( $highest_rarity === 'nicho' ) {
-        $btn_glow_class = 'animate-pulse-glow-gold';
-        $btn_bg_class = '!text-white dark:!text-white border-0';
-        $btn_bg_style = 'background: linear-gradient(to right, #fbbf24, #d97706);';
-    } elseif ( $highest_rarity === 'arabe' ) {
-        $btn_glow_class = 'animate-pulse-glow-purple';
-        $btn_bg_class = '!text-white dark:!text-white border-0';
-        $btn_bg_style = 'background: linear-gradient(to right, #a855f7, #7e22ce);';
-    } elseif ( $highest_rarity === 'disenador' ) {
-        $btn_glow_class = 'animate-pulse-glow-blue';
-        $btn_bg_class = '!text-white dark:!text-white border-0';
-        $btn_bg_style = 'background: linear-gradient(to right, #60a5fa, #1d4ed8);';
-    } elseif ( $highest_rarity === 'accesible' ) {
-        $btn_glow_class = 'animate-pulse-glow-green';
-        $btn_bg_class = '!text-white dark:!text-white border-0';
-        $btn_bg_style = 'background: linear-gradient(to right, #34d399, #047857);';
-    } else {
-        $btn_bg_style = '';
-    }
+    $btn_bg_class = 'bg-[#600470] text-white hover:bg-[#600470]/90 transition-colors'; // Force #600470
+    $btn_bg_style = '';
     ?>
 
     <div class="sticky bottom-0 left-0 right-0 bg-[#fcfcfc]/90 dark:bg-[#111111]/90 backdrop-blur-xl pt-6 pb-2 sm:pb-0 mt-8 border-t border-gray-200/60 dark:border-gray-800/60 z-30 -mx-6 sm:-mx-8 px-6 sm:px-8">

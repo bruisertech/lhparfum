@@ -434,7 +434,7 @@ get_header( 'shop' );
                         // Pill & Glow Logic
                         $rareza_html = '';
                         $glow_class = '';
-                        $carousel_btn_bg = 'bg-black dark:bg-white text-white dark:text-black';
+                        $carousel_btn_bg = 'bg-[#600470] text-white hover:bg-[#600470]/90 transition-colors shadow-md';
 
                         if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) {
                             $term = $rareza_terms[0];
@@ -445,19 +445,15 @@ get_header( 'shop' );
                             if ( $slug === 'nicho' ) {
                                 $pill_classes .= ' bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 animate-pulse-glow-gold';
                                 $glow_class = 'bg-yellow-400 opacity-30 dark:opacity-20 animate-pulse-glow-gold blur-[48px]';
-                                $carousel_btn_bg = 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-white shadow-md hover:shadow-lg hover:shadow-yellow-500/20';
                             } elseif ( $slug === 'arabe' ) {
                                 $pill_classes .= ' bg-gradient-to-r from-purple-500 via-purple-600 to-purple-800 animate-pulse-glow-purple';
                                 $glow_class = 'bg-purple-600 opacity-30 dark:opacity-20 animate-pulse-glow-purple blur-[48px]';
-                                $carousel_btn_bg = 'bg-gradient-to-r from-purple-500 to-purple-800 text-white shadow-md hover:shadow-lg hover:shadow-purple-500/20';
                             } elseif ( $slug === 'disenador' ) {
                                 $pill_classes .= ' bg-gradient-to-r from-blue-400 via-blue-500 to-blue-700 animate-pulse-glow-blue';
                                 $glow_class = 'bg-blue-500 opacity-30 dark:opacity-20 animate-pulse-glow-blue blur-[48px]';
-                                $carousel_btn_bg = 'bg-gradient-to-r from-blue-400 to-blue-700 text-white shadow-md hover:shadow-lg hover:shadow-blue-500/20';
                             } else {
                                 $pill_classes .= ' bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-700 animate-pulse-glow-green';
                                 $glow_class = 'bg-green-500 opacity-30 dark:opacity-20 animate-pulse-glow-green blur-[48px]';
-                                $carousel_btn_bg = 'bg-gradient-to-r from-emerald-400 to-emerald-700 text-white shadow-md hover:shadow-lg hover:shadow-emerald-500/20';
                             }
 
                             $rareza_html = '<div class="' . esc_attr( $pill_classes ) . '">';

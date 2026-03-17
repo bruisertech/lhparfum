@@ -107,23 +107,14 @@
             color: #000;
         }
 
-        /* Dynamic Background Color Overrides based on Rarity */
-        .custom-add-to-cart-wrapper.btn-bg-nicho button.single_add_to_cart_button { background: linear-gradient(to right, #fbbf24, #d97706); color: white; }
-        .custom-add-to-cart-wrapper.btn-bg-arabe button.single_add_to_cart_button { background: linear-gradient(to right, #a855f7, #7e22ce); color: white; }
-        .custom-add-to-cart-wrapper.btn-bg-disenador button.single_add_to_cart_button { background: linear-gradient(to right, #60a5fa, #1d4ed8); color: white; }
-        .custom-add-to-cart-wrapper.btn-bg-accesible button.single_add_to_cart_button { background: linear-gradient(to right, #34d399, #047857); color: white; }
+        /* Fixed Background Color #600470 for all Single Product Add to Cart buttons */
+        .custom-add-to-cart-wrapper button.single_add_to_cart_button { background: #600470; color: white; transition: background 0.3s, transform 0.3s, box-shadow 0.3s; }
 
         .custom-add-to-cart-wrapper button.single_add_to_cart_button:hover {
+            background: #4a0357; /* slightly darker shade for hover */
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             transform: translateY(-2px);
         }
-
-        /* The specific rarity glows */
-        .custom-add-to-cart-wrapper.glow-nicho button.single_add_to_cart_button { animation: pulseGlowGold 3s infinite; }
-        .custom-add-to-cart-wrapper.glow-arabe button.single_add_to_cart_button { animation: pulseGlowPurple 3s infinite; }
-        .custom-add-to-cart-wrapper.glow-disenador button.single_add_to_cart_button { animation: pulseGlowBlue 3s infinite; }
-        .custom-add-to-cart-wrapper.glow-accesible button.single_add_to_cart_button { animation: pulseGlowGreen 3s infinite; }
-        .custom-add-to-cart-wrapper button.single_add_to_cart_button:hover { animation: none; }
 
         /* Variable products clean up */
         .custom-add-to-cart-wrapper table.variations { width: 100%; margin-bottom: 1.5rem; text-align: left; }
@@ -338,7 +329,7 @@
     </div>
 
     <!-- Main Navigation Header -->
-    <header id="masthead" class="site-header border-b border-gray-200 dark:border-gray-800 sticky top-0 bg-white dark:bg-gray-900 z-50 transition-colors duration-300">
+    <header id="masthead" class="site-header border-b border-[#600470]/20 dark:border-gray-800 sticky top-0 bg-[#600470] dark:bg-gray-900 z-50 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div class="flex justify-between h-16 items-center">
                 <!-- Left Section: Hamburger (Mobile) -->
@@ -346,7 +337,7 @@
 
                     <!-- Mobile Menu Button -->
                     <div class="flex items-center md:hidden">
-                        <button type="button" id="mobile-menu-toggle" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white focus:outline-none p-2" aria-controls="mobile-menu" aria-expanded="false">
+                        <button type="button" id="mobile-menu-toggle" class="text-white dark:text-gray-400 hover:text-gray-200 dark:hover:text-white focus:outline-none p-2" aria-controls="mobile-menu" aria-expanded="false">
                             <span class="sr-only">Abrir menú principal</span>
                             <svg class="h-6 w-6 transition-transform duration-300" id="hamburger-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -364,15 +355,15 @@
                             'theme_location' => 'menu-1',
                             'menu_id'        => 'primary-menu',
                             'container'      => false,
-                            'menu_class'     => 'flex space-x-6 lg:space-x-8 text-xs lg:text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300',
+                            'menu_class'     => 'flex space-x-6 lg:space-x-8 text-xs lg:text-sm font-medium uppercase tracking-wider text-white dark:text-gray-300',
                             'fallback_cb'    => false,
                         ) );
                         ?>
                         <!-- Fallback if menu not set -->
                         <?php if ( ! has_nav_menu( 'menu-1' ) ) : ?>
-                            <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="text-xs lg:text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Inicio</a>
-                            <a href="<?php echo esc_url( home_url( '/colecciones/' ) ); ?>" class="text-xs lg:text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Colecciones</a>
-                            <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/tienda/' ) ); ?>" class="text-xs lg:text-sm font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Tienda</a>
+                            <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="text-xs lg:text-sm font-medium uppercase tracking-wider text-white dark:text-gray-300 hover:text-gray-200 dark:hover:text-white transition-colors">Inicio</a>
+                            <a href="<?php echo esc_url( home_url( '/colecciones/' ) ); ?>" class="text-xs lg:text-sm font-medium uppercase tracking-wider text-white dark:text-gray-300 hover:text-gray-200 dark:hover:text-white transition-colors">Colecciones</a>
+                            <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/tienda/' ) ); ?>" class="text-xs lg:text-sm font-medium uppercase tracking-wider text-white dark:text-gray-300 hover:text-gray-200 dark:hover:text-white transition-colors">Tienda</a>
                         <?php endif; ?>
                     </nav>
                 </div>
@@ -384,7 +375,8 @@
                         if ( has_custom_logo() ) {
                             the_custom_logo(); // Will be restricted to 58px by CSS
                         } else {
-                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-black.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-[58px] max-h-[58px] w-auto object-contain block dark:hidden">';
+                            // En modo claro mostramos logo blanco en vez de negro porque el fondo es morado oscuro (#600470)
+                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-white.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-[58px] max-h-[58px] w-auto object-contain block dark:hidden">';
                             echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-white.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-[58px] max-h-[58px] w-auto object-contain hidden dark:block">';
                         }
                         ?>
@@ -394,7 +386,7 @@
                 <!-- Icons (Theme Toggle, Search, Cart) - Aligned Right -->
                 <div class="flex items-center space-x-4 flex-1 justify-end">
                     <!-- Dark Mode Toggle (Desktop & Mobile, Far Right) -->
-                    <button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none rounded-lg text-sm p-2">
+                    <button id="theme-toggle" type="button" class="text-white dark:text-gray-400 hover:bg-[#600470]/80 dark:hover:bg-gray-700 focus:outline-none rounded-lg text-sm p-2 transition-colors">
                         <span class="sr-only">Toggle dark mode</span>
                         <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
                         <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
@@ -402,12 +394,12 @@
 
                     <!-- Desktop Sidecart Trigger (Hidden on Mobile) -->
                     <?php if ( class_exists( 'WooCommerce' ) ) : ?>
-                        <button type="button" class="hidden md:block lhparfum-side-cart-toggle text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white relative cursor-pointer">
+                        <button type="button" class="hidden md:block lhparfum-side-cart-toggle text-white dark:text-gray-400 hover:text-gray-200 dark:hover:text-white relative cursor-pointer transition-colors">
                             <span class="sr-only">Carrito</span>
                             <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                             </svg>
-                            <span class="lhparfum-cart-count absolute -top-1 -right-2 bg-black dark:bg-white text-white dark:text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
+                            <span class="lhparfum-cart-count absolute -top-1 -right-2 bg-white dark:bg-white text-[#600470] dark:text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
                                 <?php echo wp_kses_data( WC()->cart->get_cart_contents_count() ); ?>
                             </span>
                         </button>
@@ -418,24 +410,24 @@
     </header><!-- #masthead -->
 
     <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="fixed inset-0 z-[45] bg-white dark:bg-gray-900 transform -translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] pt-20 px-6 overflow-y-auto">
+    <div id="mobile-menu" class="fixed inset-0 z-[45] bg-[#600470] dark:bg-gray-900 transform -translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] pt-20 px-6 overflow-y-auto">
         <nav class="flex flex-col space-y-8 mt-8">
             <?php
             wp_nav_menu( array(
                 'theme_location' => 'menu-1',
                 'container'      => false,
-                'menu_class'     => 'flex flex-col space-y-6 text-xl font-bold uppercase tracking-widest text-gray-900 dark:text-gray-100',
+                'menu_class'     => 'flex flex-col space-y-6 text-xl font-bold uppercase tracking-widest text-white dark:text-gray-100',
                 'fallback_cb'    => false,
                 'items_wrap'     => '<ul id="%1$s" class="%2$s">%3$s</ul>'
             ) );
             ?>
             <!-- Fallback if menu not set -->
             <?php if ( ! has_nav_menu( 'menu-1' ) ) : ?>
-                <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-gray-900 dark:text-gray-100 hover:text-gray-500 transition-colors">Inicio</a>
-                <a href="<?php echo esc_url( home_url( '/colecciones/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-gray-900 dark:text-gray-100 hover:text-gray-500 transition-colors">Colecciones</a>
-                <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/tienda/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-gray-900 dark:text-gray-100 hover:text-gray-500 transition-colors">Tienda</a>
-                <a href="<?php echo esc_url( home_url( '/sobre-nosotros/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-gray-900 dark:text-gray-100 hover:text-gray-500 transition-colors">Sobre Nosotros</a>
-                <a href="<?php echo esc_url( home_url( '/contacto/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-gray-900 dark:text-gray-100 hover:text-gray-500 transition-colors">Contacto</a>
+                <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-white dark:text-gray-100 hover:text-gray-200 transition-colors">Inicio</a>
+                <a href="<?php echo esc_url( home_url( '/colecciones/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-white dark:text-gray-100 hover:text-gray-200 transition-colors">Colecciones</a>
+                <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/tienda/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-white dark:text-gray-100 hover:text-gray-200 transition-colors">Tienda</a>
+                <a href="<?php echo esc_url( home_url( '/sobre-nosotros/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-white dark:text-gray-100 hover:text-gray-200 transition-colors">Sobre Nosotros</a>
+                <a href="<?php echo esc_url( home_url( '/contacto/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-white dark:text-gray-100 hover:text-gray-200 transition-colors">Contacto</a>
             <?php endif; ?>
 
         </nav>

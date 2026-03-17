@@ -142,24 +142,20 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
             $formatted_taxonomies = implode(' &bull; ', $tax_string);
 
             // Button and Glow logic based on rarity
-            $carousel_btn_bg = 'bg-black dark:bg-white text-white dark:text-black';
+            $carousel_btn_bg = 'bg-[#600470] text-white hover:bg-[#600470]/90 transition-colors shadow-md';
             $glow_class = 'bg-gray-200 dark:bg-gray-800 blur-2xl opacity-50';
             $pill_classes = 'absolute -top-3 -left-3 inline-flex items-center justify-center px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.25em] text-white shadow-lg z-20 transition-transform hover:scale-110 border border-white/20';
 
             if ( $c_slug === 'nicho' ) {
-                $carousel_btn_bg = 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-white shadow-md hover:shadow-lg hover:shadow-yellow-500/20';
                 $glow_class = 'bg-yellow-400 opacity-20 dark:opacity-10 blur-[48px] animate-pulse-glow-gold';
                 $pill_classes .= ' bg-gradient-to-r from-yellow-400 to-yellow-600';
             } elseif ( $c_slug === 'arabe' ) {
-                $carousel_btn_bg = 'bg-gradient-to-r from-purple-500 to-purple-800 text-white shadow-md hover:shadow-lg hover:shadow-purple-500/20';
                 $glow_class = 'bg-purple-600 opacity-20 dark:opacity-10 blur-[48px] animate-pulse-glow-purple';
                 $pill_classes .= ' bg-gradient-to-r from-purple-500 to-purple-800';
             } elseif ( $c_slug === 'disenador' ) {
-                $carousel_btn_bg = 'bg-gradient-to-r from-blue-400 to-blue-700 text-white shadow-md hover:shadow-lg hover:shadow-blue-500/20';
                 $glow_class = 'bg-blue-500 opacity-20 dark:opacity-10 blur-[48px] animate-pulse-glow-blue';
                 $pill_classes .= ' bg-gradient-to-r from-blue-400 to-blue-700';
             } elseif ( $c_slug === 'accesible' ) {
-                $carousel_btn_bg = 'bg-gradient-to-r from-emerald-400 to-emerald-700 text-white shadow-md hover:shadow-lg hover:shadow-emerald-500/20';
                 $glow_class = 'bg-emerald-500 opacity-20 dark:opacity-10 blur-[48px] animate-pulse-glow-green';
                 $pill_classes .= ' bg-gradient-to-r from-emerald-400 to-emerald-700';
             }
