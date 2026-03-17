@@ -1,22 +1,9 @@
     </div><!-- #content -->
 
     <!-- Main Footer Area -->
-    <footer id="colophon" class="site-footer text-white border-t border-gray-800 pt-12 pb-24 md:pb-12 mt-auto flex flex-col items-center justify-center text-center z-40 relative" style="background: linear-gradient(to bottom, #1d1d1d, #2c2b2c, #39393a);">
+    <footer id="colophon" class="site-footer text-white border-t border-gray-800 pt-12 pb-24 md:pb-12 mt-auto flex flex-col items-center justify-center text-center z-40 relative" style="background: linear-gradient(to bottom, #39393a, #2c2b2c, #1d1d1d);">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-            <div class="flex flex-col items-center justify-center space-y-8">
-
-                <!-- Branding / Info -->
-                <div class="flex flex-col items-center text-center space-y-4">
-                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class="inline-block mb-2">
-                        <?php
-                        if ( has_custom_logo() ) {
-                            the_custom_logo();
-                        } else {
-                            echo '<h2 class="text-2xl font-black uppercase tracking-[0.25em] text-white">' . esc_html( get_bloginfo( 'name' ) ) . '</h2>';
-                        }
-                        ?>
-                    </a>
-                </div>
+            <div class="flex flex-col items-center justify-center space-y-10">
 
                 <!-- Social Icons -->
                 <div class="flex items-center justify-center space-x-6">
@@ -40,11 +27,23 @@
                     <a href="https://www.youtube.com/@lhparfumofficial" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors" aria-label="YouTube">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" clip-rule="evenodd" /></svg>
                     </a>
-                    <!-- Threads (Simple @ Icon since Threads SVG can be complex, or custom path) -->
+                    <!-- Threads -->
                     <a href="https://www.threads.net/@lhparfumofficial" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors" aria-label="Threads">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.93 11.832c-.015-.072-.03-.141-.046-.211a4.932 4.932 0 1 0-4.603 6.138 4.945 4.945 0 0 0 3.39-1.35c.216-.207.412-.426.586-.662.645-.873.963-1.858.988-2.905m-3.26-.52a1.867 1.867 0 1 1-1.602-.924c.775 0 1.444.47 1.602.925m5.289 1.157c-.122 1.492-.686 2.808-1.583 3.9-1.09 1.332-2.583 2.146-4.305 2.45-1.556.275-3.05-.008-4.223-.695-1.428-.84-2.484-2.193-2.91-3.663-1.107-3.805.32-8.312 3.65-10.743 1.258-.918 2.768-1.348 4.256-1.258 1.432.086 2.766.649 3.823 1.558 1.18 1.018 1.83 2.373 2.062 4.144h3.047c-.244-2.47-1.196-4.524-2.795-6.04C16.536.568 14.502-.19 12.26.046c-2.32.246-4.474 1.152-6.19 2.583-2.15 1.79-3.535 4.314-3.905 7.126-.356 2.71.24 5.378 1.666 7.425 1.325 1.903 3.253 3.193 5.513 3.738C10.73 21.25 12.186 21.282 13.593 21c2.194-.436 4.095-1.465 5.51-2.946 1.41-1.472 2.228-3.324 2.396-5.498H16.96Z"/></svg>
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.56 9.87c.2.82.32 1.65.34 2.49.03 1.12-.04 2.24-.22 3.35-.41 2.5-1.74 4.54-3.8 5.76-2.07 1.23-4.52 1.48-6.81.71-2.29-.77-4.04-2.43-4.9-4.66-.86-2.22-.64-4.72.63-6.8 1.26-2.07 3.28-3.43 5.75-3.86 1.7-.3 3.42-.09 4.97.64.65.31 1.25.7 1.78 1.15a1 1 0 0 1 .1 1.41 1 1 0 0 1-1.41.1c-.39-.33-.82-.62-1.28-.85-1.12-.53-2.38-.68-3.62-.46-1.8.31-3.26 1.3-4.17 2.79-.92 1.5-.1 3.3.47 4.77.58 1.47 1.65 2.58 3.13 3.1 1.48.52 3.14.36 4.5-.45 1.33-.8 2.2-2 2.48-3.55.12-.66.18-1.34.16-2.02a7.66 7.66 0 0 0-.25-1.82 1 1 0 0 1 .74-1.23 1 1 0 0 1 1.23.74ZM12 7.77c-1.33 0-2.52.48-3.39 1.28-.87.8-1.39 1.9-1.39 3.09 0 1.19.52 2.29 1.39 3.09.87.8 2.06 1.28 3.39 1.28 1.33 0 2.52-.48 3.39-1.28.87-.8 1.39-1.9 1.39-3.09 0-1.19-.52-2.29-1.39-3.09-.87-.8-2.06-1.28-3.39-1.28Zm0 2c.73 0 1.35.25 1.83.69.47.43.76 1 .76 1.68 0 .68-.29 1.25-.76 1.68-.48.44-1.1.69-1.83.69-.73 0-1.35-.25-1.83-.69-.47-.43-.76-1-.76-1.68 0-.68.29-1.25.76-1.68.48-.44 1.1-.69 1.83-.69Z"/></svg>
                     </a>
                 </div>
+
+                <!-- Mini Site Index -->
+                <nav class="flex flex-wrap justify-center gap-x-6 gap-y-3 text-xs md:text-sm font-medium uppercase tracking-[0.15em] text-gray-300 w-full px-4">
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="hover:text-white transition-colors">Inicio</a>
+                    <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/shop/' ) ); ?>" class="hover:text-white transition-colors">Tienda</a>
+                    <a href="<?php echo esc_url( home_url( '/sobre-nosotros/' ) ); ?>" class="hover:text-white transition-colors">Sobre Nosotros</a>
+                    <a href="<?php echo esc_url( home_url( '/lhoriginals/' ) ); ?>" class="hover:text-white transition-colors">LH Originals</a>
+                    <a href="<?php echo esc_url( home_url( '/contacto/' ) ); ?>" class="hover:text-white transition-colors">Contacto</a>
+                    <span class="text-gray-600 hidden md:inline">|</span>
+                    <a href="<?php echo esc_url( home_url( '/legal/' ) ); ?>" class="hover:text-white transition-colors text-gray-400">Legal</a>
+                    <a href="<?php echo esc_url( home_url( '/politicasyprivacidad/' ) ); ?>" class="hover:text-white transition-colors text-gray-400">Políticas y Privacidad</a>
+                </nav>
 
                 <div class="mt-8 pt-8 border-t border-gray-700/50 flex flex-col items-center text-center text-[10px] text-gray-400 font-medium uppercase tracking-[0.2em] space-y-2 w-full">
                     <p>&copy; 2026 LH Parfum. Todos los derechos reservados.</p>
