@@ -335,8 +335,8 @@
                 <!-- Left Section: Hamburger (Mobile) -->
                 <div class="flex items-center space-x-2 md:space-x-4 flex-1">
 
-                    <!-- Mobile Menu Button -->
-                    <div class="flex items-center md:hidden">
+                    <!-- Hamburger Menu Button -->
+                    <div class="flex items-center">
                         <button type="button" id="mobile-menu-toggle" class="text-white dark:text-gray-400 hover:text-gray-200 dark:hover:text-white focus:outline-none p-2" aria-controls="mobile-menu" aria-expanded="false">
                             <span class="sr-only">Abrir menú principal</span>
                             <svg class="h-6 w-6 transition-transform duration-300" id="hamburger-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -348,24 +348,6 @@
                         </button>
                     </div>
 
-                    <!-- Desktop Navigation -->
-                    <nav id="site-navigation" class="hidden md:flex md:space-x-8 md:items-center main-navigation">
-                        <?php
-                        wp_nav_menu( array(
-                            'theme_location' => 'menu-1',
-                            'menu_id'        => 'primary-menu',
-                            'container'      => false,
-                            'menu_class'     => 'flex space-x-6 lg:space-x-8 text-xs lg:text-sm font-medium uppercase tracking-wider text-white dark:text-gray-300',
-                            'fallback_cb'    => false,
-                        ) );
-                        ?>
-                        <!-- Fallback if menu not set -->
-                        <?php if ( ! has_nav_menu( 'menu-1' ) ) : ?>
-                            <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="text-xs lg:text-sm font-medium uppercase tracking-wider text-white dark:text-gray-300 hover:text-gray-200 dark:hover:text-white transition-colors">Inicio</a>
-                            <a href="<?php echo esc_url( home_url( '/colecciones/' ) ); ?>" class="text-xs lg:text-sm font-medium uppercase tracking-wider text-white dark:text-gray-300 hover:text-gray-200 dark:hover:text-white transition-colors">Colecciones</a>
-                            <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/tienda/' ) ); ?>" class="text-xs lg:text-sm font-medium uppercase tracking-wider text-white dark:text-gray-300 hover:text-gray-200 dark:hover:text-white transition-colors">Tienda</a>
-                        <?php endif; ?>
-                    </nav>
                 </div>
 
                 <!-- Absolutely Centered Massive Logo (Leaves 3px top/bottom in 64px header = 58px tall) -->
@@ -376,8 +358,8 @@
                             the_custom_logo(); // Will be restricted to 58px by CSS
                         } else {
                             // En modo claro mostramos logo blanco en vez de negro porque el fondo es morado oscuro (#600470)
-                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-white.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-[58px] max-h-[58px] w-auto object-contain block dark:hidden">';
-                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-white.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-[58px] max-h-[58px] w-auto object-contain hidden dark:block">';
+                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-horizontal.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-[58px] max-h-[58px] w-auto object-contain block dark:hidden">';
+                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-horizontal.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-[58px] max-h-[58px] w-auto object-contain hidden dark:block">';
                         }
                         ?>
                     </a>
@@ -424,9 +406,9 @@
             <!-- Fallback if menu not set -->
             <?php if ( ! has_nav_menu( 'menu-1' ) ) : ?>
                 <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-white dark:text-gray-100 hover:text-gray-200 transition-colors">Inicio</a>
-                <a href="<?php echo esc_url( home_url( '/colecciones/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-white dark:text-gray-100 hover:text-gray-200 transition-colors">Colecciones</a>
-                <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/tienda/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-white dark:text-gray-100 hover:text-gray-200 transition-colors">Tienda</a>
+                <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/shop/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-white dark:text-gray-100 hover:text-gray-200 transition-colors">Tienda</a>
                 <a href="<?php echo esc_url( home_url( '/sobre-nosotros/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-white dark:text-gray-100 hover:text-gray-200 transition-colors">Sobre Nosotros</a>
+                <a href="<?php echo esc_url( home_url( '/lhoriginals/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-white dark:text-gray-100 hover:text-gray-200 transition-colors">LH Originals</a>
                 <a href="<?php echo esc_url( home_url( '/contacto/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-white dark:text-gray-100 hover:text-gray-200 transition-colors">Contacto</a>
             <?php endif; ?>
 
