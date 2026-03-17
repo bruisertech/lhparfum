@@ -147,21 +147,21 @@ get_header( 'shop' ); ?>
                         if ( $rareza_terms && ! is_wp_error( $rareza_terms ) ) {
                             $slug = $rareza_terms[0]->slug;
                             if ( $slug === 'nicho' ) {
-                                $btn_glow_class = 'glow-nicho';
-                                $btn_color_override = 'btn-bg-nicho';
+                                $btn_glow_class = '';
+                                $btn_color_override = '';
                             } elseif ( $slug === 'arabe' ) {
-                                $btn_glow_class = 'glow-arabe';
-                                $btn_color_override = 'btn-bg-arabe';
+                                $btn_glow_class = '';
+                                $btn_color_override = '';
                             } elseif ( $slug === 'disenador' ) {
-                                $btn_glow_class = 'glow-disenador';
-                                $btn_color_override = 'btn-bg-disenador';
+                                $btn_glow_class = '';
+                                $btn_color_override = '';
                             } else {
-                                $btn_glow_class = 'glow-accesible';
-                                $btn_color_override = 'btn-bg-accesible';
+                                $btn_glow_class = '';
+                                $btn_color_override = '';
                             }
                         }
                     ?>
-                    <div class="mb-12 w-full flex justify-center lg:justify-end custom-add-to-cart-wrapper <?php echo esc_attr($btn_glow_class . ' ' . $btn_color_override); ?> sticky bottom-0 z-30 lg:static bg-white/90 dark:bg-gray-900/90 lg:bg-transparent backdrop-blur-md lg:backdrop-blur-none p-4 lg:p-0 border-t border-gray-100 dark:border-gray-800 lg:border-none shadow-[0_-10px_40px_rgba(0,0,0,0.05)] lg:shadow-none">
+                    <div class="mb-12 w-full flex justify-center lg:justify-end custom-add-to-cart-wrapper sticky bottom-0 z-30 lg:static bg-white/90 dark:bg-gray-900/90 lg:bg-transparent backdrop-blur-md lg:backdrop-blur-none p-4 lg:p-0 border-t border-gray-100 dark:border-gray-800 lg:border-none shadow-[0_-10px_40px_rgba(0,0,0,0.05)] lg:shadow-none">
                         <?php
                             // Styles applied in header.php make this span 100% width on mobile, taking up the prominent bottom space.
                             do_action( 'woocommerce_' . $product->get_type() . '_add_to_cart' );
@@ -308,11 +308,7 @@ get_header( 'shop' ); ?>
 
                     $formatted_taxonomies = implode(' &bull; ', $tax_string);
 
-                    $carousel_btn_bg = 'bg-gray-900 dark:bg-white text-white dark:text-black';
-                    if ( $c_slug === 'nicho' ) $carousel_btn_bg = 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-white shadow-md hover:shadow-lg hover:shadow-yellow-500/20';
-                    elseif ( $c_slug === 'arabe' ) $carousel_btn_bg = 'bg-gradient-to-r from-purple-500 to-purple-800 text-white shadow-md hover:shadow-lg hover:shadow-purple-500/20';
-                    elseif ( $c_slug === 'disenador' ) $carousel_btn_bg = 'bg-gradient-to-r from-blue-400 to-blue-700 text-white shadow-md hover:shadow-lg hover:shadow-blue-500/20';
-                    elseif ( $c_slug === 'accesible' ) $carousel_btn_bg = 'bg-gradient-to-r from-emerald-400 to-emerald-700 text-white shadow-md hover:shadow-lg hover:shadow-emerald-500/20';
+                    $carousel_btn_bg = 'bg-[#600470] text-white hover:bg-[#600470]/90 transition-colors shadow-md';
 
                     ?>
                     <li class="splide__slide w-[240px] md:w-[280px] lg:w-[320px] px-3">
