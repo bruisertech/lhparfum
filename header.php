@@ -331,7 +331,7 @@
     <!-- Main Navigation Header -->
     <header id="masthead" class="site-header border-b border-[#600470]/20 dark:border-gray-800 sticky top-0 bg-[#600470] dark:bg-gray-900 z-50 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-            <div class="flex justify-between h-16 items-center">
+            <div class="flex justify-between h-20 items-center">
                 <!-- Left Section: Hamburger (Mobile) -->
                 <div class="flex items-center space-x-2 md:space-x-4 flex-1">
 
@@ -350,16 +350,15 @@
 
                 </div>
 
-                <!-- Absolutely Centered Massive Logo (Leaves 3px top/bottom in 64px header = 58px tall) -->
-                <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center h-[58px] z-10 w-48 pointer-events-auto top-1/2 -translate-y-1/2">
-                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class="block h-full flex items-center justify-center w-full">
+                <!-- Absolutely Centered Massive Logo (Leaves 4px top/bottom in 80px header = 72px tall) -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center h-[72px] z-10 w-64 pointer-events-auto top-1/2 -translate-y-1/2">
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class="block h-full flex items-center justify-center w-full transition-transform hover:scale-105 duration-300">
                         <?php
                         if ( has_custom_logo() ) {
-                            the_custom_logo(); // Will be restricted to 58px by CSS
+                            the_custom_logo();
                         } else {
-                            // En modo claro mostramos logo blanco en vez de negro porque el fondo es morado oscuro (#600470)
-                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-horizontal.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-[58px] max-h-[58px] w-auto object-contain block dark:hidden">';
-                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-horizontal.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-[58px] max-h-[58px] w-auto object-contain hidden dark:block">';
+                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-horizontal.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-[72px] max-h-[72px] w-auto object-contain block dark:hidden">';
+                            echo '<img src="' . esc_url( get_template_directory_uri() . '/logo-horizontal.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="h-[72px] max-h-[72px] w-auto object-contain hidden dark:block">';
                         }
                         ?>
                     </a>
