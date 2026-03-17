@@ -2,52 +2,65 @@
 
     <!-- Main Footer Area -->
     <footer id="colophon" class="site-footer text-white border-t border-gray-800 pt-12 pb-24 md:pb-12 mt-auto flex flex-col items-center justify-center text-center z-40 relative" style="background: linear-gradient(to bottom, #39393a, #2c2b2c, #1d1d1d);">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-            <div class="flex flex-col items-center justify-center space-y-10">
+        <div class="max-w-7xl mx-auto px-4 w-full">
+            <div class="flex flex-col items-center justify-center space-y-8">
 
-                <!-- Social Icons -->
+                <!-- 1. Mini Site Index (Top) -->
+                <nav class="flex flex-wrap justify-center items-center text-xs sm:text-sm font-medium uppercase tracking-wide text-white w-full">
+
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="hidden md:inline hover:text-gray-300 transition-colors">Inicio</a>
+                    <span class="mx-2 sm:mx-3 text-white hidden md:inline">|</span>
+
+                    <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/shop/' ) ); ?>" class="hidden md:inline hover:text-gray-300 transition-colors">Tienda</a>
+                    <span class="mx-2 sm:mx-3 text-white hidden md:inline">|</span>
+
+                    <a href="<?php echo esc_url( home_url( '/sobre-nosotros/' ) ); ?>" class="hover:text-gray-300 transition-colors">Sobre Nosotros</a>
+                    <span class="mx-2 sm:mx-3 text-white">|</span>
+
+                    <a href="<?php echo esc_url( home_url( '/lhoriginals/' ) ); ?>" class="hover:text-gray-300 transition-colors">LH Originals</a>
+                    <span class="mx-2 sm:mx-3 text-white">|</span>
+
+                    <a href="<?php echo esc_url( home_url( '/contacto/' ) ); ?>" class="hover:text-gray-300 transition-colors">Contacto</a>
+                    <span class="mx-2 sm:mx-3 text-white">|</span>
+
+                    <a href="<?php echo esc_url( home_url( '/legal/' ) ); ?>" class="hover:text-gray-300 transition-colors">Legal</a>
+                    <span class="mx-2 sm:mx-3 text-white">|</span>
+
+                    <a href="<?php echo esc_url( home_url( '/politicasyprivacidad/' ) ); ?>" class="hover:text-gray-300 transition-colors">Políticas y Privacidad</a>
+                </nav>
+
+                <!-- 2. Social Icons (Middle) -->
                 <div class="flex items-center justify-center space-x-6">
                     <!-- WhatsApp -->
-                    <a href="https://api.whatsapp.com/send?phone=573176689404" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors" aria-label="WhatsApp">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                    <a href="https://api.whatsapp.com/send?phone=573176689404" target="_blank" rel="noopener noreferrer" class="text-white hover:text-gray-300 transition-colors" aria-label="WhatsApp">
+                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
                     </a>
                     <!-- TikTok -->
-                    <a href="https://www.tiktok.com/@lhparfumofc" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors" aria-label="TikTok">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 2.23-1.04 4.45-2.83 5.93-1.8 1.47-4.14 2.15-6.4 1.83-2.14-.32-4.08-1.55-5.27-3.32-1.18-1.76-1.55-3.95-1.07-5.97.45-1.93 1.68-3.61 3.39-4.57 1.57-.88 3.4-1.18 5.16-.91.02 1.41.01 2.83.03 4.25-1.06-.31-2.2-.24-3.21.2-1.06.45-1.9 1.34-2.24 2.44-.33 1.08-.2 2.28.38 3.23.59.95 1.57 1.62 2.68 1.77 1.08.15 2.21-.08 3.08-.72.84-.62 1.38-1.55 1.5-2.58.05-.44.03-.89.04-1.34V.02z"/></svg>
+                    <a href="https://www.tiktok.com/@lhparfumofficial" target="_blank" rel="noopener noreferrer" class="text-white hover:text-gray-300 transition-colors" aria-label="TikTok">
+                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 2.23-1.04 4.45-2.83 5.93-1.8 1.47-4.14 2.15-6.4 1.83-2.14-.32-4.08-1.55-5.27-3.32-1.18-1.76-1.55-3.95-1.07-5.97.45-1.93 1.68-3.61 3.39-4.57 1.57-.88 3.4-1.18 5.16-.91.02 1.41.01 2.83.03 4.25-1.06-.31-2.2-.24-3.21.2-1.06.45-1.9 1.34-2.24 2.44-.33 1.08-.2 2.28.38 3.23.59.95 1.57 1.62 2.68 1.77 1.08.15 2.21-.08 3.08-.72.84-.62 1.38-1.55 1.5-2.58.05-.44.03-.89.04-1.34V.02z"/></svg>
                     </a>
                     <!-- Facebook -->
-                    <a href="https://www.facebook.com/lhparfumofficial" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors" aria-label="Facebook">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                    <a href="https://www.facebook.com/lhparfumofficial" target="_blank" rel="noopener noreferrer" class="text-white hover:text-gray-300 transition-colors" aria-label="Facebook">
+                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
                     </a>
                     <!-- Instagram -->
-                    <a href="https://www.instagram.com/lhparfumofficial" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors" aria-label="Instagram">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" /></svg>
+                    <a href="https://www.instagram.com/lhparfumofficial" target="_blank" rel="noopener noreferrer" class="text-white hover:text-gray-300 transition-colors" aria-label="Instagram">
+                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" /></svg>
                     </a>
                     <!-- YouTube -->
-                    <a href="https://www.youtube.com/@lhparfumofficial" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors" aria-label="YouTube">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" clip-rule="evenodd" /></svg>
+                    <a href="https://www.youtube.com/@lhparfumofficial" target="_blank" rel="noopener noreferrer" class="text-white hover:text-gray-300 transition-colors" aria-label="YouTube">
+                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" clip-rule="evenodd" /></svg>
                     </a>
                     <!-- Threads -->
-                    <a href="https://www.threads.net/@lhparfumofficial" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors" aria-label="Threads">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.07 11.83c0-1.28-1-2.31-2.29-2.31-1.29 0-2.32 1.03-2.32 2.31s1.03 2.31 2.32 2.31c1.29 0 2.29-1.03 2.29-2.31ZM12 7.72c-2.35 0-4.24 1.88-4.24 4.22 0 2.35 1.89 4.22 4.24 4.22 2.34 0 4.23-1.87 4.23-4.22 0-2.34-1.89-4.22-4.23-4.22ZM12 0C5.37 0 0 5.37 0 12c0 6.63 5.37 12 12 12 6.63 0 12-5.37 12-12C24 5.37 18.63 0 12 0Zm7.94 17.5c-1.33 1.95-3.32 3.19-5.94 3.19-4.5 0-8-3.52-8-8.1 0-4.58 3.51-8.11 8.01-8.11 4.5 0 7.99 3.53 7.99 8.11 0 .61-.07 1.22-.19 1.81-.57 2.68-2.6 4.39-5.36 4.39-1.2 0-2.32-.42-3.1-1.16-.76-.73-1.12-1.74-1.06-2.91.08-1.46.64-2.73 1.56-3.55.93-.83 2.2-1.29 3.5-1.29 1.3 0 2.23.44 2.68 1.27.42.76.4 1.63.2 2.53-.19.82-.47 1.55-.83 2.14a2.9 2.9 0 0 1-2.45 1.32c-.59 0-1.1-.21-1.43-.59-.34-.39-.47-.94-.37-1.61.12-.76.36-1.43.72-2 .35-.55.8-.84 1.32-.84.53 0 .84.3.94.88.07.45.02.94-.14 1.48-.15.52-.39 1.01-.7 1.43-.31.43-.72.64-1.2.64-.53 0-.96-.28-1.25-.83-.3-.57-.42-1.3-.35-2.14.11-1.3.69-2.36 1.64-2.98.94-.61 2.14-.85 3.32-.66 1.24.2 2.16.88 2.61 1.94.45 1.05.41 2.37-.1 3.73-.55 1.44-1.47 2.44-2.68 2.92-1.21.48-2.67.43-4.04-.15a6.5 6.5 0 0 1-3.23-2.65C4.74 15.35 4.3 13.72 4.3 12c0-4.23 3.34-7.6 7.7-7.6 4.37 0 7.7 3.38 7.7 7.6 0 1.91-.71 3.65-1.9 4.96Z"/></svg>
+                    <a href="https://www.threads.net/@lhparfumofficial" target="_blank" rel="noopener noreferrer" class="text-white hover:text-gray-300 transition-colors" aria-label="Threads">
+                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.5c-1.57 0-3-.38-4.22-1.07-.63-1.66-2.61-4.29-4.83-4.29-1.05 0-1.9.5-2.63 1.54C.1 18.06 0 18.42 0 18.82c0 .9.81 1.77 2.18 2.22C3.78 21.59 5.81 22 8 22c5.52 0 10-4.48 10-10S13.52 2 8 2 2 4.48 2 10c0 .94.14 1.84.38 2.7.2-.18.44-.34.68-.48C2.52 11.4 2.3 10.72 2.3 10c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8c-2.47 0-4.66-1.12-6.13-2.88.94-.37 2.05-.62 3.32-.62 4.19 0 7.42 2.58 7.42 6.06 0 3.41-3.15 6.04-7.23 6.04-1.89 0-3.59-.55-4.85-1.46-.24-.18-.45-.37-.62-.57 1.05 1.02 2.57 1.63 4.25 1.63 2.82 0 5.23-1.78 6.27-4.32-.97.71-2.2 1.12-3.54 1.12Zm-.5-13.84c1.65 0 2.95 1.05 2.95 2.54 0 1.49-1.3 2.54-2.95 2.54-1.64 0-2.94-1.05-2.94-2.54 0-1.49 1.3-2.54 2.94-2.54Zm0 1.14c-1.04 0-1.84.66-1.84 1.4 0 .73.8 1.4 1.84 1.4 1.04 0 1.84-.67 1.84-1.4 0-.74-.8-1.4-1.84-1.4Z"/></svg>
                     </a>
                 </div>
 
-                <!-- Mini Site Index -->
-                <nav class="flex flex-wrap justify-center gap-x-6 gap-y-3 text-xs md:text-sm font-medium uppercase tracking-[0.15em] text-gray-300 w-full px-4">
-                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="hover:text-white transition-colors">Inicio</a>
-                    <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/shop/' ) ); ?>" class="hover:text-white transition-colors">Tienda</a>
-                    <a href="<?php echo esc_url( home_url( '/sobre-nosotros/' ) ); ?>" class="hover:text-white transition-colors">Sobre Nosotros</a>
-                    <a href="<?php echo esc_url( home_url( '/lhoriginals/' ) ); ?>" class="hover:text-white transition-colors">LH Originals</a>
-                    <a href="<?php echo esc_url( home_url( '/contacto/' ) ); ?>" class="hover:text-white transition-colors">Contacto</a>
-                    <span class="text-gray-600 hidden md:inline">|</span>
-                    <a href="<?php echo esc_url( home_url( '/legal/' ) ); ?>" class="hover:text-white transition-colors text-gray-400">Legal</a>
-                    <a href="<?php echo esc_url( home_url( '/politicasyprivacidad/' ) ); ?>" class="hover:text-white transition-colors text-gray-400">Políticas y Privacidad</a>
-                </nav>
-
-                <div class="mt-8 pt-8 border-t border-gray-700/50 flex flex-col items-center text-center text-[10px] text-gray-400 font-medium uppercase tracking-[0.2em] space-y-2 w-full">
-                    <p>&copy; 2026 LH Parfum. Todos los derechos reservados.</p>
-                    <p>Desarrollado por <a href="https://instagram.com/bruiser.tech" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Bruiser Tech</a></p>
+                <!-- 3. Copyright (Bottom) -->
+                <div class="flex flex-col items-center text-center text-xs md:text-sm text-white space-y-2 w-full pt-4">
+                    <p>&copy; 2026 LH Parfum. Todos Los Derechos Reservados.</p>
+                    <p class="text-[10px] text-gray-500 font-medium uppercase tracking-[0.2em] mt-4">Desarrollado por <a href="https://instagram.com/bruiser.tech" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Bruiser Tech</a></p>
                 </div>
 
             </div>
