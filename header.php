@@ -394,24 +394,14 @@
     <!-- Mobile Menu Overlay -->
     <div id="mobile-menu" class="fixed inset-0 z-[45] bg-[#600470] dark:bg-gray-900 transform -translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] pt-20 px-6 overflow-y-auto">
         <nav class="flex flex-col space-y-8 mt-8">
-            <?php
-            wp_nav_menu( array(
-                'theme_location' => 'menu-1',
-                'container'      => false,
-                'menu_class'     => 'flex flex-col space-y-6 text-xl font-bold uppercase tracking-widest text-white dark:text-gray-100',
-                'fallback_cb'    => false,
-                'items_wrap'     => '<ul id="%1$s" class="%2$s">%3$s</ul>'
-            ) );
-            ?>
-            <!-- Fallback if menu not set -->
-            <?php if ( ! has_nav_menu( 'menu-1' ) ) : ?>
-                <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-white dark:text-gray-100 hover:text-gray-200 transition-colors">Inicio</a>
-                <a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/shop/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-white dark:text-gray-100 hover:text-gray-200 transition-colors">Tienda</a>
-                <a href="<?php echo esc_url( home_url( '/sobre-nosotros/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-white dark:text-gray-100 hover:text-gray-200 transition-colors">Sobre Nosotros</a>
-                <a href="<?php echo esc_url( home_url( '/lhoriginals/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-white dark:text-gray-100 hover:text-gray-200 transition-colors">LH Originals</a>
-                <a href="<?php echo esc_url( home_url( '/contacto/' ) ); ?>" class="text-xl font-bold uppercase tracking-widest text-white dark:text-gray-100 hover:text-gray-200 transition-colors">Contacto</a>
-            <?php endif; ?>
-
+            <!-- Hardcoded Menu Links (Temporarily bypassing WP Menu System) -->
+            <ul class="flex flex-col space-y-6 text-xl font-bold uppercase tracking-widest text-white dark:text-gray-100">
+                <li><a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="hover:text-gray-300 transition-colors">Inicio</a></li>
+                <li><a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/shop/' ) ); ?>" class="hover:text-gray-300 transition-colors">Tienda</a></li>
+                <li><a href="<?php echo esc_url( home_url( '/sobre-nosotros/' ) ); ?>" class="hover:text-gray-300 transition-colors">Sobre Nosotros</a></li>
+                <li><a href="<?php echo esc_url( home_url( '/lhoriginals/' ) ); ?>" class="hover:text-gray-300 transition-colors">LH Originals</a></li>
+                <li><a href="<?php echo esc_url( home_url( '/contacto/' ) ); ?>" class="hover:text-gray-300 transition-colors">Contacto</a></li>
+            </ul>
         </nav>
     </div>
 
