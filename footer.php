@@ -59,7 +59,7 @@
 
                 <!-- 3. Copyright (Bottom) -->
                 <div class="flex flex-col items-center text-center text-[10px] md:text-xs text-white uppercase tracking-[0.2em] w-full pt-4">
-                    <p>&copy; 2026 LH Parfum - Desarrollado por <a href="https://instagram.com/bruiser.tech" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300 font-bold transition-colors">Bruiser Tech</a></p>
+                    <p>&copy; 2026 LH Parfum - Desarrollo: <a href="https://instagram.com/bruiser.tech" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300 font-bold transition-colors">Bruiser Tech</a></p>
                 </div>
 
             </div>
