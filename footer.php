@@ -21,7 +21,7 @@
                     <span class="mx-2 sm:mx-3 text-white">|</span>
 
                     <a href="<?php echo esc_url( home_url( '/contacto/' ) ); ?>" class="hover:text-gray-300 transition-colors">Contacto</a>
-                    <span class="mx-2 sm:mx-3 text-white">|</span>
+                    <span class="mx-2 sm:mx-3 text-white hidden md:inline">|</span>
 
                     <a href="<?php echo esc_url( home_url( '/legal/' ) ); ?>" class="hover:text-gray-300 transition-colors">Legal</a>
                     <span class="mx-2 sm:mx-3 text-white">|</span>
@@ -37,7 +37,7 @@
                     </a>
                     <!-- TikTok -->
                     <a href="https://www.tiktok.com/@lhparfumofficial" target="_blank" rel="noopener noreferrer" class="text-white hover:text-gray-300 transition-colors" aria-label="TikTok">
-                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 2.23-1.04 4.45-2.83 5.93-1.8 1.47-4.14 2.15-6.4 1.83-2.14-.32-4.08-1.55-5.27-3.32-1.18-1.76-1.55-3.95-1.07-5.97.45-1.93 1.68-3.61 3.39-4.57 1.57-.88 3.4-1.18 5.16-.91.02 1.41.01 2.83.03 4.25-1.06-.31-2.2-.24-3.21.2-1.06.45-1.9 1.34-2.24 2.44-.33 1.08-.2 2.28.38 3.23.59.95 1.57 1.62 2.68 1.77 1.08.15 2.21-.08 3.08-.72.84-.62 1.38-1.55 1.5-2.58.05-.44.03-.89.04-1.34V.02z"/></svg>
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 448 512" aria-hidden="true"><path d="M448 209.9a210.1 210.1 0 0 1 -122.8-39.3V349.4A162.6 162.6 0 1 1 185 188.3V278.2a74.6 74.6 0 1 0 52.2 71.2V0l88 0a121.2 121.2 0 0 0 1.9 22.2h0A122.2 122.2 0 0 0 381 102.4a121.4 121.4 0 0 0 67 20.1z"/></svg>
                     </a>
                     <!-- Facebook -->
                     <a href="https://www.facebook.com/lhparfumofficial" target="_blank" rel="noopener noreferrer" class="text-white hover:text-gray-300 transition-colors" aria-label="Facebook">
@@ -53,14 +53,13 @@
                     </a>
                     <!-- Threads -->
                     <a href="https://www.threads.net/@lhparfumofficial" target="_blank" rel="noopener noreferrer" class="text-white hover:text-gray-300 transition-colors" aria-label="Threads">
-                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.5c-1.57 0-3-.38-4.22-1.07-.63-1.66-2.61-4.29-4.83-4.29-1.05 0-1.9.5-2.63 1.54C.1 18.06 0 18.42 0 18.82c0 .9.81 1.77 2.18 2.22C3.78 21.59 5.81 22 8 22c5.52 0 10-4.48 10-10S13.52 2 8 2 2 4.48 2 10c0 .94.14 1.84.38 2.7.2-.18.44-.34.68-.48C2.52 11.4 2.3 10.72 2.3 10c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8c-2.47 0-4.66-1.12-6.13-2.88.94-.37 2.05-.62 3.32-.62 4.19 0 7.42 2.58 7.42 6.06 0 3.41-3.15 6.04-7.23 6.04-1.89 0-3.59-.55-4.85-1.46-.24-.18-.45-.37-.62-.57 1.05 1.02 2.57 1.63 4.25 1.63 2.82 0 5.23-1.78 6.27-4.32-.97.71-2.2 1.12-3.54 1.12Zm-.5-13.84c1.65 0 2.95 1.05 2.95 2.54 0 1.49-1.3 2.54-2.95 2.54-1.64 0-2.94-1.05-2.94-2.54 0-1.49 1.3-2.54 2.94-2.54Zm0 1.14c-1.04 0-1.84.66-1.84 1.4 0 .73.8 1.4 1.84 1.4 1.04 0 1.84-.67 1.84-1.4 0-.74-.8-1.4-1.84-1.4Z"/></svg>
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 448 512" aria-hidden="true"><path d="M331.5 235.7c2.2 .9 4.2 1.9 6.3 2.8c29.2 14.1 50.6 35.2 61.8 61.4c15.7 36.5 17.2 95.8-30.3 143.2c-36.2 36.2-80.3 52.5-142.6 53h-.3c-70.2-.5-124.1-24.1-160.4-70.2c-32.3-41-48.9-98.1-49.5-169.6V256v-.2C17 184.3 33.6 127.2 65.9 86.2C102.2 40.1 156.2 16.5 226.4 16h.3c70.3 .5 124.9 24 162.3 69.9c18.4 22.7 32 50 40.6 81.7l-40.4 10.8c-7.1-25.8-17.8-47.8-32.2-65.4c-29.2-35.8-73-54.2-130.5-54.6c-57 .5-100.1 18.8-128.2 54.4C72.1 146.1 58.5 194.3 58 256c.5 61.7 14.1 109.9 40.3 143.3c28 35.6 71.2 53.9 128.2 54.4c51.4-.4 85.4-12.6 113.7-40.9c32.3-32.2 31.7-71.8 21.4-95.9c-7.6-17.8-22.1-33.1-44.5-44l-5.6-2.7c-33.4-15.6-76.4-23.2-127.2-23.2h-22.3V207h22.3c35.6 0 69.9 5.8 101.5 17.1l.9 .3c10.3 3.5 19.8 7.5 28.5 11.9zm-29.1 77.4l-.8-.3c-1.3-.5-2.6-1-3.9-1.5c-48.5-18.4-118-20.9-158.4-12.7c-5.7 1.2-11.4 2.6-17.1 4.2c-8 2.3-15.6 5-22.8 8c-30.8 13.1-48.4 34.2-50.6 61.6c-1 12.5 1.7 25.1 8 36.4c14.2 25.4 46.5 35 83.2 35c42.8 0 76.5-12.2 97.4-35.2c16-17.6 22.5-39.7 18.8-63.4c-2.4-15.4-8-27.1-16.7-34.9c-8.5-7.7-20.7-12-35.5-13.6c-8.2-1-17.1-1.2-26.6-1.2c-15.4 0-30.1 .7-43.2 2.6c-3 10.6-4.5 21.5-4.4 32c-.1 12.5 1.7 25 5.5 36.9c7.9 23.4 25.4 36.9 50.8 38.6c20.4 1.3 40.5-4.1 57.3-15.5c22.1-15 32.8-37.3 30.6-63.5c-1-12.3-5-23-11.6-31.5c-8.4-10.7-21.7-17-38.3-18.3c-11.5-1-23.7-1.1-35.6-1.1c-14.7 0-28.7-.7-41.2-2.3c-14.6-1.8-27-5-36.2-9.4c-12.3-5.9-19-14-18.3-22.5c.7-8.4 8.7-15.5 23-20.5c16.5-5.8 38.3-8.8 62.9-8.8c42.2 0 74.3 6.6 92.5 19.1c11.3 7.8 17.6 17.4 18.3 27.8c.4 5.9-1 11.5-4 16.5v.1z"/></svg>
                     </a>
                 </div>
 
                 <!-- 3. Copyright (Bottom) -->
-                <div class="flex flex-col items-center text-center text-xs md:text-sm text-white space-y-2 w-full pt-4">
-                    <p>&copy; 2026 LH Parfum. Todos Los Derechos Reservados.</p>
-                    <p class="text-[10px] text-gray-500 font-medium uppercase tracking-[0.2em] mt-4">Desarrollado por <a href="https://instagram.com/bruiser.tech" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Bruiser Tech</a></p>
+                <div class="flex flex-col items-center text-center text-[10px] md:text-xs text-white uppercase tracking-[0.2em] w-full pt-4">
+                    <p>&copy; 2026 LH Parfum - Desarrollado por <a href="https://instagram.com/bruiser.tech" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300 font-bold transition-colors">Bruiser Tech</a></p>
                 </div>
 
             </div>
